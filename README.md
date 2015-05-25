@@ -1,8 +1,7 @@
 MOCA SDK for PhoneGap
 =====================
 
-![Hello MOCA Sample App](https://github.com/mocaplatform/moca-phonegap-sdk/blob/master/media/phonegap-ios.png = 250px)
-
+<img src="https://github.com/mocaplatform/moca-phonegap-sdk/blob/master/media/phonegap-ios.png" width="250px">
 
 What is MOCA SDK?
 -----------------
