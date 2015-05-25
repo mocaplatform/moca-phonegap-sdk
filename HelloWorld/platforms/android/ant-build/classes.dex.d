@@ -1,0 +1,24 @@
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes.dex : \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/BuildConfig.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/CordovaApp.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/Manifest$permission.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/Manifest.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/R$attr.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/R$color.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/R$drawable.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/R$id.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/R$integer.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/R$layout.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/R$raw.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/R$string.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/R$style.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/R$styleable.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/R$xml.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/helloworld/R.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/moca/phonegap/MOCAPlugin$1.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/classes/com/innoquant/moca/phonegap/MOCAPlugin.class \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/dexedLibs/classes-a5b13413a89fb0d46b76f86c0dbb07bc.jar \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/dexedLibs/classes-5955a9ae7437b314ae083922be26b64a.jar \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/dexedLibs/google-play-services-19a8f6fef91b7312754035d8c46ee3c1.jar \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/dexedLibs/moca-android-sdk-1.5.0-ca1faee162d6e9e42fa3bf631b0cfc0b.jar \
+/Users/Oleg/git/moca-phonegap/HelloWorld/platforms/android/ant-build/dexedLibs/msgpack-0.6.11-725fa9f32a9f96108d61dbf2209230f4.jar \

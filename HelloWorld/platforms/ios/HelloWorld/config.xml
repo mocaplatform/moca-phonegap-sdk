@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.innoquant.helloworld" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <preference name="AllowInlineMediaPlayback" value="false" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="BackupWebStorage" value="cloud" />
+    <preference name="DisallowOverscroll" value="false" />
+    <preference name="EnableViewportScale" value="false" />
+    <preference name="FadeSplashScreen" value="true" />
+    <preference name="FadeSplashScreenDuration" value=".25" />
+    <preference name="KeyboardDisplayRequiresUserAction" value="true" />
+    <preference name="MediaPlaybackRequiresUserAction" value="false" />
+    <preference name="ShowSplashScreenSpinner" value="true" />
+    <preference name="SuppressesIncrementalRendering" value="false" />
+    <preference name="TopActivityIndicator" value="gray" />
+    <preference name="GapBetweenPages" value="0" />
+    <preference name="PageLength" value="0" />
+    <preference name="PaginationBreakingMode" value="page" />
+    <preference name="PaginationMode" value="unpaginated" />
+    <feature name="LocalStorage">
+        <param name="ios-package" value="CDVLocalStorage" />
+    </feature>
+    <name>HelloWorld</name>
+    <description>
+        A sample Apache Cordova application that responds to the deviceready event
+        and integrates MOCA SDK plugin for PhoneGap.
+    </description>
+    <content src="index.html" />
+    <access origin="*" />
+    <preference name="moca_app_key" value="TNS1AVN7TPi5jGhT1X4wcQ" />
+    <preference name="moca_app_secret" value="uc7CakuOKW+4wcEg94Ut098qnnA=" />
+    <preference name="moca_auto_push_setup_enabled" value="false" />
+    <preference name="moca_proximity_enabled" value="true" />
+    <preference name="moca_geolocation_enabled" value="true" />
+    <preference name="moca_log_level" value="debug" />
+    <feature name="MOCAPlugin">
+        <param name="ios-package" value="MOCAPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+</widget>

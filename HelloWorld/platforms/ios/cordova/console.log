@@ -1,0 +1,159 @@
+2015-01-12 20:55:40.152 HelloWorld[77445:14719705] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/Oleg/Library/Developer/CoreSimulator/Devices/BB4F63B1-BC94-40DF-94E3-E6C8F911DC31/data/Containers/Data/Application/DF80DE79-427D-4E8B-844B-11F709F04808/Library/Cookies/Cookies.binarycookies
+2015-01-12 20:55:40.511 HelloWorld[77445:14719705] Apache Cordova native platform version 3.7.0 is starting.
+2015-01-12 20:55:40.511 HelloWorld[77445:14719705] Multi-tasking -> Device: YES, App: YES
+2015-01-12 20:55:40.532 HelloWorld[77445:14719705] Unlimited access to network resources
+2015-01-12 20:55:40.537 HelloWorld[77445:14719705] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the Cordova config.xml file
+
+2015-01-12 20:55:40.903 HelloWorld[77445:14719705] ✅ INFO (-[MOCAPlugin pluginInitialize]) Initializing MOCAPlugin
+2015-01-12 20:55:40.904 HelloWorld[77445:14719705] ✅ INFO (+[MOCA initializeSDK:]) Init MOCA SDK, version 1.3.9
+2015-01-12 20:55:41.046 HelloWorld[77445:14719705] ❗ WARN (-[PushService updateAPNSRegistration]) Remote notification are not available on Simulator
+2015-01-12 20:55:41.054 HelloWorld[77445:14719705] ✅ INFO (-[ProximityEngine startEngine]) Start proximity engine
+2015-01-12 20:55:41.055 HelloWorld[77445:14719705] ✅ INFO (-[ProximityEngine authorizedToStartEngine]) Location tracker requested user authorization...
+2015-01-12 20:55:41.058 HelloWorld[77445:14719705] ✅ INFO (-[LocationTracker authorizedToStartTracking]) Location tracker requested user authorization...
+2015-01-12 20:55:41.062 HelloWorld[77445:14719705] ✅ INFO (-[VisitTracker authorizedToStartTracking]) Location tracker requested user authorization...
+2015-01-12 20:55:41.107 HelloWorld[77445:14719705] ✅ INFO (+[MOCA initializeSDK:]) MOCA ready (app key 'TNS1AVN7TPi5jGhT1X4wcQ')
+2015-01-12 20:55:41.108 HelloWorld[77445:14719705] [CDVTimer][mocaplugin] 205.538988ms
+2015-01-12 20:55:41.108 HelloWorld[77445:14719705] [CDVTimer][TotalPluginStartup] 205.662012ms
+2015-01-12 20:55:41.685 HelloWorld[77445:14719705] ✅ INFO (-[ProximityEngine startEngine]) Start proximity engine
+2015-01-12 20:55:41.687 HelloWorld[77445:14719705] ✅ INFO (-[ProximityEngine authorizedToStartEngine]) Location tracker requested user authorization...
+2015-01-12 20:55:41.688 HelloWorld[77445:14719705] ✅ INFO (-[VisitTracker authorizedToStartTracking]) Location tracker requested user authorization...
+2015-01-12 20:55:41.688 HelloWorld[77445:14719705] ✅ INFO (-[LocationTracker authorizedToStartTracking]) Location tracker requested user authorization...
+2015-01-12 20:55:42.114 HelloWorld[77445:14719705] Resetting plugins due to page load.
+2015-01-12 20:55:42.484 HelloWorld[77445:14719705] Finished load of: file:///Users/Oleg/Library/Developer/CoreSimulator/Devices/BB4F63B1-BC94-40DF-94E3-E6C8F911DC31/data/Containers/Bundle/Application/B45CAD91-B1E5-4F97-A6F6-58F1907E0BEA/HelloWorld.app/www/index.html
+2015-01-12 20:55:49.215 HelloWorld[77445:14719705] ✅ INFO (-[ProximityEngine startEngine]) Restart proximity engine
+2015-01-12 20:55:49.223 HelloWorld[77445:14719705] ✅ INFO (-[VisitTracker startTracking]) Start visit tracker
+2015-01-12 20:55:49.224 HelloWorld[77445:14719705] ✅ INFO (-[LocationTracker startTracking]) Started location tracking
+2015-01-12 20:56:12.908 HelloWorld[77445:14719705] Resetting plugins due to page load.
+2015-01-12 20:56:13.139 HelloWorld[77445:14719705] Finished load of: file:///Users/Oleg/Library/Developer/CoreSimulator/Devices/BB4F63B1-BC94-40DF-94E3-E6C8F911DC31/data/Containers/Bundle/Application/B45CAD91-B1E5-4F97-A6F6-58F1907E0BEA/HelloWorld.app/www/index.html
+2015-01-12 20:57:14.889 HelloWorld[77617:14726407] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/Oleg/Library/Developer/CoreSimulator/Devices/BB4F63B1-BC94-40DF-94E3-E6C8F911DC31/data/Containers/Data/Application/B7E525EC-799C-4EB6-80D9-255DEC2B189F/Library/Cookies/Cookies.binarycookies
+2015-01-12 20:57:14.965 HelloWorld[77617:14726407] Apache Cordova native platform version 3.7.0 is starting.
+2015-01-12 20:57:14.965 HelloWorld[77617:14726407] Multi-tasking -> Device: YES, App: YES
+2015-01-12 20:57:14.967 HelloWorld[77617:14726407] Unlimited access to network resources
+2015-01-12 20:57:14.969 HelloWorld[77617:14726407] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the Cordova config.xml file
+
+2015-01-12 20:57:15.138 HelloWorld[77617:14726407] ✅ INFO (-[MOCAPlugin pluginInitialize]) Initializing MOCAPlugin
+2015-01-12 20:57:15.138 HelloWorld[77617:14726407] ✅ INFO (+[MOCA initializeSDK:]) Init MOCA SDK, version 1.3.9
+2015-01-12 20:57:15.148 HelloWorld[77617:14726407] ❗ WARN (-[PushService updateAPNSRegistration]) Remote notification are not available on Simulator
+2015-01-12 20:57:15.155 HelloWorld[77617:14726407] ✅ INFO (-[ProximityEngine startEngine]) Start proximity engine
+2015-01-12 20:57:15.161 HelloWorld[77617:14726407] ✅ INFO (-[LocationTracker startTracking]) Started location tracking
+2015-01-12 20:57:15.164 HelloWorld[77617:14726407] ✅ INFO (-[VisitTracker startTracking]) Start visit tracker
+2015-01-12 20:57:15.171 HelloWorld[77617:14726407] ✅ INFO (+[MOCA initializeSDK:]) MOCA ready (app key 'TNS1AVN7TPi5jGhT1X4wcQ')
+2015-01-12 20:57:15.172 HelloWorld[77617:14726407] [CDVTimer][mocaplugin] 34.350038ms
+2015-01-12 20:57:15.172 HelloWorld[77617:14726407] [CDVTimer][TotalPluginStartup] 34.468055ms
+2015-01-12 20:57:15.227 HelloWorld[77617:14726407] Resetting plugins due to page load.
+2015-01-12 20:57:15.271 HelloWorld[77617:14726407] Finished load of: file:///Users/Oleg/Library/Developer/CoreSimulator/Devices/BB4F63B1-BC94-40DF-94E3-E6C8F911DC31/data/Containers/Bundle/Application/1B5856CD-EE86-40F9-AB2A-DD0DE751B043/HelloWorld.app/www/index.html
+2015-01-12 20:57:15.582 HelloWorld[77617:14726407] ✅ INFO (-[ProximityEngine startEngine]) Restart proximity engine
+2015-01-12 20:58:30.661 HelloWorld[77818:14731824] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/Oleg/Library/Developer/CoreSimulator/Devices/BB4F63B1-BC94-40DF-94E3-E6C8F911DC31/data/Containers/Data/Application/31D8B724-A511-404E-8A4D-467F6E20794F/Library/Cookies/Cookies.binarycookies
+2015-01-12 20:58:30.736 HelloWorld[77818:14731824] Apache Cordova native platform version 3.7.0 is starting.
+2015-01-12 20:58:30.737 HelloWorld[77818:14731824] Multi-tasking -> Device: YES, App: YES
+2015-01-12 20:58:30.738 HelloWorld[77818:14731824] Unlimited access to network resources
+2015-01-12 20:58:30.740 HelloWorld[77818:14731824] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the Cordova config.xml file
+
+2015-01-12 20:58:30.905 HelloWorld[77818:14731824] ✅ INFO (-[MOCAPlugin pluginInitialize]) Initializing MOCAPlugin
+2015-01-12 20:58:30.905 HelloWorld[77818:14731824] ✅ INFO (+[MOCA initializeSDK:]) Init MOCA SDK, version 1.3.9
+2015-01-12 20:58:30.914 HelloWorld[77818:14731824] ❗ WARN (-[PushService updateAPNSRegistration]) Remote notification are not available on Simulator
+2015-01-12 20:58:30.922 HelloWorld[77818:14731824] ✅ INFO (-[ProximityEngine startEngine]) Start proximity engine
+2015-01-12 20:58:30.928 HelloWorld[77818:14731824] ✅ INFO (-[LocationTracker startTracking]) Started location tracking
+2015-01-12 20:58:30.931 HelloWorld[77818:14731824] ✅ INFO (-[VisitTracker startTracking]) Start visit tracker
+2015-01-12 20:58:30.938 HelloWorld[77818:14731824] ✅ INFO (+[MOCA initializeSDK:]) MOCA ready (app key 'TNS1AVN7TPi5jGhT1X4wcQ')
+2015-01-12 20:58:30.939 HelloWorld[77818:14731824] [CDVTimer][mocaplugin] 34.550011ms
+2015-01-12 20:58:30.939 HelloWorld[77818:14731824] [CDVTimer][TotalPluginStartup] 34.727991ms
+2015-01-12 20:58:31.001 HelloWorld[77818:14731824] Resetting plugins due to page load.
+2015-01-12 20:58:31.054 HelloWorld[77818:14731824] Finished load of: file:///Users/Oleg/Library/Developer/CoreSimulator/Devices/BB4F63B1-BC94-40DF-94E3-E6C8F911DC31/data/Containers/Bundle/Application/E6A1CD60-8043-490A-BB19-6C9940F26789/HelloWorld.app/www/index.html
+2015-01-12 20:58:31.185 HelloWorld[77818:14731824] ✅ INFO (-[ProximityEngine startEngine]) Restart proximity engine
+2015-01-12 20:58:50.380 HelloWorld[77818:14731824] Resetting plugins due to page load.
+2015-01-12 20:58:50.412 HelloWorld[77818:14731824] Finished load of: file:///Users/Oleg/Library/Developer/CoreSimulator/Devices/BB4F63B1-BC94-40DF-94E3-E6C8F911DC31/data/Containers/Bundle/Application/E6A1CD60-8043-490A-BB19-6C9940F26789/HelloWorld.app/www/index.html
+2015-01-12 21:03:41.430 HelloWorld[77818:14731824] Resetting plugins due to page load.
+2015-01-12 21:03:41.471 HelloWorld[77818:14731824] Finished load of: file:///Users/Oleg/Library/Developer/CoreSimulator/Devices/BB4F63B1-BC94-40DF-94E3-E6C8F911DC31/data/Containers/Bundle/Application/E6A1CD60-8043-490A-BB19-6C9940F26789/HelloWorld.app/www/index.html
+2015-01-12 21:06:43.242 HelloWorld[78341:14755135] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/Oleg/Library/Developer/CoreSimulator/Devices/BB4F63B1-BC94-40DF-94E3-E6C8F911DC31/data/Containers/Data/Application/242AFBFA-BB25-4B49-98C1-9FA3199A52D2/Library/Cookies/Cookies.binarycookies
+2015-01-12 21:06:43.355 HelloWorld[78341:14755135] Apache Cordova native platform version 3.7.0 is starting.
+2015-01-12 21:06:43.355 HelloWorld[78341:14755135] Multi-tasking -> Device: YES, App: YES
+2015-01-12 21:06:43.357 HelloWorld[78341:14755135] Unlimited access to network resources
+2015-01-12 21:06:43.359 HelloWorld[78341:14755135] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the Cordova config.xml file
+
+2015-01-12 21:06:43.523 HelloWorld[78341:14755135] ✅ INFO (-[MOCAPlugin pluginInitialize]) Initializing MOCAPlugin
+2015-01-12 21:06:43.523 HelloWorld[78341:14755135] ✅ INFO (+[MOCA initializeSDK:]) Init MOCA SDK, version 1.3.9
+2015-01-12 21:06:43.531 HelloWorld[78341:14755135] ❗ WARN (-[PushService updateAPNSRegistration]) Remote notification are not available on Simulator
+2015-01-12 21:06:43.539 HelloWorld[78341:14755135] ✅ INFO (-[ProximityEngine startEngine]) Start proximity engine
+2015-01-12 21:06:43.545 HelloWorld[78341:14755135] ✅ INFO (-[LocationTracker startTracking]) Started location tracking
+2015-01-12 21:06:43.548 HelloWorld[78341:14755135] ✅ INFO (-[VisitTracker startTracking]) Start visit tracker
+2015-01-12 21:06:43.555 HelloWorld[78341:14755135] ✅ INFO (+[MOCA initializeSDK:]) MOCA ready (app key 'TNS1AVN7TPi5jGhT1X4wcQ')
+2015-01-12 21:06:43.556 HelloWorld[78341:14755135] [CDVTimer][mocaplugin] 33.065021ms
+2015-01-12 21:06:43.556 HelloWorld[78341:14755135] [CDVTimer][TotalPluginStartup] 33.245027ms
+2015-01-12 21:06:43.621 HelloWorld[78341:14755135] Resetting plugins due to page load.
+2015-01-12 21:06:43.670 HelloWorld[78341:14755135] Finished load of: file:///Users/Oleg/Library/Developer/CoreSimulator/Devices/BB4F63B1-BC94-40DF-94E3-E6C8F911DC31/data/Containers/Bundle/Application/7C2E7B9A-E4E5-449C-B582-BFE3E2BE701F/HelloWorld.app/www/index.html
+2015-01-12 21:06:43.952 HelloWorld[78341:14755135] ✅ INFO (-[ProximityEngine startEngine]) Restart proximity engine
+2015-01-13 13:53:11.295 HelloWorld[78341:14755135] Unknown error calling sqlite3_step (14: unable to open database file) eu
+2015-01-13 13:53:11.304 HelloWorld[78341:14755135] DB Query: DELETE FROM Events WHERE identifier=?
+2015-01-13 13:53:11.304 HelloWorld[78341:14755135] Unknown error finalizing or resetting statement (14: unable to open database file)
+2015-01-13 13:53:11.304 HelloWorld[78341:14755135] DB Query: DELETE FROM Events WHERE identifier=?
+2015-01-13 13:53:11.312 HelloWorld[78341:14755135] ❌ERROR (__46-[MOCALocalStorage dropEventsWithIdentifiers:]_block_invoke) Database error: Error Domain=FMDatabase Code=14 "unable to open database file" UserInfo=0x7d862220 {NSLocalizedDescription=unable to open database file}, message: unable to open database file
+2015-05-25 18:36:04.586 HelloWorld[65979:24411339] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/Oleg/Library/Developer/CoreSimulator/Devices/C4F85BD5-A1A1-4DC4-8CAC-5597250A00E7/data/Containers/Data/Application/55FAEF15-8951-4635-8ABA-81C30F323BB1/Library/Cookies/Cookies.binarycookies
+2015-05-25 18:36:04.956 HelloWorld[65979:24411339] Apache Cordova native platform version 3.7.0 is starting.
+2015-05-25 18:36:04.957 HelloWorld[65979:24411339] Multi-tasking -> Device: YES, App: YES
+2015-05-25 18:36:04.986 HelloWorld[65979:24411339] Unlimited access to network resources
+2015-05-25 18:36:04.996 HelloWorld[65979:24411339] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the Cordova config.xml file
+
+2015-05-25 18:36:05.456 HelloWorld[65979:24411339] ✅ INFO (-[MOCAPlugin pluginInitialize]) Initializing MOCAPlugin V1.6.0
+2015-05-25 18:36:05.458 HelloWorld[65979:24411339] ✅ INFO (+[MOCA initializeSDK:]) Init MOCA SDK, version 1.6.3
+2015-05-25 18:36:05.533 HelloWorld[65979:24411339] ❗ WARN (-[PushService updateAPNSRegistration]) Remote notification are not available on Simulator
+2015-05-25 18:36:05.537 HelloWorld[65979:24411339] 💬 DEBUG (-[MocaDriver stopDriver]) Stop Moca driver called
+2015-05-25 18:36:05.537 HelloWorld[65979:24411339] 💬 DEBUG (-[MOCAProximityService initData]) Inited proximity data from local cache
+2015-05-25 18:36:05.559 HelloWorld[65979:24411339] 💬 DEBUG (-[MOCAProximityClient updateWithBlock:withFlags:]) MOCA AsyncCloudFetch for appkey TNS1AVN7TPi5jGhT1X4wcQ 
+2015-05-25 18:36:05.573 HelloWorld[65979:24411339] 💬 DEBUG (-[MocaDriver startDriver]) Start proximity driver
+2015-05-25 18:36:05.574 HelloWorld[65979:24411339] ✅ INFO (-[MocaDriver authorizedToStartDriver]) Location tracker requested user authorization...
+2015-05-25 18:36:05.576 HelloWorld[65979:24411339] 💬 DEBUG (+[LocationTracker shared]) LocationTracker initialized
+2015-05-25 18:36:05.578 HelloWorld[65979:24411339] ✅ INFO (-[LocationTracker authorizedToStartTracking]) Location tracker requested user authorization...
+2015-05-25 18:36:05.580 HelloWorld[65979:24411339] 💬 DEBUG (+[VisitTracker shared]) VisitTracker initialized
+2015-05-25 18:36:05.582 HelloWorld[65979:24411339] ✅ INFO (-[VisitTracker authorizedToStartTracking]) Location tracker requested user authorization...
+2015-05-25 18:36:05.582 HelloWorld[65979:24411339] 💬 DEBUG (+[BatteryTracker shared]) BatteryTracker initialized
+2015-05-25 18:36:05.584 HelloWorld[65979:24411339] 💬 DEBUG (-[MOCAInstance beginSession]) Begin session number 0
+2015-05-25 18:36:05.605 HelloWorld[65979:24411339] 💬 DEBUG (-[MOCAInstance saveWithBlock:]) Asynchronously save instance with id='rSZOJIx8SuK4IngKTczcnw'
+2015-05-25 18:36:05.638 HelloWorld[65979:24411339] 💬 DEBUG (+[MOCA beginSessionAndUpload:]) MOCA instance IID is rSZOJIx8SuK4IngKTczcnw
+2015-05-25 18:36:05.638 HelloWorld[65979:24411339] ✅ INFO (+[MOCA initializeSDK:]) MOCA ready (app key 'TNS1AVN7TPi5jGhT1X4wcQ')
+2015-05-25 18:36:05.639 HelloWorld[65979:24411339] [CDVTimer][mocaplugin] 183.500051ms
+2015-05-25 18:36:05.640 HelloWorld[65979:24411339] [CDVTimer][TotalPluginStartup] 183.759034ms
+2015-05-25 18:36:05.766 HelloWorld[65979:24411339] 💬 DEBUG (-[LocationTracker locationManager:didChangeAuthorizationStatus:]) Location authorization is 'kCLAuthorizationStatusNotDetermined'.
+2015-05-25 18:36:05.767 HelloWorld[65979:24411339] ✅ INFO (-[LocationTracker authorizedToStartTracking]) Location tracker requested user authorization...
+2015-05-25 18:36:05.767 HelloWorld[65979:24411339] 💬 DEBUG (-[MocaDriver locationManager:didChangeAuthorizationStatus:]) Proximity driver authorization is 'kCLAuthorizationStatusNotDetermined'.
+2015-05-25 18:36:05.768 HelloWorld[65979:24411339] 💬 DEBUG (-[MocaDriver startDriver]) Start proximity driver
+2015-05-25 18:36:05.768 HelloWorld[65979:24411339] ✅ INFO (-[MocaDriver authorizedToStartDriver]) Location tracker requested user authorization...
+2015-05-25 18:36:05.771 HelloWorld[65979:24411339] 💬 DEBUG (+[MOCA didBecomeActiveNotification]) App goes active
+2015-05-25 18:36:05.771 HelloWorld[65979:24411339] 💬 DEBUG (-[VisitTracker locationManager:didChangeAuthorizationStatus:]) Visit tracking authorization is 'kCLAuthorizationStatusNotDetermined'.
+2015-05-25 18:36:05.772 HelloWorld[65979:24411339] ✅ INFO (-[VisitTracker authorizedToStartTracking]) Location tracker requested user authorization...
+2015-05-25 18:36:05.920 HelloWorld[65979:24411339] Resetting plugins due to page load.
+2015-05-25 18:36:06.051 HelloWorld[65979:24411339] 💬 DEBUG (__32-[MOCAProximityService initData]_block_invoke) Proximity data fetched from cloud
+2015-05-25 18:36:06.051 HelloWorld[65979:24411339] 💬 DEBUG (-[CampaignManager initWithCampaigns:]) Active experiences: 0
+2015-05-25 18:36:06.051 HelloWorld[65979:24411339] ✅ INFO (-[MOCAPlugin fireDocumentEvent:withArgs:]) [MOCA calling JS]: var e = new CustomEvent('moca.dataready', { 'detail': {"beacons":[{"identifier":"ZGAX8PJ2Q6KNO0IUJJA0IQ","name":"A TV beacon"},{"code":"Cgai","identifier":"uJZtmvAuSYKVXvf2zFoPgA","name":"Android B1"},{"code":"BnoA","identifier":"P-PTBZsBRJ-z2N1frsJIbg","name":"Android B2"},{"code":"7b9u","identifier":"xpVY61TbTDeBpiCcQHM5yg","name":"Android Test Beacon"},{"code":"AsSj","identifier":"JF6ZSOEwSdWS-KnhTD-WAw","name":"AsSj Beacon"},{"identifier":"hOPrmeCmS7SebHukdOgwGA","name":"B Barcelona beacon"},{"code":"Mkya","identifier":"Zs2g7RR3Tsu7OVuGxgfXuA","name":"Beacon de Alejandro"},{"identifier":"luqw2OLeTN-9-8NeUa8V6g","name":"E Beacon"},{"identifier":"GSx8wSdYRV2bkR9NF3XpPQ","name":"ESADE Test 1"},{"identifier":"iJMQonUFQY6bz_aUly4MCg","name":"ipad"},{"code":"DOG7","identifier":"iC8-12VFRxm8_WcYe0_u-g","name":"IQ Beacon DOG7"},{"code":"Zone 1","identifier":"fhCuS2ZLT76fC2EK_5Ay1A","name":"Nao: MWC Beacon C"},{"code":"MWC Old Beacon","identifier":"148YSN_ZTY-SxnfKyLrgKQ","name":"Nao: MWC Old Beacon"},{"identifier":"AECWayXWSh2u6NWYllwvtQ","name":"Office 1"},{"identifier":"WPycwypXTqmz8hC7H8By2A","name":"RadBeacon Oleg Keyboard"},{"identifier":"k4qdGSG9RNijxQdfYtufFw","name":"Replacer C"},{"identifier":"CQa6tWX4QPO1-6Jg9MP8tA","name":"Sensor 1"},{"identifier":"lWD11eUjQq-ubwv-jdZOFg","name":"Sensor 2"},{"identifier":"lhC-mzI1RZCdqlGLfbXnkQ","name":"Sensor 3"},{"code":"0nnQ","identifier":"afkVyxnFT_a-he28U3OPtg","name":"T1"},{"identifier":"xqHWl-zpSFid3vqRJKgzMQ","name":"Video Demo"},{"identifier":"_V7WVmMDSteFC_WGdUd8bA","name":"Virtual "}]} });document.dispatchEvent(e);
+2015-05-25 18:36:06.072 HelloWorld[65979:24411339] Finished load of: file:///Users/Oleg/Library/Developer/CoreSimulator/Devices/C4F85BD5-A1A1-4DC4-8CAC-5597250A00E7/data/Containers/Bundle/Application/21B281E1-8EDC-4583-A227-770BEE4F1FDB/HelloWorld.app/www/index.html
+2015-05-25 18:36:06.158 HelloWorld[65979:24411339] 💬 DEBUG (+[MOCA willResignActiveNotification]) App leaves active

@@ -1,0 +1,8 @@
+{
+    "com.innoquant.moca.phonegap": {
+        "source": {
+            "type": "local",
+            "path": "../MOCASDK"
+        }
+    }
+}

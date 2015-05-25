@@ -1,0 +1,92 @@
+# MOCA PhoneGap SDK
+# v1.6.0
+# 12/05/2015
+# Copyright © 2014-2015, InnoQuant. All rights reserved.
+
+MOCA PhoneGap SDK is a drop-in Cordova plugin that provides an easy way to integrate proximity experience services into your cross-platform PhoneGap apps. 
+
+
+PLATFORM SUPPORT
+----------------
+This plugin supports PhoneGap/Cordova apps running on iOS and Android. Windows Phone plugin is under development.
+
+
+VERSION REQUIREMENTS
+---------------------
+This plugin is meant to work with Cordova 3.4.0+ and the latest versions of the MOCA SDK libraries. 
+
+
+GETTING STARTED
+-----------------
+
+## Developer documentation  
+
+See documentation in docs/html folder.
+
+### More information    
+
+For information, please visit [http://mocaplatform.com](http://mocaplatform.com)
+
+
+INSTALLATION
+------------
+
+Automatic installation using PhoneGap/Cordova CLI (iOS and Android)
+
+1. For iOS, make sure you update your iOS project to Cordova iOS version 3.4.1 before installing this plugin.
+
+  ````
+    cordova platform update ios
+  ````
+  
+2. For Android, make sure the Android SDK is up to date. Google Play Service 6.1+ are required.
+
+  ````
+    cordova platform update android
+  ````
+   
+3. Install this plugin using PhoneGap/Cordova cli:
+
+   ````
+   cordova plugin add https://github.com/innoquant/moca-phonegap.git#:/MOCASDK
+   ````
+   
+4. Modify the config.xml directory to contain (replacing with your configuration settings):
+   
+   ````
+   <!-- MOCA SDK credentials -->
+   <preference name="moca_app_key" value="YOUR_APP_KEY" />
+   <preference name="moca_app_secret" value="YOUR-APP-SECRET" />
+   ````
+
+CHANGELOG
+-----------
+
+v1.6.0
+- Extended MOCA JavaScript API with proximity events
+- Support for MOCA SDK for iOS v1.6.0 (app wake-up, JavaScript API in embedded HTML)
+- Support for MOCA SDK for Android v1.5.3 (bug fixes)
+
+v1.5.0
+- Support for MOCA SDK for Android v1.5.0 (proximity start/stop functionality)
+
+v1.4.9
+- Extended JavaScript API
+- Support for MOCA SDK for iOS from v1.5.2
+- Support for MOCA SDK for Android from v1.4.9
+- Tested with Cordova 4.3
+
+v1.3.0
+This release provides support for both iOS and Android
+- Support for MOCA SDK for iOS from v1.3.9
+- Support for MOCA SDK for Android from v1.3.0
+
+v1.0.0
+First release
+- Support for MOCA SDK for iOS from v1.3.9
+
+
+LICENSE
+-----------
+
+See LICENSE.md file for licensing information and credits.
