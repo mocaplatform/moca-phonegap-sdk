@@ -229,7 +229,7 @@ JavaScript Trigger Events
 Handle MOCA data ready event:
 ````
   MOCA.addDataReadyListener (function (e) {
-     // e.beacons -- array of beacon objects. each beacon has identifier, name and code.
+     // e.detail.beacons -- array of beacon objects. each beacon has identifier, name and code.
   }); 
 ````
 This method invoked when a proximity service loaded or updated a registry of beacons from MOCA cloud or from local cache.
@@ -237,65 +237,65 @@ This method invoked when a proximity service loaded or updated a registry of bea
 Handle enter beacon range event:
 ````
   MOCA.addEnterBeaconListener (function (e) {
-     // e.identifier -- beacon id
-     // e.name -- beacon name
-     // e.code -- beacon code, optional
-     // e.proximity -- numeric proximity code (unkown=0, immediate=1, near=2, far=3)  
+     // e.detail.identifier -- beacon id
+     // e.detail.name -- beacon name
+     // e.detail.code -- beacon code, optional
+     // e.detail.proximity -- numeric proximity code (unkown=0, immediate=1, near=2, far=3)  
   }); 
 ````
 
 Handle exit beacon range event:
 ````
   MOCA.addExitBeaconListener (function (e) {
-     // e.identifier -- beacon id
-     // e.name -- beacon name
+     // e.detail.identifier -- beacon id
+     // e.detail.name -- beacon name
   }); 
 ````
 
 Method triggered when the state of a beacon proximity did changed:
 ````
   MOCA.addBeaconProximityChangeListener (function (e) {
-    // e.identifier -- beacon id
-    // e.prevProximity -- previous beacon proximity state (unkown=0, immediate=1, near=2, far=3)  
-    // e.curProximity -- current beacon proximity state (unkown=0, immediate=1, near=2, far=3) 
+    // e.detail.identifier -- beacon id
+    // e.detail.prevProximity -- previous beacon proximity state (unkown=0, immediate=1, near=2, far=3)  
+    // e.detail.curProximity -- current beacon proximity state (unkown=0, immediate=1, near=2, far=3) 
   }); 
 ````
 
 Handle enter place event:
 ````
   MOCA.addEnterPlaceListener (function (e) {
-     // e.identifier -- place id
-     // e.name -- place name
+     // e.detail.identifier -- place id
+     // e.detail.name -- place name
   }); 
 ````
 
 Handle exit place event:
 ````
   MOCA.addExitPlaceListener (function (e) {
-     // e.identifier -- place id
-     // e.name -- place name
+     // e.detail.identifier -- place id
+     // e.detail.name -- place name
   }); 
 ````
 
 Handle enter zone event:
 ````
   MOCA.addEnterZoneListener (function (e) {
-     // e.identifier -- zone id
-     // e.name -- zone name
-     // e.placeId -- place identifier this zone belongs to
-     // e.floorNumber -- zone floorNumber, optional
-     // e.shortId -- zone shortId, optional
+     // e.detail.identifier -- zone id
+     // e.detail.name -- zone name
+     // e.detail.placeId -- place identifier this zone belongs to
+     // e.detail.floorNumber -- zone floorNumber, optional
+     // e.detail.shortId -- zone shortId, optional
   }); 
 ````
 
 Handle exit zone event:
 ````
   MOCA.addExitZoneListener (function (e) {
-     // e.identifier -- zone id
-     // e.name -- zone name
-     // e.placeId -- place identifier this zone belongs to
-     // e.floorNumber -- zone floorNumber, optional
-     // e.shortId -- zone shortId, optional
+     // e.detail.identifier -- zone id
+     // e.detail.name -- zone name
+     // e.detail.placeId -- place identifier this zone belongs to
+     // e.detail.floorNumber -- zone floorNumber, optional
+     // e.detail.shortId -- zone shortId, optional
   }); 
 ````
 
@@ -305,7 +305,7 @@ JavaScript Action Events
 Handle custom action event:
 ````
   MOCA.addCustomActionListener (function (e) {
-    // e.customAttribute - custom action attribute provided by MOCA   
+    // e.detail.customAttribute - custom action attribute provided by MOCA   
   );
 ````
 
