@@ -125,6 +125,7 @@
 
         <!-- Public header files -->
         <header-file src="src/ios/MOCA/Header/MOCA.h"  />
+        <header-file src="src/ios/MOCA/Header/MOCAAction.h"  />
         <header-file src="src/ios/MOCA/Header/MOCABeacon.h"  />
         <header-file src="src/ios/MOCA/Header/MOCAConfig.h"  />
         <header-file src="src/ios/MOCA/Header/MOCAEvent.h"  />
