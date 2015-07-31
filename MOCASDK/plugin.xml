@@ -112,6 +112,14 @@
     
     <!-- ios -->
     <platform name="ios">
+        <info>
+            - Add a new key in your "YOUR-APP-NAME-Info.plist" as follows:
+             key: NSLocationAlwaysUsageDescription value: --string describing why you need location services--
+
+             Example:
+
+             key: NSLocationAlwaysUsageDescription, value: This app will use your location information to identify nearby places and to notify you about available proximity experiences. 
+        </info>
         <config-file target="config.xml" parent="/widget">
              <feature name="MOCAPlugin">
                 <param name="ios-package" value="MOCAPlugin" />
