@@ -18,7 +18,10 @@
          <clobbers target="MOCA" />
      </js-module>
 
-  
+    <info>
+        Remember to add your MOCA AppKey and MOCA AppSecret to your app's config.xml before building.
+        Learn more at http://developer.mocaplatform.com
+    </info>
 
     <!-- android -->
     <platform name="android">    
