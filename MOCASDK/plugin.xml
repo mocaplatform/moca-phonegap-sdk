@@ -119,6 +119,8 @@
              Example:
 
              key: NSLocationAlwaysUsageDescription, value: This app will use your location information to identify nearby places and to notify you about available proximity experiences. 
+
+             IMPORTANT: If this key is not present, Proximity Experiencies won't work at all.
         </info>
         <config-file target="config.xml" parent="/widget">
              <feature name="MOCAPlugin">
