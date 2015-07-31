@@ -23,6 +23,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #include <AvailabilityMacros.h>
 #include "MOCAAction.h"
@@ -242,6 +243,13 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  */
 -(void)performCustomAction:(NSString*)customAttribute DEPRECATED_MSG_ATTRIBUTE("use new action-based method instead.");
 -(void)action:(MOCAAction*)sender performCustomAction:(NSString*)customAttribute;
+
+/** 
+ * Called to customize the app root view that should be used to display overlay popup window.
+ * @param view - default superview to add the overlay to as a child view.
+ * @return selected view to be used as superview.
+ */
+-(UIView*)willShowOverlayInView:(UIView*) superview;
 
 @end
 

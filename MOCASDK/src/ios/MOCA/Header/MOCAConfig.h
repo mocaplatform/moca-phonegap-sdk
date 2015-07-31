@@ -97,6 +97,15 @@
  */
 @property (nonatomic, readonly) BOOL              geoLocationServiceEnabled;
 
+
+/**
+ * If disbaled, the MOCA library not track user geo-location in the background.
+ *
+ * Defaults to YES. If this is disabled, the MOCA background geo-location tracking
+ * will not be used.
+ */
+@property (nonatomic, readonly) BOOL              backgroundLocationEnabled;
+
 /**
  * If enabled the MOCA library does not send any data to the cloud.
  * Defaults to NO.

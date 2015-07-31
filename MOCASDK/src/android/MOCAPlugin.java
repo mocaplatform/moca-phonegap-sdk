@@ -74,7 +74,7 @@ public class MOCAPlugin extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         MLog.i("Initializing MOCAPlugin");
-        /*final String appKey = this.preferences.getString ("moca_app_key", null);
+        final String appKey = this.preferences.getString ("moca_app_key", null);
         if (appKey == null) {
             final String msg = "MOCA app key not specified in config.xml preferences. Missing 'moca_app_key' preference.";
             MLog.e(msg);
@@ -85,9 +85,10 @@ public class MOCAPlugin extends CordovaPlugin {
             final String msg = "MOCA app secret not specified in config.xml preferences. Missing 'moca_app_secret' preference.";
             MLog.e(msg);
             throw new RuntimeException(msg);
-        }*/
-
-        MOCAConfig config = MOCAConfig.getDefault(cordova.getActivity().getApplication());
+        }
+        
+        // MOCAConfig config = MOCAConfig.getDefault(cordova.getActivity().getApplication());
+        MOCAConfig config = MOCAConfig.getDefault(appKey, appSecret);
         MOCA.initializeSDK(cordova.getActivity().getApplication(), config);        
     }
 

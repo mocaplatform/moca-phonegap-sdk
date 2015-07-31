@@ -1,6 +1,6 @@
 //
 //  MOCA.js
-//  v1.6.0
+//  v1.6.9
 //
 //  MOCA PhoneGap JavaScript Plugin
 //

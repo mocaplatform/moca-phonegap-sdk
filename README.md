@@ -312,6 +312,11 @@ Handle custom action event:
 
 CHANGELOG
 -----------
+
+v1.6.9
+- Support for MOCA iOS SDK v1.6.8 and Android v1.6.2.
+- Removed Google Play Services as a plugin (Android), added as a gradle dependency.
+
 v1.6.0
 - MOCA iOS SDK 1.6.3
 - MOCA Android SDK 1.6.0

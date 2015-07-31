@@ -2,7 +2,7 @@
 //  MOCA.h
 //
 //  MOCA iOS SDK
-//  Version 1.6.3
+//  Version 1.6.8
 //
 //  This module is part of InnoQuant MOCA Platform.
 //
