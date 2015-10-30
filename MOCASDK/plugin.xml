@@ -19,12 +19,34 @@
      </js-module>
 
     <info>
-        Remember to add your MOCA AppKey and MOCA AppSecret to your app's config.xml before building.
+
+                                                    .:/++++++++++:-`            
+                                                 -+o/-`         `.:oo/`         
+                                              `/s/.                 `-oo.       
+                                             :s/`     `---.....``      .+.      
+                                           `oo`    `::-          ```    `+sys/  
+                                          `oo     :/`               `   :yyyyy- 
+                                          /s`    /-       .```          `/sss/  
+                                         `y/    -/     `-.    `             :-  
+                                         .y-    +.     /                    o+  
+                                         .y-    +.     /                    oo  
+                                          y/    -/     `-.    `            `y/  
+                                          /s`    /-       .```             /y`  
+                                          `oo     :/`               `     -y:   
+                                           `oo`    `::.          ```     :y:    
+                                             :s:      `--......``      .oo.     
+                                              `/s/`                  -oo-       
+                                                 -+o/-`          .:+o/.         
+                                                    .:/++++++++++/-`            
+                                        
+        Remember to add your MOCA AppKey and MOCA AppSecret to your app's config.xml BEFORE building.
         Learn more at http://developer.mocaplatform.com
     </info>
 
     <!-- android -->
     <platform name="android">    
+        <framework src="src/android/mocabuild.gradle" custom="true" type="gradleReference" />
+        <resource-file src="libs/moca-android-sdk-1.8.4.aar" target="libs/moca-android-sdk-1.8.4.aar" />
 
         <config-file target="config.xml" parent="/widget">
              <feature name="MOCAPlugin">
@@ -112,7 +134,7 @@
     
     <!-- ios -->
     <platform name="ios">
-        <info>
+        <info>                                        
             - Add a new key in your "YOUR-APP-NAME-Info.plist" as follows:
              key: NSLocationAlwaysUsageDescription value: --string describing why you need location services--
 
@@ -121,6 +143,7 @@
              key: NSLocationAlwaysUsageDescription, value: This app will use your location information to identify nearby places and to notify you about available proximity experiences. 
 
              IMPORTANT: If this key is not present, Proximity Experiencies won't work at all.
+
         </info>
         <config-file target="config.xml" parent="/widget">
              <feature name="MOCAPlugin">

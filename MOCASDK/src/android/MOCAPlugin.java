@@ -53,7 +53,7 @@ import com.innoquant.moca.*;
 import com.innoquant.moca.utils.MLog;
 
 /**
- * MOCA PhoneGap Plugin for Android SDK, v1.4.9
+ * MOCA PhoneGap Plugin for Android SDK, v1.8.4
  */
 public class MOCAPlugin extends CordovaPlugin {
 
