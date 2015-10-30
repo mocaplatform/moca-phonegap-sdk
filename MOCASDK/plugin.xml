@@ -46,7 +46,6 @@
     <!-- android -->
     <platform name="android">    
         <framework src="src/android/mocabuild.gradle" custom="true" type="gradleReference" />
-        <resource-file src="libs/moca-android-sdk-1.8.4.aar" target="libs/moca-android-sdk-1.8.4.aar" />
 
         <config-file target="config.xml" parent="/widget">
              <feature name="MOCAPlugin">
@@ -124,11 +123,8 @@
         </config-file>   
 
         <!-- MOCA SDK -->
+        <resource-file src="libs/moca-android-sdk-1.8.4.aar" target="libs/moca-android-sdk-1.8.4.aar" />
         <source-file src="src/android/MOCAPlugin.java" target-dir="src/com/innoquant/moca/phonegap" />
-        <source-file src="src/android/moca-sdk-1.6.2.jar" target-dir="libs" />
-     <source-file src="src/android/msgpack-0.6.11.jar" target-dir="libs" /> 
-        <source-file src="src/android/moca_activity_web_page.xml" target-dir="res/layout" />   
-        <framework src="com.google.android.gms:play-services:6.5+" />
 
     </platform>
     
