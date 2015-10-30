@@ -1,7 +1,7 @@
 repositories{    
   jcenter()
   flatDir{
-      dirs 'MOCA-Android-src'
+      dirs 'libs'
    }
 }
 
