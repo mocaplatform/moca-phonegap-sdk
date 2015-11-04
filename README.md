@@ -66,7 +66,10 @@ Automatic installation using PhoneGap/Cordova CLI (iOS and Android)
    <!-- MOCA SDK credentials -->
    <preference name="moca_app_key" value="YOUR_APP_KEY" />
    <preference name="moca_app_secret" value="YOUR-APP-SECRET" />
+   <preference name="gcm_sender" value="\ YOUR-GCM-SENDER-ID" />
+
    ````
+  `GCM-SENDER-ID` is required only if you are planning to use MOCA Remote Push Notifications in Android. This won't affect the behavior of the proximity experiences.
 
 5. You may want to modify the message shown to the user when prompting for location permission. In order to do so, edit the `YourAppName-Info.plist` file and key `NSLocationAlwaysUsageDescription` entry.
  
