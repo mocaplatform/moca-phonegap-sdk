@@ -16,6 +16,7 @@
 
     <js-module src="www/MOCA.js" name="MOCA">
          <clobbers target="MOCA" />
+
      </js-module>
 
     <info>
@@ -44,7 +45,14 @@
     </info>
 
     <!-- android -->
-    <platform name="android">    
+    <platform name="android">   
+        <info>                                        
+            - Add your GCMSender in the config.xml BEFORE building. This is needed for Remote Push Notifications.
+            - You can get this id by creating a new push project in your Google Developer Console.
+            - Use the following format in your config.xml:
+                -  &lt;preference name="gcm_sender" value="\ YOUR_GCM_SENDER" /&gt;, please note the space after the backslash.
+            - More information at http://developer.mocaplatform.com and support@mocaplatform.com
+        </info> 
         <framework src="src/android/mocabuild.gradle" custom="true" type="gradleReference" />
 
         <config-file target="config.xml" parent="/widget">
@@ -82,7 +90,7 @@
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
 
-            <!-- REQUIRED for MOCA. -->
+        <!-- REQUIRED for MOCA. -->
 	    <receiver
             	android:name="com.innoquant.moca.MOCACoreReceiver"
             	android:exported="true">
@@ -93,9 +101,30 @@
                 	<action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
                 	<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             	</intent-filter>
-            </receiver>
+        </receiver>
 
-            <service
+        <!-- REQUIRED by MOCA to handle clicked push notifications -->
+        <receiver android:name="com.innoquant.moca.push.MOCAPushReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.innoquant.moca.push.ACTION_PUSH_RECEIVE" />
+                <action android:name="com.innoquant.moca.push.ACTION_PUSH_DISMISSED" />
+            </intent-filter>
+        </receiver>
+
+                <!-- Required by MOCA to receive GCM remote push notifications -->
+        <receiver
+            android:name="com.innoquant.moca.push.GcmPushReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+            </intent-filter>
+        </receiver>
+
+        <service
                 android:name="com.innoquant.moca.drivers.alt.service.BeaconService"
                 android:enabled="true"
                 android:exported="true"
@@ -123,7 +152,7 @@
         </config-file>   
 
         <!-- MOCA SDK -->
-        <resource-file src="libs/moca-android-sdk-1.8.4.aar" target="libs/moca-android-sdk-1.8.4.aar" />
+        <resource-file src="libs/moca-android-sdk-1.9.0.aar" target="libs/moca-android-sdk-1.9.0.aar" />
         <source-file src="src/android/MOCAPlugin.java" target-dir="src/com/innoquant/moca/phonegap" />
 
     </platform>

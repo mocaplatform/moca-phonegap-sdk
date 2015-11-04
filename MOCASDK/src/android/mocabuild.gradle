@@ -6,7 +6,7 @@ repositories{
 }
 
 dependencies {
-   compile(name:'moca-android-sdk-1.8.4', ext:'aar')
+   compile(name:'moca-android-sdk-1.9.0', ext:'aar')
    compile 'com.android.support:support-v4:23.0.1'
    compile 'com.android.support:appcompat-v7:23.0.1'
 

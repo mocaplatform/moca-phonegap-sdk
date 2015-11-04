@@ -130,6 +130,11 @@ MOCA.prototype.performFetch = function (callback) {
   this.call_native(callback, "performFetch")
 }
 
+//getRegionState for placeid
+
+MOCA.prototype.getRegionStateforPlaceId = function (placeId, callback){
+  this.call_native(callback, "getRegionStateforPlaceId", [placeId]);
+}
 
 // MOCA Instance
 
@@ -163,6 +168,8 @@ MOCAInstance.prototype.birthDay = function (callback) {
 MOCAInstance.prototype.pushEnabled = function (callback) {
   this.call_native(callback, "instance_pushEnabled");
 }
+
+
 
 // ----------------------------------------
 // MOCA Events
