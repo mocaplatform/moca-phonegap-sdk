@@ -635,7 +635,7 @@ public class MOCAPlugin extends CordovaPlugin implements MOCAProximityService.Ev
         bkn.put("major", beacon.getMajor());
         bkn.put("minor", beacon.getMinor());
         bkn.put("name", beacon.getName());
-        bkn.put("zone", zoneToJSON(beacon.getZone()));
+        bkn.put("proximity", beacon.getProximity().toString());
         return bkn;
     }
     private JSONObject placeToJSON(MOCAPlace mocaPlace) throws JSONException{
@@ -658,12 +658,6 @@ public class MOCAPlugin extends CordovaPlugin implements MOCAProximityService.Ev
         zn.put("type", "zone");
         zn.put("id", mocaZone.getId());
         zn.put("name", mocaZone.getName());
-        zn.put("Place", placeToJSON(mocaZone.getPlace()));
-        JSONObject bkns = new JSONObject();
-        for (MOCABeacon beacon: mocaZone.getBeacons()){
-            bkns.put(beacon.getName(), beaconToJSON(beacon));
-        }
-        zn.put("beacons", bkns);
         return zn;
     }
 
