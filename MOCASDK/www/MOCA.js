@@ -1,6 +1,5 @@
-//
 //  MOCA.js
-//  v1.6.9
+//  v2.0.0
 //
 //  MOCA PhoneGap JavaScript Plugin
 //
@@ -25,149 +24,149 @@
 
 var MOCA = function () {
 
-}
+};
 
 var MOCAInstance = function () {
 
-}
+};
 
 // Types
 
 MOCA.prototype.logLevel = {
-  Off: 0,
-  Error: 1,
-  Warning: 2,
-  Info: 3,
-  Debug: 4,
-  Trace: 5
-}
+    Off: 0,
+    Error: 1,
+    Warning: 2,
+    Info: 3,
+    Debug: 4,
+    Trace: 5
+};
 
 MOCA.prototype.fetchStatus = {
-  NoData: 0,
-  NewData: 1
-}
+    NoData: 0,
+    NewData: 1
+};
 
 // Helpers
 
 MOCA.prototype.failure = function (msg) {
-  console.log("MOCA: Javascript Callback Error: " + msg)
-}
+    console.log("MOCA: Javascript Callback Error: " + msg);
+};
 
 
 MOCA.prototype.call_native = function (callback, name, args) {
-  if(arguments.length == 2) {
-    args = []
-  }
-  ret = cordova.exec(
-      callback, // called when signature capture is successful
-      this.failure, // called when signature capture encounters an error
-      'MOCAPlugin', // Tell cordova that we want to run "MOCAPlugin"
-      name, // Tell the plugin the action we want to perform
-      args  // List of arguments to the plugin
-  ); 
-  return ret;
-}
+    if (arguments.length == 2) {
+        args = [];
+    }
+    ret = cordova.exec(
+    callback, // called when signature capture is successful
+    this.failure, // called when signature capture encounters an error
+    'MOCAPlugin', // Tell cordova that we want to run "MOCAPlugin"
+    name, // Tell the plugin the action we want to perform
+    args // List of arguments to the plugin
+    );
+    return ret;
+};
 
 MOCA.prototype.isPlatformIOS = function () {
-  return device.platform == "iPhone" || device.platform == "iPad" || device.platform == "iPod touch" || device.platform == "iOS"
-}
+    return device.platform == "iPhone" || device.platform == "iPad" || device.platform == "iPod touch" || device.platform == "iOS";
+};
 
 // --- MOCA API ------
 
 // Logging
 
 MOCA.prototype.setLogLevel = function (logLevel, callback) {
-  this.call_native(callback, "setLogLevel", [logLevel])
-}
+    this.call_native(callback, "setLogLevel", [logLevel]);
+};
 
 // Getters
 
 MOCA.prototype.version = function (callback) {
-  this.call_native(callback, "version");
-}
+    this.call_native(callback, "version");
+};
 
 MOCA.prototype.appKey = function (callback) {
-  this.call_native(callback, "appKey");
-}
+    this.call_native(callback, "appKey");
+};
 
 MOCA.prototype.appSecret = function (callback) {
-  this.call_native(callback, "appSecret")
-}
+    this.call_native(callback, "appSecret");
+};
 
 MOCA.prototype.initialized = function (callback) {
-  this.call_native(callback, "initialized")
-}
+    this.call_native(callback, "initialized");
+};
 
 MOCA.prototype.logLevel = function (callback) {
-  this.call_native(callback, "logLevel")
-}
+    this.call_native(callback, "logLevel");
+};
 
 // On/Off Proximity Service
 MOCA.prototype.proximityEnabled = function (callback) {
-  this.call_native(callback, "proximityEnabled")
-}
+    this.call_native(callback, "proximityEnabled");
+};
 
 MOCA.prototype.setProximityEnabled = function (enabled, callback) {
-  this.call_native(callback, "setProximityEnabled", [enabled])
-}
+    this.call_native(callback, "setProximityEnabled", [enabled]);
+};
 
 // Login/Logout
-MOCA.prototype.login = function(userId, callback) {
-  this.call_native(callback, "instance_userLogin", [userId]); 
-}
+MOCA.prototype.login = function (userId, callback) {
+    this.call_native(callback, "instance_userLogin", [userId]);
+};
 
-MOCA.prototype.userLoggedIn = function(callback) {
-  this.call_native(callback, "instance_userLoggedIn"); 
-}
+MOCA.prototype.userLoggedIn = function (callback) {
+    this.call_native(callback, "instance_userLoggedIn");
+};
 
-MOCA.prototype.logout = function(callback) {
-  this.call_native(callback, "instance_userLogout"); 
-}
+MOCA.prototype.logout = function (callback) {
+    this.call_native(callback, "instance_userLogout");
+};
 
 // Background Fetch
 
 MOCA.prototype.performFetch = function (callback) {
-  this.call_native(callback, "performFetch")
-}
+    this.call_native(callback, "performFetch");
+};
 
 //getRegionState for placeid
 
-MOCA.prototype.getRegionStateforPlaceId = function (placeId, callback){
-  this.call_native(callback, "getRegionStateforPlaceId", [placeId]);
-}
+MOCA.prototype.getRegionStateforPlaceId = function (placeId, callback) {
+    this.call_native(callback, "getRegionStateforPlaceId", [placeId]);
+};
 
 // MOCA Instance
 
 MOCA.prototype.currentInstance = MOCAInstance;
-  
+
 // Custom properties
 MOCA.prototype.setCustomProperty = function (key, value, callback) {
-  this.call_native(callback, "instance_setCustomProperty", [key, value]);
-}
+    this.call_native(callback, "instance_setCustomProperty", [key, value]);
+};
 
 MOCA.prototype.customProperty = function (key, callback) {
-  this.call_native(callback, "instance_customProperty");
-}
+    this.call_native(callback, "instance_customProperty");
+};
 
 MOCAInstance.prototype.identifier = function (callback) {
-  this.call_native(callback, "instance_identifier");
-}
+    this.call_native(callback, "instance_identifier");
+};
 
 MOCAInstance.prototype.deviceToken = function (callback) {
-  this.call_native(callback, "instance_deviceToken");
-}
+    this.call_native(callback, "instance_deviceToken");
+};
 
 MOCAInstance.prototype.session = function (callback) {
-  this.call_native(callback, "instance_session");
-}
+    this.call_native(callback, "instance_session");
+};
 
 MOCAInstance.prototype.birthDay = function (callback) {
-  this.call_native(callback, "instance_birthDay");
-}
+    this.call_native(callback, "instance_birthDay");
+};
 
 MOCAInstance.prototype.pushEnabled = function (callback) {
-  this.call_native(callback, "instance_pushEnabled");
-}
+    this.call_native(callback, "instance_pushEnabled");
+};
 
 
 
@@ -182,12 +181,12 @@ MOCAInstance.prototype.pushEnabled = function (callback) {
 //     // e.identifier -- beacon id
 //     // e.name -- beacon name
 //     // e.code -- beacon code, optional
-//     // e.proximity -- numeric proximity code (unkown=0, immediate=1, near=2, far=3)  
-// });  
+//     // e.proximity -- numeric proximity code (unknown=0, immediate=1, near=2, far=3)
+// });
 //
 MOCA.prototype.addEnterBeaconListener = function (callback) {
-  document.addEventListener ("moca.enterbeacon", callback, false);
-}
+    this.call_native(callback, "enterBeacon");
+};
 
 //
 // Handle exit beacon range event
@@ -195,11 +194,11 @@ MOCA.prototype.addEnterBeaconListener = function (callback) {
 // MOCA.addExitBeaconListener (function (e) {
 //     // e.identifier -- beacon id
 //     // e.name -- beacon name
-// });  
+// });
 //
 MOCA.prototype.addExitBeaconListener = function (callback) {
-  document.addEventListener ("moca.exitbeacon", callback, false);
-}
+    this.call_native(callback, "exitBeacon");
+};
 
 
 //
@@ -207,13 +206,13 @@ MOCA.prototype.addExitBeaconListener = function (callback) {
 //
 // MOCA.addBeaconProximityChangeListener (function (e) {
 //     // e.identifier -- beacon id
-//     // e.prevProximity -- previous beacon proximity state (unkown=0, immediate=1, near=2, far=3)  
-//     // e.curProximity -- current beacon proximity state (unkown=0, immediate=1, near=2, far=3)  
-// });  
+//     // e.prevProximity -- previous beacon proximity state (unkown=0, immediate=1, near=2, far=3)
+//     // e.curProximity -- current beacon proximity state (unkown=0, immediate=1, near=2, far=3)
+// });
 //
 MOCA.prototype.addBeaconProximityChangeListener = function (callback) {
-  document.addEventListener ("moca.beaconproximitychange", callback, false);
-}
+    this.call_native(callback, "beaconProximityChange");
+};
 
 //
 // Method triggered when the device did entered a place.
@@ -221,23 +220,23 @@ MOCA.prototype.addBeaconProximityChangeListener = function (callback) {
 // MOCA.addEnterPlaceListener (function (e) {
 //     // e.identifier -- place id
 //     // e.name -- place name
-// });  
+// });
 //
 MOCA.prototype.addEnterPlaceListener = function (callback) {
-  document.addEventListener ("moca.enterplace", callback, false);
-}
+    this.call_native(callback, "enterPlace");
+};
 
 //
 // Method triggered when the device did exited a place.
 //
-// MOCA.addEnterPlaceListener (function (e) {
+// MOCA.addExitPlaceListener (function (e) {
 //     // e.identifier -- place id
 //     // e.name -- place name
-// });  
+// });
 //
 MOCA.prototype.addExitPlaceListener = function (callback) {
-  document.addEventListener ("moca.exitplace", callback, false);
-}
+    this.call_native(callback, "exitPlace");
+};
 
 //
 // Method triggered when the device did entered a zone.
@@ -248,11 +247,11 @@ MOCA.prototype.addExitPlaceListener = function (callback) {
 //     // e.placeId -- place identifier this zone belongs to
 //     // e.floorNumber -- zone floorNumber, optional
 //     // e.shortId -- zone shortId, optional
-// });  
+// });
 //
 MOCA.prototype.addEnterZoneListener = function (callback) {
-  document.addEventListener ("moca.enterzone", callback, false);
-}
+    this.call_native(callback, "enterZone");
+};
 
 //
 // Method triggered when the device did exited a place.
@@ -263,11 +262,11 @@ MOCA.prototype.addEnterZoneListener = function (callback) {
 //     // e.placeId -- place identifier this zone belongs to
 //     // e.floorNumber -- zone floorNumber, optional
 //     // e.shortId -- zone shortId, optional
-// });  
+// });
 //
 MOCA.prototype.addExitZoneListener = function (callback) {
-  document.addEventListener ("moca.exitzone", callback, false);
-}
+    this.call_native(callback, "exitZone");
+};
 
 //
 // Method invoked when a proximity service loaded or updated a registry of beacons
@@ -275,24 +274,112 @@ MOCA.prototype.addExitZoneListener = function (callback) {
 //
 // MOCA.addDataReadyListener (function (e) {
 //     // e.beacons -- array of beacon objects. each beacon has identifier, name and code.
-// });  
+// });
 //
 MOCA.prototype.addDataReadyListener = function (callback) {
-  document.addEventListener ("moca.dataready", callback, false);
-}
+    this.call_native(callback, "didLoadedBeaconsData");
+};
 
 //
 // Method invoked when a custom action is invoked.
 //
 // MOCA.addCustomActionListener (function (e) {
-//     // e.customAttribute -- custom action attribute provided by MOCA   
-// });  
+//     // e.customAttribute -- custom action attribute provided by MOCA
+// });
 //
 MOCA.prototype.addCustomActionListener = function (callback) {
-  document.addEventListener ("moca.customaction", callback, false);
-}
+    this.call_native(callback, "customAction");
+};
+
+//
+// Method invoked when a custom action is invoked.
+//
+// MOCA.addDisplayAlertListener (function (e) {
+//     // e.customAttribute -- custom action attribute provided by MOCA
+// });
+//
+MOCA.prototype.addDisplayAlertListener = function (callback) {
+    this.call_native(callback, "displayAlert");
+};
+
+//
+// Method invoked when a custom action is invoked.
+//
+// MOCA.addOpenUrlListener (function (e) {
+//     // e.customAttribute -- custom action attribute provided by MOCA
+// });
+//
+MOCA.prototype.addOpenUrlListener = function (callback) {
+    this.call_native(callback, "openUrl");
+};
+
+//
+// Method invoked when a custom action is invoked.
+//
+// MOCA.addCustomActionListener (function (e) {
+//     // e.customAttribute -- custom action attribute provided by MOCA
+// });
+//
+MOCA.prototype.addShowEmbeddedHtmlListener = function (callback) {
+    this.call_native(callback, "showEmbeddedHtml");
+};
+
+//
+// Method invoked when a custom action is invoked.
+//
+// MOCA.addPlayVideoListener (function (e) {
+//     // e.customAttribute -- custom action attribute provided by MOCA
+// });
+//
+MOCA.prototype.addPlayVideoListener = function (callback) {
+    this.call_native(callback, "playVideo");
+};
+
+//
+// Method invoked when a custom action is invoked.
+//
+// MOCA.addShowImageListener (function (e) {
+//     // e.customAttribute -- custom action attribute provided by MOCA
+// });
+//
+MOCA.prototype.addShowImageListener = function (callback) {
+    this.call_native(callback, "showImage");
+};
+
+//
+// Method invoked when a custom action is invoked.
+//
+// MOCA.addAddPassbookListener (function (e) {
+//     // e.customAttribute -- custom action attribute provided by MOCA
+// });
+//
+MOCA.prototype.addAddPassbookListener = function (callback) {
+    this.call_native(callback, "addPassbook");
+};
+
+//
+// Method invoked when a custom action is invoked.
+//
+// MOCA.addAddTagListener (function (e) {
+//     // e.customAttribute -- custom action attribute provided by MOCA
+// });
+//
+MOCA.prototype.addAddTagListener = function (callback) {
+    this.call_native(callback, "addTag");
+};
+
+//
+// Method invoked when a custom action is invoked.
+//
+// MOCA.addPlaySoundListener (function (e) {
+//     // e.customAttribute -- custom action attribute provided by MOCA
+// });
+//
+MOCA.prototype.addPlaySoundListener = function (callback) {
+    this.call_native(callback, "playSound");
+};
+
 
 
 // Global exports
 module.exports = new MOCA();
-
