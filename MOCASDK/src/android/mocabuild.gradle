@@ -14,13 +14,13 @@ dependencies {
     //compile 'com.google.android.gms:play-services:7.5+'
 
     //Google Cloud Messaging
-   compile 'com.google.android.gms:play-services-gcm:8.1.0'
+   compile 'com.google.android.gms:play-services-gcm:8.3.0'
 
     //Google Location, Activity Recognition, and Places
-   compile 'com.google.android.gms:play-services-location:8.1.0'
+   compile 'com.google.android.gms:play-services-location:8.3.0'
 
     //Google Mobile Ads
-   compile 'com.google.android.gms:play-services-ads:8.1.0'
+   compile 'com.google.android.gms:play-services-ads:8.3.0'
     
    compile 'org.msgpack:msgpack:0.6.11'
 }
