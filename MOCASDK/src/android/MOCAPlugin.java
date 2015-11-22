@@ -206,19 +206,6 @@ public class MOCAPlugin extends CordovaPlugin implements MOCAProximityService.Ev
         callbackContext.success(level.ordinal());
     }
 
-    void getRegionStateforPlaceId(JSONArray data, CallbackContext callbackContext){
-        if (!checkInited(callbackContext)) return;
-        try{
-            String placeId = data.getString(0);
-            MOCARegionState state = MOCA.getRegionStateforPlaceId(placeId);
-            callbackContext.success(state.toString());
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
     void instance_session(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited (callbackContext)) return;
         final MOCAInstance instance = MOCA.getInstance();
@@ -548,21 +535,8 @@ public class MOCAPlugin extends CordovaPlugin implements MOCAProximityService.Ev
         MOCACallbackContext callbackCtx = callbackContextMap.get(eventName);
         if(callbackCtx != null){
             try {
-                JSONObject jsonData = new JSONObject();
-                if (data instanceof MOCAZone) {
-                    jsonData = zoneToJSON((MOCAZone) data);
-                } else if (data instanceof MOCAPlace) {
-                    jsonData = placeToJSON((MOCAPlace) data);
-                } else if (data instanceof MOCABeacon) {
-                    jsonData = beaconToJSON((MOCABeacon) data);
-                } else if(data instanceof JSONObject){
-                    jsonData = (JSONObject)data;
-                } else {
-                    MLog.e("Invalid callback  " + eventName + ", unknown data type");
-                    return false;
-                }
                 JSONObject event = new JSONObject();
-                event.put("detail", jsonData);
+                event.put("detail", getJSONFromObject(eventName, data));
                 PluginResult result;
                 result = new PluginResult(PluginResult.Status.OK, event);
                 result.setKeepCallback(true);
@@ -570,13 +544,13 @@ public class MOCAPlugin extends CordovaPlugin implements MOCAProximityService.Ev
 
                 //Arguments in callbacks are used to determine if MOCA should
                 //show a Proximity Experience, or only send callbacks.
-                JSONArray args = callbackCtx.getArgs();
-                if(args != null){
-                    return Boolean.parseBoolean((String) args.get(0));
-                }
+               return callbackCtx.getReturnValue();
             }
             catch (JSONException e){
                 MLog.e(eventName + "callback failed: " + e);
+            }
+            catch(Exception e){
+                MLog.wtf("Unexpected error. " + eventName + "callback failed");
             }
         }
         else {
@@ -586,6 +560,24 @@ public class MOCAPlugin extends CordovaPlugin implements MOCAProximityService.Ev
     }
 
     //Helper methods
+    private JSONObject getJSONFromObject(String eventName, Object data) throws JSONException{
+        JSONObject jsonData = new JSONObject();
+        if (data instanceof MOCAZone) {
+            jsonData = zoneToJSON((MOCAZone) data);
+        } else if (data instanceof MOCAPlace) {
+            jsonData = placeToJSON((MOCAPlace) data);
+        } else if (data instanceof MOCABeacon) {
+            jsonData = beaconToJSON((MOCABeacon) data);
+        } else if(data instanceof JSONObject){
+            jsonData = (JSONObject)data;
+        } else if(data instanceof String){
+            jsonData.put(eventName, data);
+        }else {
+            throw new JSONException("Cannot converto to JSONObject, unknown data type");
+        }
+        return jsonData;
+    }
+
     private JSONObject beaconToJSON(MOCABeacon beacon) throws JSONException {
         if (beacon == null) return null;
         JSONObject bkn = new JSONObject();

@@ -17,60 +17,127 @@
  * under the License.
  */
 
+
 var app = {
     // Application Constructor
-    initialize: function() {
+    initialize: function () {
         this.bindEvents();
     },
     // Bind Event Listeners
     //
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function() {
+
+
+    //TEST 1: test false / true arguments
+
+    bindEvents: function () {
         document.addEventListener('deviceready', this.onDeviceReady, false);
-        document.addEventListener('moca.dataready', this.onMocaDataReady, false);
-        document.addEventListener('moca.enterbeacon', this.onEnterBeacon, false);
-        document.addEventListener('moca.exitbeacon', this.onExitBeacon, false);
+        MOCA.addEnterBeaconListener(onEnterBeacon);
+        MOCA.addExitBeaconListener(onExitBeacon);
+        MOCA.addBeaconProximityChangeListener(onBeaconProximityChange);
+        MOCA.addEnterPlaceListener(onEnterPlace);
+        MOCA.addExitPlaceListener(onExitPlace);
+        MOCA.addEnterZoneListener(onEnterZone);
+        MOCA.addExitZoneListener(onExitZone);
+
+        MOCA.displayAlert(false, displayAlert);
+        MOCA.openUrl(false, openUrl);
+        MOCA.showEmbeddedHtml(false, showEmbeddedHtml);
+        MOCA.playVideo(false, playVideo);
+        MOCA.showImage(false, showImage);
+        MOCA.addPassbook(false, addPassbook);
+        MOCA.addTag(addTag);
+        MOCA.playSound(false, playSound);
+        MOCA.customAction(performCustomAction);
+        MOCA.addDataReadyListener(didLoadedBeaconsData);
+
     },
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
+    onDeviceReady: function () {
         app.receivedEvent('deviceready');
-        app.updateVersion ('calling version');
-        var mocaVersion = MOCA.version (function (mocaVersion) {
-            console.log('MOCA Version: ' + mocaVersion);
-            app.updateVersion (mocaVersion);
-            var proximityEnabled = MOCA.proximityEnabled (function (fEnabled) {
-                      console.log('MOCA Proximity: ' + fEnabled);
-                      app.updateProximityButton (fEnabled);
-            });
+        MOCA.getRegionStateforPlaceId("zZtKynOKScqBtFnHJ9JPNA", function (data) {
+            console.log("getRegionStateForPlaceId result: " + data);
         });
     },
-    // Called each time MOCA updates proximity data (beacon registry, campaigns)
-    onMocaDataReady : function(data) {
-        console.log ('MOCA data is ready');
-        if (data && data.beacons) {
-            for (var i=0; i<data.beacons.length; ++i) {
-                var b = data.beacons[i];
-                console.log ('Beacon ID' + b.identifier + ', Name: ' + b.name);
-            }
-        }
-    },
     onEnterBeacon: function (e) {
-        console.log(e);
+        console.log("MOCA On Enter beacon");
         console.log(e.detail);
-        app.updateLastEvent ('Enter beacon ' + e.detail.name);
-        //document.body.innerHTML += ('<p>Enter beacon ' + e.name + '</p>');
     },
     onExitBeacon: function (e) {
         console.log(e);
+        console.log("Event On exit beacon with detail ");
         console.log(e.detail);
-        app.updateLastEvent ('Exit beacon ' + e.detail.name);
+
     },
+    onBeaconProximityChange: function (e) {
+        console.log(e);
+        console.log("Event On exit beacon with detail ");
+        console.log(e.detail);
+    },
+    onEnterPlace: function (e) {
+        console.log(e);
+        console.log("Event On enter place with detail ");
+        console.log(e.detail);
+
+    },
+    onExitPlace: function (e) {
+        console.log(e);
+        console.log("Event On exit place with detail ");
+        console.log(e.detail);
+    },
+    performCustomAction: function (e) {
+        console.log("Callback Perform custom action on JS ");
+        console.log(e.detail);
+    },
+    displayAlert: function (e) {
+        console.log("Callback display alert ");
+        console.log(e.detail);
+    },
+    openUrl: function (e) {
+        console.log("Callback open URL");
+        console.log(e.detail);
+    },
+    showEmbeddedHtml: function (e) {
+        console.log("Callback showEmbeddedHtml");
+        console.log(e.detail);
+    },
+    playVideo: function (e) {
+        console.log("Callback playVideo");
+        console.log(e.detail);
+    },
+    showEmbeddedHtml: function (e) {
+        console.log("Callback showEmbeddedHtml");
+        console.log(e.detail);
+    },
+    playVideo: function (e) {
+        console.log("callback playVideo");
+        console.log(e.detail);
+    },
+    showImage: function (e) {
+        console.log("callback showImage");
+        console.log(e.detail);
+    },
+    addPassbook: function (e) {
+        console.log("callback addPassbook");
+        console.log(e.detail);
+    },
+    addTag: function (e) {
+        console.log("Tag Added");
+    },
+    playSound: function (e) {
+        console.log("callback playSound");
+        console.log(e.detail);
+    },
+
+
+
+
     // Update DOM on a Received Event
-    receivedEvent: function(id) {
+    receivedEvent: function (id) {
         var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
@@ -79,54 +146,7 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
-    },
-    updateLastEvent : function (text) {
-        var el = document.getElementById('lastevent');
-        el.innerHTML = text;
-    },
-    updateVersion : function (text) {
-        var el = document.getElementById('version');
-        el.innerHTML = text;
-    },
-
-    proximityClickHandler : function () {
-
-        var fEnabled = app.fEnabled;
-        if (fEnabled===null) return;
-        //alert('inside click handler: ' + fEnabled);
-        var el = document.getElementById('proximityBtn');
-        if (fEnabled) {
-            el.setAttribute('value', 'Stopping proximity...');
-            app.fEnabled = null;
-            MOCA.setProximityEnabled (false, function () {
-                 setTimeout(function() { 
-                     el.setAttribute('value', 'Re-start proximity');
-                     app.fEnabled = false;
-                 }, 3000);                    
-            });
-        } else {            
-            el.setAttribute('value', 'Starting proximity...'); 
-            app.fEnabled = null;
-            MOCA.setProximityEnabled (true, function () {
-                 setTimeout(function() { 
-                     el.setAttribute('value', 'Stop proximity');
-                     app.fEnabled = true;
-                 }, 3000);                    
-            });
-        }        
-    },
-
-    updateProximityButton : function (fEnabled) {
-        var el = document.getElementById('proximityBtn');
-        el.setAttribute('style', 'display:block;');
-        el.setAttribute('value', fEnabled ? 'Stop proximity' : 'Start proximity');
-        app.fEnabled = fEnabled;
-        if (!app.clickHandler) {
-            el.addEventListener ('click', app.proximityClickHandler, false);
-            app.clickHandler = true;
-        }
     }
-     
 };
 
 app.initialize();

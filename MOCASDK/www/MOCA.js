@@ -1,4 +1,4 @@
-//  MOCA.js
+cordova.define("com.innoquant.moca.phonegap.MOCA", function(require, exports, module) { //  MOCA.js
 //  v2.0.0
 //
 //  MOCA PhoneGap JavaScript Plugin
@@ -54,8 +54,11 @@ MOCA.prototype.failure = function (msg) {
 
 
 MOCA.prototype.call_native = function (callback, name, args) {
-    if (arguments.length == 2) {
+   if (arguments.length == 2) {
         args = [];
+    }
+    else if (arguments.length == 3) {
+        args = [arguments[2]];
     }
     ret = cordova.exec(
     callback, // called when signature capture is successful
@@ -129,11 +132,6 @@ MOCA.prototype.performFetch = function (callback) {
     this.call_native(callback, "performFetch");
 };
 
-//getRegionState for placeid
-
-MOCA.prototype.getRegionStateforPlaceId = function (placeId, callback) {
-    this.call_native(callback, "getRegionStateforPlaceId", [placeId]);
-};
 
 // MOCA Instance
 
@@ -253,6 +251,7 @@ MOCA.prototype.addEnterZoneListener = function (callback) {
     this.call_native(callback, "enterZone");
 };
 
+
 //
 // Method triggered when the device did exited a place.
 //
@@ -294,74 +293,96 @@ MOCA.prototype.addCustomActionListener = function (callback) {
 //
 // Method invoked when a custom action is invoked.
 //
-// MOCA.addDisplayAlertListener (function (e) {
-//     // e.customAttribute -- custom action attribute provided by MOCA
+// args: (false, callback) to allow MOCA to show the experience.
+//       (true, callback) to prevent MOCA from showing the experience. (No message will be shown)
+//
+// MOCA.addDisplayAlertListener (false, function (e) {
+//     // e.detail -- String with Message to show
 // });
 //
-MOCA.prototype.addDisplayAlertListener = function (callback) {
-    this.call_native(callback, "displayAlert");
+MOCA.prototype.addDisplayAlertListener = function (args, callback) {
+    this.call_native(callback, "displayAlert", args);
 };
 
 //
 // Method invoked when a custom action is invoked.
+//
+// args: (false, callback) to allow MOCA to show the experience.
+//       (true, callback) to prevent MOCA from showing the experience. (No webview will be shown)
 //
 // MOCA.addOpenUrlListener (function (e) {
-//     // e.customAttribute -- custom action attribute provided by MOCA
+//     // e.details -- String with URL
 // });
 //
-MOCA.prototype.addOpenUrlListener = function (callback) {
-    this.call_native(callback, "openUrl");
+MOCA.prototype.addOpenUrlListener = function (args, callback) {
+    this.call_native(callback, "openUrl", args);
 };
 
 //
 // Method invoked when a custom action is invoked.
 //
-// MOCA.addCustomActionListener (function (e) {
-//     // e.customAttribute -- custom action attribute provided by MOCA
+//
+// args: (false, callback) to allow MOCA to show the experience.
+//       (true, callback) to prevent MOCA from showing the experience. (No webview will be shown)
+//
+// MOCA.addShowEmbeddedHtmlListener (function (e) {
+//     // e.details -- String with embedded HTML
 // });
 //
-MOCA.prototype.addShowEmbeddedHtmlListener = function (callback) {
-    this.call_native(callback, "showEmbeddedHtml");
+MOCA.prototype.addShowEmbeddedHtmlListener = function (args, callback) {
+    this.call_native(callback, "showEmbeddedHtml", args);
 };
 
 //
 // Method invoked when a custom action is invoked.
+//
+//
+// args: (false, callback) to allow MOCA to show the experience.
+//       (true, callback) to prevent MOCA from showing the experience. (No video will be played)
 //
 // MOCA.addPlayVideoListener (function (e) {
-//     // e.customAttribute -- custom action attribute provided by MOCA
+//     // e.details -- String with video URL
 // });
 //
-MOCA.prototype.addPlayVideoListener = function (callback) {
-    this.call_native(callback, "playVideo");
+MOCA.prototype.addPlayVideoListener = function (args, callback) {
+    this.call_native(callback, "playVideo", args);
 };
 
 //
 // Method invoked when a custom action is invoked.
+//
+//
+// args: (false, callback) to allow MOCA to show the experience.
+//       (true, callback) to prevent MOCA from showing the experience. (No image will be shown)
 //
 // MOCA.addShowImageListener (function (e) {
-//     // e.customAttribute -- custom action attribute provided by MOCA
+//     // e.details -- String with Image URL
 // });
 //
-MOCA.prototype.addShowImageListener = function (callback) {
-    this.call_native(callback, "showImage");
+MOCA.prototype.addShowImageListener = function (args, callback) {
+    this.call_native(callback, "showImage", args);
 };
 
 //
 // Method invoked when a custom action is invoked.
 //
+//
+// args: (false, callback) to allow MOCA to show the experience.
+//       (true, callback) to prevent MOCA from showing the experience. (No passbook will be shown)
+//
 // MOCA.addAddPassbookListener (function (e) {
-//     // e.customAttribute -- custom action attribute provided by MOCA
+//     // e.details -- String with Passbook URL
 // });
 //
-MOCA.prototype.addAddPassbookListener = function (callback) {
-    this.call_native(callback, "addPassbook");
+MOCA.prototype.addAddPassbookListener = function (args, callback) {
+    this.call_native(callback, "addPassbook", args);
 };
 
 //
 // Method invoked when a custom action is invoked.
 //
 // MOCA.addAddTagListener (function (e) {
-//     // e.customAttribute -- custom action attribute provided by MOCA
+//     // e.details -- JSONObject with tagName and tagValue
 // });
 //
 MOCA.prototype.addAddTagListener = function (callback) {
@@ -371,15 +392,20 @@ MOCA.prototype.addAddTagListener = function (callback) {
 //
 // Method invoked when a custom action is invoked.
 //
-// MOCA.addPlaySoundListener (function (e) {
-//     // e.customAttribute -- custom action attribute provided by MOCA
-// });
 //
-MOCA.prototype.addPlaySoundListener = function (callback) {
-    this.call_native(callback, "playSound");
+// args: (false, callback) to allow MOCA to show the experience.
+//       (true, callback) to prevent MOCA from showing the experience. (No sound will be played)
+//
+// MOCA.addPlaySoundListener (function (e) {
+//     // e.detail -- String with sound path
+//});
+//
+MOCA.prototype.addPlaySoundListener = function (args, callback) {
+    this.call_native(callback, "playSound", args);
 };
 
 
 
 // Global exports
 module.exports = new MOCA();
+});
