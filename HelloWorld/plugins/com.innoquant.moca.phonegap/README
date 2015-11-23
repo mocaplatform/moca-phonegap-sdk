@@ -1,6 +1,6 @@
 # MOCA PhoneGap SDK
-# v1.6.0
-# 12/05/2015
+# v1.7.0
+# 30/10/2015
 # Copyright © 2014-2015, InnoQuant. All rights reserved.
 
 MOCA PhoneGap SDK is a drop-in Cordova plugin that provides an easy way to integrate proximity experience services into your cross-platform PhoneGap apps. 
@@ -61,11 +61,12 @@ Automatic installation using PhoneGap/Cordova CLI (iOS and Android)
 
 CHANGELOG
 -----------
+v1.7.0
+- Support for Andrdoid SDK 1.8.0 and iOS 1.7.0
 
-v1.6.0
-- Extended MOCA JavaScript API with proximity events
-- Support for MOCA SDK for iOS v1.6.0 (app wake-up, JavaScript API in embedded HTML)
-- Support for MOCA SDK for Android v1.5.3 (bug fixes)
+v1.6.9
+- Support for MOCA iOS SDK v1.6.8 and Android v1.6.2.
+- Removed Google Play Services as a plugin (Android), added as a gradle dependency.
 
 v1.5.0
 - Support for MOCA SDK for Android v1.5.0 (proximity start/stop functionality)

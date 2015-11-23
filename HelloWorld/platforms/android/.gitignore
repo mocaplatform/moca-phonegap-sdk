@@ -4,11 +4,18 @@ local.properties
 /gradlew
 /gradlew.bat
 /gradle
+/.gradle
 # Ant builds
-ant-built
+ant-build
 ant-gen
 # Eclipse builds
 gen
 out
 # Gradle builds
 /build
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+.project
+*.iml
+build

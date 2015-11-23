@@ -1,20 +1,33 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.innoquant.helloworld" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.cordova.hellocordova" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
-    <name>HelloWorld</name>
-    <description>
-        A sample Apache Cordova application that responds to the deviceready event
-        and integrates MOCA SDK plugin for PhoneGap.
-    </description>
-    <content src="index.html" />
-    <access origin="*" />
-    <preference name="moca_app_key" value="TNS1AVN7TPi5jGhT1X4wcQ" />
-    <preference name="moca_app_secret" value="uc7CakuOKW+4wcEg94Ut098qnnA=" />
-    <preference name="moca_auto_push_setup_enabled" value="false" />
-    <preference name="moca_proximity_enabled" value="true" />
-    <preference name="moca_geolocation_enabled" value="true" />
     <feature name="MOCAPlugin">
         <param name="android-package" value="com.innoquant.moca.phonegap.MOCAPlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-intent href="market:*" />
+    <preference name="moca_app_key" value="OCNw9sMKR9a3Mvl0BY2SlQ" />
+    <preference name="moca_app_secret" value="P9gyOKS1hJu2k9Xj8zzx/+6TiZI=" />
+    <preference name="gcm_sender" value="\ 937116445865" />
+    <preference name="android-minSdkVersion" value="14" />
+    <preference name="android-targetSdkVersion" value="23" />
+    <name>HelloCordova</name>
+    <description>
+        MOCA Plugin demo.
+    </description>
+    <author email="support@mocaplatform.com" href="http://cordova.io">
+        MOCA Team
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
 </widget>

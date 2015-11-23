@@ -1,5 +1,3 @@
 HelloWorld/platforms/android/.idea
 **/.idea/
-HelloWorld/platforms/android/ant-build/*
-HelloWorld/platforms/android/ant-build/
-
+**/ant-build/

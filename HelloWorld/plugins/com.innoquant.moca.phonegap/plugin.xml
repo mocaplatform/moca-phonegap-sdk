@@ -2,7 +2,7 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="com.innoquant.moca.phonegap"
-    version="1.4.9">
+    version="2.0.0">
 
     <name>MOCA SDK Plugin</name>
     <description>InnoQuant MOCA SDK Plugin for PhoneGap/Cordova</description>    
@@ -16,16 +16,52 @@
 
     <js-module src="www/MOCA.js" name="MOCA">
          <clobbers target="MOCA" />
+
      </js-module>
 
+    <info>
+
+                                                    .:/++++++++++:-`            
+                                                 -+o/-`         `.:oo/`         
+                                              `/s/.                 `-oo.       
+                                             :s/`     `---.....``      .+.      
+                                           `oo`    `::-          ```    `+sys/  
+                                          `oo     :/`               `   :yyyyy- 
+                                          /s`    /-       .```          `/sss/  
+                                         `y/    -/     `-.    `             :-  
+                                         .y-    +.     /                    o+  
+                                         .y-    +.     /                    oo  
+                                          y/    -/     `-.    `            `y/  
+                                          /s`    /-       .```             /y`  
+                                          `oo     :/`               `     -y:   
+                                           `oo`    `::.          ```     :y:    
+                                             :s:      `--......``      .oo.     
+                                              `/s/`                  -oo-       
+                                                 -+o/-`          .:+o/.         
+                                                    .:/++++++++++/-`            
+                                        
+        Remember to add your MOCA AppKey and MOCA AppSecret to your app's config.xml BEFORE building.
+        Learn more at http://developer.mocaplatform.com
+    </info>
+
     <!-- android -->
-    <platform name="android">    
+    <platform name="android">   
+        <info>                                        
+            - Add your GCMSender in the config.xml BEFORE building. This is needed for Remote Push Notifications.
+            - You can get this id by creating a new push project in your Google Developer Console.
+            - Use the following format in your config.xml:
+                -  &lt;preference name="gcm_sender" value="\ YOUR_GCM_SENDER" /&gt;, please note the space after the backslash.
+            - More information at http://developer.mocaplatform.com and support@mocaplatform.com
+        </info> 
+        <hook type="after_plugin_add" src="scripts/app_name.js" />
+
+        <framework src="src/android/mocabuild.gradle" custom="true" type="gradleReference" />
 
         <config-file target="config.xml" parent="/widget">
              <feature name="MOCAPlugin">
                 <param name="android-package" value="com.innoquant.moca.phonegap.MOCAPlugin" />
                 <param name="onload" value="true" />
-            </feature>
+            </feature>                  
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest">            
@@ -55,8 +91,7 @@
 
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-
-            <!-- REQUIRED for MOCA. -->
+        <!-- REQUIRED for MOCA. -->
 	    <receiver
             	android:name="com.innoquant.moca.MOCACoreReceiver"
             	android:exported="true">
@@ -67,9 +102,30 @@
                 	<action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
                 	<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             	</intent-filter>
-            </receiver>
+        </receiver>
 
-            <service
+        <!-- REQUIRED by MOCA to handle clicked push notifications -->
+        <receiver android:name="com.innoquant.moca.push.MOCAPushReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.innoquant.moca.push.ACTION_PUSH_RECEIVE" />
+                <action android:name="com.innoquant.moca.push.ACTION_PUSH_DISMISSED" />
+            </intent-filter>
+        </receiver>
+
+                <!-- Required by MOCA to receive GCM remote push notifications -->
+        <receiver
+            android:name="com.innoquant.moca.push.GcmPushReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+            </intent-filter>
+        </receiver>
+
+        <service
                 android:name="com.innoquant.moca.drivers.alt.service.BeaconService"
                 android:enabled="true"
                 android:exported="true"
@@ -94,19 +150,33 @@
             <!-- Include version Google Play Services -->
             <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 
-        </config-file>   
+        </config-file>
 
         <!-- MOCA SDK -->
+        <resource-file src="libs/moca-android-sdk-1.8.5.aar" target="libs/moca-android-sdk-1.8.5.aar" />
         <source-file src="src/android/MOCAPlugin.java" target-dir="src/com/innoquant/moca/phonegap" />
-        <source-file src="src/android/moca-android-sdk-1.5.0.jar" target-dir="libs" />
-        <source-file src="src/android/msgpack-0.6.11.jar" target-dir="libs" /> 
-        <source-file src="src/android/moca_activity_web_page.xml" target-dir="res/layout" />   
-        <framework src="extras/google/google_play_services/libproject/google-play-services_lib" />
+        <source-file src="src/android/MOCAConstants.java" target-dir="src/com/innoquant/moca/phonegap" />
+        <source-file src="src/android/MOCAAPI.java" target-dir="src/com/innoquant/moca/phonegap" />
+        <source-file src="src/android/MOCACallbackContext.java" target-dir="src/com/innoquant/moca/phonegap" />
+        <source-file src="src/android/MOCASharedPrefs.java" target-dir="src/com/innoquant/moca/phonegap" />
+        <source-file src="src/android/Utils.java" target-dir="src/com/innoquant/moca/phonegap" />
+        <source-file src="src/android/MOCApp.java" target-dir="src/com/innoquant/moca/phonegap" />
 
     </platform>
     
     <!-- ios -->
     <platform name="ios">
+        <info>                                        
+            - Add a new key in your "YOUR-APP-NAME-Info.plist" as follows:
+             key: NSLocationAlwaysUsageDescription value: --string describing why you need location services--
+
+             Example:
+
+             key: NSLocationAlwaysUsageDescription, value: This app will use your location information to identify nearby places and to notify you about available proximity experiences. 
+
+             IMPORTANT: If this key is not present, Proximity Experiencies won't work at all.
+
+        </info>
         <config-file target="config.xml" parent="/widget">
              <feature name="MOCAPlugin">
                 <param name="ios-package" value="MOCAPlugin" />

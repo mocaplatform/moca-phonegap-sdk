@@ -104,8 +104,11 @@
         }
     },
     "installed_plugins": {
-        "com.innoquant.moca.phonegap": {
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.innoquant.helloworld"
+        },
+        "com.innoquant.moca.phonegap": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
         }
     },
     "dependent_plugins": {}
