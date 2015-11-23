@@ -1,7 +1,7 @@
 package com.innoquant.moca.phonegap;
 
 
-public class MOCACallbacks {
+public class MOCAConstants {
     //Event callbacks
     public static final String DID_ENTER_RANGE = "enterBeacon";
     public static final String DID_EXIT_RANGE = "exitBeacon";
@@ -23,7 +23,13 @@ public class MOCACallbacks {
     public static final String PLAY_NOTIFICATION_SOUND = "playSound";
     public static final String PERFORM_CUSTOM_ACTION = "customAction";
 
-    //
+    //Other callbacks
     public static final String DID_LOADED_BEACONS_DATA = "didLoadedBeaconsData";
 
+    //Other constants
+    public static final String APP_KEY = "moca_app_key";
+    public static final String APP_SECRET = "moca_app_secret";
+
+
+    public static final String GCM_SENDER_ID = "gcm_sender_id";
 }

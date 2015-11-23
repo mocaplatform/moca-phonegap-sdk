@@ -2,7 +2,7 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="com.innoquant.moca.phonegap"
-    version="1.7.1">
+    version="2.0.0">
 
     <name>MOCA SDK Plugin</name>
     <description>InnoQuant MOCA SDK Plugin for PhoneGap/Cordova</description>    
@@ -53,13 +53,15 @@
                 -  &lt;preference name="gcm_sender" value="\ YOUR_GCM_SENDER" /&gt;, please note the space after the backslash.
             - More information at http://developer.mocaplatform.com and support@mocaplatform.com
         </info> 
+        <hook type="after_plugin_add" src="scripts/app_name.js" />
+
         <framework src="src/android/mocabuild.gradle" custom="true" type="gradleReference" />
 
         <config-file target="config.xml" parent="/widget">
              <feature name="MOCAPlugin">
                 <param name="android-package" value="com.innoquant.moca.phonegap.MOCAPlugin" />
                 <param name="onload" value="true" />
-            </feature>
+            </feature>                  
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest">            
@@ -89,7 +91,6 @@
 
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-
         <!-- REQUIRED for MOCA. -->
 	    <receiver
             	android:name="com.innoquant.moca.MOCACoreReceiver"
@@ -149,14 +150,17 @@
             <!-- Include version Google Play Services -->
             <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 
-        </config-file>   
+        </config-file>
 
         <!-- MOCA SDK -->
         <resource-file src="libs/moca-android-sdk-1.8.5.aar" target="libs/moca-android-sdk-1.8.5.aar" />
         <source-file src="src/android/MOCAPlugin.java" target-dir="src/com/innoquant/moca/phonegap" />
-        <source-file src="src/android/MOCACallbacks.java" target-dir="src/com/innoquant/moca/phonegap" />
+        <source-file src="src/android/MOCAConstants.java" target-dir="src/com/innoquant/moca/phonegap" />
         <source-file src="src/android/MOCAAPI.java" target-dir="src/com/innoquant/moca/phonegap" />
         <source-file src="src/android/MOCACallbackContext.java" target-dir="src/com/innoquant/moca/phonegap" />
+        <source-file src="src/android/MOCASharedPrefs.java" target-dir="src/com/innoquant/moca/phonegap" />
+        <source-file src="src/android/Utils.java" target-dir="src/com/innoquant/moca/phonegap" />
+        <source-file src="src/android/MOCApp.java" target-dir="src/com/innoquant/moca/phonegap" />
 
     </platform>
     

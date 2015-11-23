@@ -1,4 +1,4 @@
-cordova.define("com.innoquant.moca.phonegap.MOCA", function(require, exports, module) { //  MOCA.js
+
 //  v2.0.0
 //
 //  MOCA PhoneGap JavaScript Plugin
@@ -132,6 +132,10 @@ MOCA.prototype.performFetch = function (callback) {
     this.call_native(callback, "performFetch");
 };
 
+MOCA.prototype.placesInside = function (callback) {
+    this.call_native(callback, "placesInside");
+};
+
 
 // MOCA Instance
 
@@ -165,6 +169,7 @@ MOCAInstance.prototype.birthDay = function (callback) {
 MOCAInstance.prototype.pushEnabled = function (callback) {
     this.call_native(callback, "instance_pushEnabled");
 };
+
 
 
 
@@ -408,4 +413,3 @@ MOCA.prototype.addPlaySoundListener = function (args, callback) {
 
 // Global exports
 module.exports = new MOCA();
-});

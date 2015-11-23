@@ -17,6 +17,7 @@ public class MOCAAPI {
     public static final String INSTANCE_SET_CUSTOM_PROPERTY = "instance_setCustomProperty";
     public static final String INSTANCE_CUSTOM_PROPERTY = "instance_customProperty";
     public static final String CUSTOM_PROPERTY = "customProperty";
+    public static final String PLACES_INSIDE = "placesInside";
     //public static final String GET_REGION_STATE_FOR_PLACE_ID = "getRegionStateforPlaceId";
 
 }
