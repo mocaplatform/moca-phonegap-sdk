@@ -23,6 +23,15 @@
 //  permission of InnoQuant.
 //
 
+// TODO:
+
+// - load
+// - placesInside
+// - refactor returns
+// - Utils.m
+// - fireEvent
+// - getJSONFromObject
+
 #import "MOCAPlugin.h"
 
 // ----------------------------------------------------------------------
