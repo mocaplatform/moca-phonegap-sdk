@@ -36,6 +36,8 @@
 		5174886E42144FE8B06CFDF5 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2332A2C9F67B4CD2851A3D50 /* CoreBluetooth.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		51CDFF3DF8484F9FB662302D /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88968F7F88864138842C0C65 /* PassKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
+		63C290DE1C2182B6008F3761 /* MOCAPluginEventsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C290DD1C2182B6008F3761 /* MOCAPluginEventsDelegate.m */; };
+		63C290E11C21848C008F3761 /* MOCAPluginActionsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C290E01C21848C008F3761 /* MOCAPluginActionsDelegate.m */; };
 		7E7966DE1810823500FA85AD /* icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966D41810823500FA85AD /* icon-40.png */; };
 		7E7966DF1810823500FA85AD /* icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966D51810823500FA85AD /* icon-40@2x.png */; };
 		7E7966E01810823500FA85AD /* icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966D61810823500FA85AD /* icon-50.png */; };
@@ -115,6 +117,10 @@
 		4AF71FC63BDE425D9B1F7988 /* MOCA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCA.h; path = com.innoquant.moca.phonegap/MOCA.h; sourceTree = "<group>"; };
 		5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		630C4A88E76D43EBB8FF0BB4 /* MOCAPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOCAPlugin.m; path = com.innoquant.moca.phonegap/MOCAPlugin.m; sourceTree = "<group>"; };
+		63C290DC1C2182B6008F3761 /* MOCAPluginEventsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAPluginEventsDelegate.h; path = com.innoquant.moca.phonegap/MOCAPluginEventsDelegate.h; sourceTree = "<group>"; };
+		63C290DD1C2182B6008F3761 /* MOCAPluginEventsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOCAPluginEventsDelegate.m; path = com.innoquant.moca.phonegap/MOCAPluginEventsDelegate.m; sourceTree = "<group>"; };
+		63C290DF1C21848C008F3761 /* MOCAPluginActionsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOCAPluginActionsDelegate.h; sourceTree = "<group>"; };
+		63C290E01C21848C008F3761 /* MOCAPluginActionsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOCAPluginActionsDelegate.m; sourceTree = "<group>"; };
 		6B212D60C09E4CB3ACB4BD3B /* UIKit.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6BE4AE74076A4A80BCE011C5 /* MOCABeacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCABeacon.h; path = com.innoquant.moca.phonegap/MOCABeacon.h; sourceTree = "<group>"; };
 		6C66CC2D5C7E4BD2A6C65AAB /* MOCAPropertyContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAPropertyContainer.h; path = com.innoquant.moca.phonegap/MOCAPropertyContainer.h; sourceTree = "<group>"; };
@@ -284,6 +290,10 @@
 				AD10B3C4C1524A06BFD3DA2A /* MOCASerializable.h */,
 				287A23C0D845499F86EF34D5 /* MOCAUser.h */,
 				7022DD4237984767B19FF92F /* MOCAZone.h */,
+				63C290DC1C2182B6008F3761 /* MOCAPluginEventsDelegate.h */,
+				63C290DD1C2182B6008F3761 /* MOCAPluginEventsDelegate.m */,
+				63C290DF1C21848C008F3761 /* MOCAPluginActionsDelegate.h */,
+				63C290E01C21848C008F3761 /* MOCAPluginActionsDelegate.m */,
 			);
 			name = Plugins;
 			path = HelloCordova/Plugins;
@@ -472,8 +482,10 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
+				63C290DE1C2182B6008F3761 /* MOCAPluginEventsDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				EC61AE513FF44B5B82A78C20 /* MOCAPlugin.m in Sources */,
+				63C290E11C21848C008F3761 /* MOCAPluginActionsDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
