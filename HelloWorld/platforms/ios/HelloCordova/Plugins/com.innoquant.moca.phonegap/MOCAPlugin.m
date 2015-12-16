@@ -78,6 +78,9 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 
 @interface MOCAPlugin ()
 
+@property (nonatomic, strong) id<MOCAProximityEventsDelegate> defaultEventsDelegate;
+@property (nonatomic, strong) id<MOCAProximityActionsDelegate> defaultActionsDelegate;
+
 - (void)initializeSDK;
 
 @end
@@ -184,6 +187,9 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     }
     MOCAProximityService * service = [MOCA proximityService];
     if (service) {
+        self.defaultEventsDelegate = service.eventsDelegate;
+        self.defaultActionsDelegate = service.actionsDelegate;
+        
         service.eventsDelegate = self;
         service.actionsDelegate = self;
     } else {
