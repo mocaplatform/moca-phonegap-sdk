@@ -16,6 +16,8 @@
     <preference name="PageLength" value="0" />
     <preference name="PaginationBreakingMode" value="page" />
     <preference name="PaginationMode" value="unpaginated" />
+    <preference name="moca_app_key" value="o3KF-wEBR5i2LNtqVnzvhg" />
+    <preference name="moca_app_secret" value="RywwrUiEw7VV1lDPlxsPRWzKonw=" />
     <feature name="LocalStorage">
         <param name="ios-package" value="CDVLocalStorage" />
     </feature>
