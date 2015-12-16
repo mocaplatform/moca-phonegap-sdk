@@ -80,27 +80,35 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     [self initializeSDK];
 }
 
-- (void)initializeSDK {
-    //Init MOCA config options
-    NSDictionary *settings = self.commandDelegate.settings;
-    // build MOCA configuration
++ (void)load {
+    NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
+    NSDictionary *dict = [preferences dictionaryForKey: @"MOCA_CONFIG"];
+    
+    if(dict && ![MOCA initialized]) {
+        MOCA_LOG_DEBUG(@"MOCA init in load");
+        MOCAConfig *config = [[MOCAConfig alloc] initWithDictionary:dict];
+        [MOCA initializeSDK:config];
+    }
+}
+
++ (NSDictionary *)configurationDictionaryFromCordova: (NSDictionary *)settings {
     NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
     // app key
     NSString * appKey = [settings valueForKey:@"moca_app_key"];
     if (!appKey) {
         MOCA_LOG_ERROR ("MOCA app key not specified in settings. Missing 'moca_app_key' parameter.");
-        return;
+        return nil;
     }
     [dict setObject:appKey forKey:@"APP_KEY"];
-
+    
     // app secret
     NSString * appSecret = [settings valueForKey:@"moca_app_secret"];
     if (!appSecret) {
         MOCA_LOG_ERROR ("MOCA app secret not specified in settings. Missing 'moca_app_secret' parameter.");
-        return;
+        return nil;
     }
     [dict setObject:appSecret forKey:@"APP_SECRET"];
-
+    
     // log level
     NSString * logLevelStr = [settings valueForKey:@"moca_log_level"];
     if (!logLevelStr) {
@@ -110,32 +118,42 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     
     // disk size cache in MB
     [dict setObject:[NSNumber numberWithInt:100] forKey:@"CACHE_DISK_SIZE_IN_MB"];
-
+    
     // automatic push setup (disabled by default)
     BOOL pushEnabled = NO;
     NSString * pushEnabledStr = [settings valueForKey:@"moca_auto_push_setup_enabled"];
     if (pushEnabledStr) {
         pushEnabled = [pushEnabledStr integerValue];
-    }    
+    }
     [dict setObject:[NSNumber numberWithBool:pushEnabled] forKey:@"AUTOMATIC_PUSH_SETUP_ENABLED"];
-
+    
     // proximity service (enabled by default)
     BOOL proximityEnabled = YES;
     NSString * proximityEnabledStr = [settings valueForKey:@"moca_proximity_enabled"];
     if (proximityEnabledStr) {
         proximityEnabled = [proximityEnabledStr integerValue];
-    }    
+    }
     [dict setObject:[NSNumber numberWithBool:proximityEnabled] forKey:@"PROXIMITY_SERVICE_ENABLED"];
-
+    
     // geo service (enabled by default)
     BOOL geoEnabled = YES;
     NSString * geoEnabledStr = [settings valueForKey:@"moca_geolocation_enabled"];
     if (geoEnabledStr) {
         geoEnabled = [geoEnabledStr integerValue];
-    }    
+    }
     [dict setObject:[NSNumber numberWithBool:geoEnabled] forKey:@"GEOLOCATION_SERVICE_ENABLED"];
+    
+    return dict;
+}
 
-    // create config object
+
+- (void)initializeSDK {
+    //Init MOCA config options
+    NSDictionary *settings = self.commandDelegate.settings;
+    NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
+    
+    // build MOCA configuration
+    NSDictionary *dict = [MOCAPlugin configurationDictionaryFromCordova:settings];
     MOCAConfig *config = [[MOCAConfig alloc] initWithDictionary:dict];
     if (!config) {
         MOCA_LOG_ERROR ("Invalid MOCA configuration. Please review your config.xml file.");
@@ -144,7 +162,12 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
         
     // Create MOCA singleton that's used to talk to MOCA cloud.
     // Please populate MOCAConfig.plist with your info.
-    [MOCA initializeSDK:config];
+    if(![MOCA initialized]) {
+        [MOCA initializeSDK:config];
+        [preferences setObject:dict forKey:@"MOCA_CONFIG"];
+    }
+    
+
     // Setup 'PhoneGap' distribution flag
     MOCAInstance * instance = [MOCA currentInstance];
     if (instance) {
@@ -418,7 +441,7 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     dispatch_async(dispatch_get_main_queue(), ^{
         //if we're expecting any arguments
         if(command.arguments.count) {
-            MOCA_LOG_ERROR(@"Parameter number mismatch: expected 0 and received %d", command.arguments.count);
+            MOCA_LOG_ERROR(@"Parameter number mismatch: expected 0 and received %lu", (unsigned long)command.arguments.count);
             [self failWithCallbackID:command.callbackId];
             return;
         }
