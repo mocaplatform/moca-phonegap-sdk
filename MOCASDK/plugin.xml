@@ -153,7 +153,7 @@
         </config-file>
 
         <!-- MOCA SDK -->
-        <resource-file src="libs/moca-android-sdk-1.8.5.aar" target="libs/moca-android-sdk-1.8.5.aar" />
+        <resource-file src="libs/moca-android-sdk-1.8.7.aar" target="libs/moca-android-sdk-1.8.7.aar" />
         <source-file src="src/android/MOCAPlugin.java" target-dir="src/com/innoquant/moca/phonegap" />
         <source-file src="src/android/MOCAConstants.java" target-dir="src/com/innoquant/moca/phonegap" />
         <source-file src="src/android/MOCAAPI.java" target-dir="src/com/innoquant/moca/phonegap" />
