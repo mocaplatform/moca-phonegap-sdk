@@ -16,7 +16,7 @@
 +(NSDictionary *)messageWithBeacon:(MOCABeacon *)beacon;
 +(NSDictionary *)messageWithPlace:(MOCAPlace *)place;
 +(NSDictionary *)messageWithZone:(MOCAZone *)zone;
-+(NSDictionary *)message:(NSString *)message forAction:(NSString *)action;
++(NSDictionary *)message:(id)message forAction:(NSString *)action;
 +(NSString *)stringForProximity:(CLProximity)proximity;
 
 @end

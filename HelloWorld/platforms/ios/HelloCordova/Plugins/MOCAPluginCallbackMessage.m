@@ -69,7 +69,7 @@
     return @{ @"details": details };
 }
 
-+(NSDictionary *)message:(NSString *)message forAction:(NSString *)action
++(NSDictionary *)message:(id)message forAction:(NSString *)action
 {
     return @{
          @"details": @{
