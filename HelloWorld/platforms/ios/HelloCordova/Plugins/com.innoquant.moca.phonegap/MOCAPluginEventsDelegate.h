@@ -11,6 +11,7 @@
 #import "MOCA.h"
 #import "MOCAProximityDelegate.h"
 #import "MOCAPluginCallbackMessage.h"
+#import "MOCAPluginConstants.h"
 
 @interface MOCAPluginEventsDelegate : NSObject <MOCAProximityEventsDelegate>
 
