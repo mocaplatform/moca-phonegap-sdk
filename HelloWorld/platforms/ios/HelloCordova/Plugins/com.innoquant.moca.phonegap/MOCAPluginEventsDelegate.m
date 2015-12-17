@@ -38,6 +38,27 @@
     [self.commands setValue:command forKey:command.methodName];
 }
 
+-(void)sendResultWithBeacon:(MOCABeacon*)beacon andCommand:(CDVInvokedUrlCommand*)command
+{
+    NSDictionary *message = [MOCAPluginCallbackMessage messageWithBeacon:beacon];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:message];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+-(void)sendResultWithZone:(MOCAZone*)zone andCommand:(CDVInvokedUrlCommand*)command
+{
+    NSDictionary *message = [MOCAPluginCallbackMessage messageWithZone:zone];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:message];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+-(void)sendResultWithPlace:(MOCAPlace*)place andCommand:(CDVInvokedUrlCommand*)command
+{
+    NSDictionary *message = [MOCAPluginCallbackMessage messageWithPlace:place];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:message];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 /**
  * Method triggered when iOS device detects a new beacon.
  *
@@ -50,8 +71,9 @@
           didEnterRange:(MOCABeacon *)beacon
           withProximity:(CLProximity)proximity
 {
-    id command = [self.commands objectForKey:@"didEnterRange"];
+    CDVInvokedUrlCommand *command = [self.commands objectForKey:@"didEnterRange"];
     if(command) {
+        [self sendResultWithBeacon:beacon andCommand:command];
         MOCA_LOG_DEBUG(@"didEnterRange custom handler");
     } else {
         [self.defaultDelegate proximityService:service didEnterRange:beacon withProximity:proximity];
@@ -69,8 +91,9 @@
 -(void)proximityService:(MOCAProximityService*)service
            didExitRange:(MOCABeacon *)beacon
 {
-    id command = [self.commands objectForKey:@"didExitRange"];
+    CDVInvokedUrlCommand *command = [self.commands objectForKey:@"didExitRange"];
     if(command) {
+        [self sendResultWithBeacon:beacon andCommand:command];
         MOCA_LOG_DEBUG(@"didExitRange custom handler");
     } else {
         [self.defaultDelegate proximityService:service didExitRange:beacon];
@@ -93,8 +116,9 @@ didBeaconProximityChange:(MOCABeacon*)beacon
           fromProximity:(CLProximity)prevProximity
             toProximity:(CLProximity)curProximity
 {
-    id command = [self.commands objectForKey:@"didBeaconProximityChange"];
+    CDVInvokedUrlCommand *command = [self.commands objectForKey:@"didBeaconProximityChange"];
     if(command) {
+        [self sendResultWithBeacon:beacon andCommand:command];
         MOCA_LOG_DEBUG(@"didBeaconProximityChange custom handler");
     } else {
         [self.defaultDelegate proximityService:service didBeaconProximityChange:beacon fromProximity:prevProximity toProximity:curProximity];
@@ -114,6 +138,7 @@ didBeaconProximityChange:(MOCABeacon*)beacon
 {
     id command = [self.commands objectForKey:@"didEnterPlace"];
     if(command) {
+        [self sendResultWithPlace:place andCommand:command];
         MOCA_LOG_DEBUG(@"didEnterPlace custom handler");
     } else {
         [self.defaultDelegate proximityService:service didEnterPlace:place];
@@ -133,6 +158,7 @@ didBeaconProximityChange:(MOCABeacon*)beacon
 {
     id command = [self.commands objectForKey:@"didExitPlace"];
     if(command) {
+        [self sendResultWithPlace:place andCommand:command];
         MOCA_LOG_DEBUG(@"didExitPlace custom handler");
     } else {
         [self.defaultDelegate proximityService:service didExitPlace:place];
@@ -152,6 +178,7 @@ didBeaconProximityChange:(MOCABeacon*)beacon
 {
     id command = [self.commands objectForKey:@"didEnterZone"];
     if(command) {
+        [self sendResultWithZone:zone andCommand:command];
         MOCA_LOG_DEBUG(@"didEnterZone custom handler");
     } else {
         [self.defaultDelegate proximityService:service didEnterZone:zone];
@@ -171,6 +198,7 @@ didBeaconProximityChange:(MOCABeacon*)beacon
 {
     id command = [self.commands objectForKey:@"didExitZone"];
     if(command) {
+        [self sendResultWithZone:zone andCommand:command];
         MOCA_LOG_DEBUG(@"didExitZone custom handler");
     } else {
         [self.defaultDelegate proximityService:service didExitZone:zone];
