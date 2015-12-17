@@ -718,6 +718,35 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     [self stashActionCommand:command];
 }
 
+#pragma other functions
+//void placesInside(JSONArray data, CallbackContext callbackContext){
+//    if (!checkInited (callbackContext)) return;
+//    List<MOCAPlace> places = MOCA.getProximityService().getPlaces();
+//    JSONArray arr = new JSONArray();
+//    for(MOCAPlace p : places){
+//        if (p.getCurrentState() == MOCARegionState.Inside){
+//            try {
+//                arr.put(Utils.placeToJSON(p));
+//            } catch (JSONException e) {
+//                callbackContext.error("Cannot get places inside");
+//            }
+//        }
+//    }
+//    callbackContext.success(arr);
+//}
+
+-(void)placesInside:(CDVInvokedUrlCommand *)command
+{
+    NSArray *places = [[MOCA proximityService] places];
+    NSMutableArray *messages = [[NSMutableArray alloc] init];
+    for (MOCAPlace *place in places) {
+        if ([place currentState] == CLRegionStateInside) {
+            [messages addObject:[MOCAPluginCallbackMessage messageWithPlace:place]];
+        }
+    }
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:messages];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
 
 @end
 

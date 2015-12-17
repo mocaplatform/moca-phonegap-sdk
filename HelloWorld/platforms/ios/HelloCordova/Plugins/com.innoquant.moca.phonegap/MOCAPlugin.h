@@ -28,6 +28,7 @@
 #import "MOCAProximityDelegate.h"
 #import "MOCAPluginEventsDelegate.h"
 #import "MOCAPluginActionsDelegate.h"
+#import "MOCAPluginCallbackMessage.h"
 
 @interface MOCAPlugin : CDVPlugin
 
