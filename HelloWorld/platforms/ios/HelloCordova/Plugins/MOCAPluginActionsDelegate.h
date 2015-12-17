@@ -10,6 +10,8 @@
 #import <Cordova/CDVPlugin.h>
 #import "MOCA.h"
 #import "MOCAProximityDelegate.h"
+#import "MOCAPluginCallbackMessage.h"
+#import "MOCAPluginConstants.h"
 
 @interface MOCAPluginActionsDelegate : NSObject <MOCAProximityActionsDelegate>
 

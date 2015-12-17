@@ -10,7 +10,7 @@
 
 @interface MOCAPluginActionsDelegate()
 
-@property (nonatomic, retain)NSDictionary *commands;
+@property (nonatomic, retain)NSMutableDictionary *commands;
 
 @end
 
@@ -26,9 +26,24 @@
     return delegate;
 }
 
+-(NSDictionary*)commands {
+    if (!_commands) {
+        _commands = [[NSMutableDictionary alloc] init];
+    }
+    return _commands;
+}
+
 -(void)addCommand:(CDVInvokedUrlCommand*)command
 {
-    
+    [self.commands setValue:command forKey:command.methodName];
+}
+
+-(void)sendResultForCommand:(CDVInvokedUrlCommand *)command withMessage:(id)messageContent andAction:(NSString *)action
+{
+    NSDictionary *message = [MOCAPluginCallbackMessage message:messageContent forAction:action];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:message];
+    [pluginResult setKeepCallbackAsBool:NO];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 
@@ -46,16 +61,16 @@
  * An app that displays a splash screen may want to enable proximity actions
  * to be displayed only after displaying the home screen.
  */
--(BOOL)actionCanDisplayNow:(MOCAAction*)sender
-{
-    id command = [self.commands objectForKey:@"actionCanDisplayNow"];
-    if(command) {
-        MOCA_LOG_DEBUG(@"actionCanDisplayNow custom handler");
-        return YES;
-    } else {
-        return [self.defaultDelegate actionCanDisplayNow:sender];
-    }
-}
+//-(BOOL)actionCanDisplayNow:(MOCAAction*)sender
+//{
+//    id command = [self.commands objectForKey:ACTION_CAN_DISPLAY_NOW];
+//    if(command) {
+//        MOCA_LOG_DEBUG(@"actionCanDisplayNow custom handler");
+//        return YES;
+//    } else {
+//        return [self.defaultDelegate actionCanDisplayNow:sender];
+//    }
+//}
 
 /**
  * Called when an alert notification should be displayed to a user.
@@ -63,12 +78,12 @@
  */
 -(void)action:(MOCAAction*)sender displayNotificationAlert:(NSString *)alertMessage
 {
-    id command = [self.commands objectForKey:@"displayNotificationAlert"];
+    CDVInvokedUrlCommand *command = [self.commands objectForKey:DISPLAY_ALERT];
     if(command) {
+        [self sendResultForCommand:command withMessage:alertMessage andAction:DISPLAY_ALERT];
         MOCA_LOG_DEBUG(@"displayNotificationAlert custom handler");
-    } else {
-        [self.defaultDelegate action:sender displayNotificationAlert:alertMessage];
     }
+    [self.defaultDelegate action:sender displayNotificationAlert:alertMessage];
 }
 
 /*
@@ -78,8 +93,9 @@
 
 -(void)action:(MOCAAction*)sender openUrl:(NSURL*)url
 {
-    id command = [self.commands objectForKey:@"openUrl"];
+    CDVInvokedUrlCommand *command = [self.commands objectForKey:OPEN_URL];
     if(command) {
+        [self sendResultForCommand:command withMessage:url.absoluteString andAction:OPEN_URL];
         MOCA_LOG_DEBUG(@"openUrl custom handler");
     } else {
         [self.defaultDelegate action:sender openUrl:url];
@@ -92,8 +108,9 @@
  */
 -(void)action:(MOCAAction*)sender showHtmlWithString:(NSString*)html
 {
-    id command = [self.commands objectForKey:@"showHtmlWithString"];
+    CDVInvokedUrlCommand *command = [self.commands objectForKey:SHOW_EMBEDDED_HTML];
     if(command) {
+        [self sendResultForCommand:command withMessage:html andAction:SHOW_EMBEDDED_HTML];
         MOCA_LOG_DEBUG(@"showHtmlWithString custom handler");
     } else {
         [self.defaultDelegate action:sender showHtmlWithString:html];
@@ -106,8 +123,9 @@
  */
 -(void)action:(MOCAAction*)sender playVideoFromUrl:(NSURL*)url
 {
-    id command = [self.commands objectForKey:@"playVideoFromUrl"];
+    CDVInvokedUrlCommand *command = [self.commands objectForKey:PLAY_VIDEO_FROM_URL];
     if(command) {
+        [self sendResultForCommand:command withMessage:url.absoluteString andAction:PLAY_VIDEO_FROM_URL];
         MOCA_LOG_DEBUG(@"playVideoFromUrl custom handler");
     } else {
         [self.defaultDelegate action:sender playVideoFromUrl:url];
@@ -119,8 +137,9 @@
  */
 -(void)action:(MOCAAction*)sender displayImageFromUrl:(NSURL*)url
 {
-    id command = [self.commands objectForKey:@"displayImageFromUrl"];
+    CDVInvokedUrlCommand *command = [self.commands objectForKey:IMAGE_FROM_URL];
     if(command) {
+        [self sendResultForCommand:command withMessage:url.absoluteString andAction:IMAGE_FROM_URL];
         MOCA_LOG_DEBUG(@"displayImageFromUrl custom handler");
     } else {
         [self.defaultDelegate action:sender displayImageFromUrl:url];
@@ -133,8 +152,9 @@
  */
 -(void)action:(MOCAAction*)sender displayPassFromUrl:(NSURL*)url
 {
-    id command = [self.commands objectForKey:@"displayPassFromUrl"];
+    CDVInvokedUrlCommand *command = [self.commands objectForKey:PASSBOOK_FROM_URL];
     if(command) {
+        [self sendResultForCommand:command withMessage:url.absoluteString andAction:PASSBOOK_FROM_URL];
         MOCA_LOG_DEBUG(@"displayPassFromUrl custom handler");
     } else {
         [self.defaultDelegate action:sender displayPassFromUrl:url];
@@ -148,8 +168,10 @@
  */
 -(void)action:(MOCAAction*)sender addTag:(NSString*)tagName withValue:(NSString*)value
 {
-    id command = [self.commands objectForKey:@"addTag"];
+    CDVInvokedUrlCommand *command = [self.commands objectForKey:ADD_TAG];
     if(command) {
+        NSDictionary *messageContent = @{ @"tagName": tagName, @"tagValue": value };
+        [self sendResultForCommand:command withMessage:messageContent andAction:ADD_TAG];
         MOCA_LOG_DEBUG(@"addTag custom handler");
     } else {
         [self.defaultDelegate action:sender addTag:tagName withValue:value];
@@ -163,8 +185,9 @@
  */
 -(void)action:(MOCAAction*)sender playNotificationSound:(NSString *)soundFilename
 {
-    id command = [self.commands objectForKey:@"playNotificationSound"];
+    CDVInvokedUrlCommand *command = [self.commands objectForKey:PLAY_NOTIFICATION_SOUND];
     if(command) {
+        [self sendResultForCommand:command withMessage:soundFilename andAction:PLAY_NOTIFICATION_SOUND];
         MOCA_LOG_DEBUG(@"playNotificationSound custom handler");
     } else {
         [self.defaultDelegate action:sender playNotificationSound:soundFilename];
@@ -177,8 +200,9 @@
  */
 -(void)action:(MOCAAction*)sender performCustomAction:(NSString*)customAttribute
 {
-    id command = [self.commands objectForKey:@"performCustomAction"];
+    CDVInvokedUrlCommand *command = [self.commands objectForKey:PERFORM_CUSTOM_ACTION];
     if(command) {
+        [self sendResultForCommand:command withMessage:customAttribute andAction:PERFORM_CUSTOM_ACTION];
         MOCA_LOG_DEBUG(@"performCustomAction custom handler");
     } else {
         [self.defaultDelegate action:sender performCustomAction:customAttribute];
@@ -190,15 +214,15 @@
  * @param view - default superview to add the overlay to as a child view.
  * @return selected view to be used as superview.
  */
--(UIView*)willShowOverlayInView:(UIView*) superview
-{
-    id command = [self.commands objectForKey:@"willShowOverlayInView"];
-    if(command) {
-        MOCA_LOG_DEBUG(@"willShowOverlayInView custom handler");
-        return superview;
-    } else {
-        return [self.defaultDelegate willShowOverlayInView:superview];
-    }
-}
+//-(UIView*)willShowOverlayInView:(UIView*) superview
+//{
+//    CDVInvokedUrlCommand *command = [self.commands objectForKey:WILL_SHOW_OVERLAY_IN_VIEW];
+//    if(command) {
+//        MOCA_LOG_DEBUG(@"willShowOverlayInView custom handler");
+//        return superview;
+//    } else {
+//        return [self.defaultDelegate willShowOverlayInView:superview];
+//    }
+//}
 
 @end
