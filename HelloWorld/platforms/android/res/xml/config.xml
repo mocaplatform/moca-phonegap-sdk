@@ -10,8 +10,6 @@
         <param name="onload" value="true" />
     </feature>
     <allow-intent href="market:*" />
-    <preference name="moca_app_key" value="OCNw9sMKR9a3Mvl0BY2SlQ" />
-    <preference name="moca_app_secret" value="P9gyOKS1hJu2k9Xj8zzx/+6TiZI=" />
     <preference name="gcm_sender" value="\ 937116445865" />
     <preference name="android-minSdkVersion" value="14" />
     <preference name="android-targetSdkVersion" value="23" />
@@ -30,4 +28,6 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <preference name="moca_app_key" value="iipEJbofTX2Er8dXoHz-rA" />
+    <preference name="moca_app_secret" value="AlykmFoZALOvCTyZdU7T5b6MMi0=" />
 </widget>
