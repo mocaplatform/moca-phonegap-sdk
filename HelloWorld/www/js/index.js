@@ -17,7 +17,7 @@
  * under the License.
  */
 
-
+console.log("App is on! Initializing stuff...");
 var app = {
     // Application Constructor
     initialize: function () {
@@ -27,9 +27,6 @@ var app = {
     //
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
-
-
-    //TEST 1: test false / true arguments
 
     bindEvents: function () {
         document.addEventListener('deviceready', this.onDeviceReady, false);

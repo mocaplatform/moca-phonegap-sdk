@@ -16,15 +16,18 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
- <platform name="android">
+    <preference name="moca_app_key" value="iipEJbofTX2Er8dXoHz-rA" />
+    <preference name="moca_app_secret" value="AlykmFoZALOvCTyZdU7T5b6MMi0=" />
+    <platform name="android">
         <allow-intent href="market:*" />
-        <preference name="moca_app_key" value="OCNw9sMKR9a3Mvl0BY2SlQ" />
-        <preference name="moca_app_secret" value="P9gyOKS1hJu2k9Xj8zzx/+6TiZI=" />
         <preference name="gcm_sender" value="\ 937116445865" />
         <preference name="android-minSdkVersion" value="14" />
         <preference name="android-targetSdkVersion" value="23" />
-    </platform>    <platform name="ios">
+    </platform>
+    <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+        <preference name="moca_app_key" value="iipEJbofTX2Er8dXoHz-rA" />
+        <preference name="moca_app_secret" value="AlykmFoZALOvCTyZdU7T5b6MMi0=" />
     </platform>
 </widget>

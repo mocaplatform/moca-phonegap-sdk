@@ -26,8 +26,11 @@
 #import <Cordova/CDVPlugin.h>
 #import "MOCA.h"
 #import "MOCAProximityDelegate.h"
+#import "MOCAPluginEventsDelegate.h"
+#import "MOCAPluginActionsDelegate.h"
+#import "MOCAPluginCallbackMessage.h"
 
-@interface MOCAPlugin : CDVPlugin <MOCAProximityEventsDelegate, MOCAProximityActionsDelegate>
+@interface MOCAPlugin : CDVPlugin
 
 @end
 

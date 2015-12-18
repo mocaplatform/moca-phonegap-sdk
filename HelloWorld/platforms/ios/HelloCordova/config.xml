@@ -40,4 +40,6 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <preference name="moca_app_key" value="iipEJbofTX2Er8dXoHz-rA" />
+    <preference name="moca_app_secret" value="AlykmFoZALOvCTyZdU7T5b6MMi0=" />
 </widget>
