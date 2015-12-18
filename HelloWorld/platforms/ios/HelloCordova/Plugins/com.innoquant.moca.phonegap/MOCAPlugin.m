@@ -188,9 +188,9 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     MOCAProximityService * service = [MOCA proximityService];
     if (service) {
         self.eventsDelegate = [MOCAPluginEventsDelegate delegateWithDefault: service.eventsDelegate
-                                                         andCommandDelegate:self.commandDelegate];
+                                                         andCommandDelegate: self.commandDelegate];
         self.actionsDelegate = [MOCAPluginActionsDelegate delegateWithDefault: service.actionsDelegate
-                                                           andCommandDelegate:self.commandDelegate];
+                                                           andCommandDelegate: self.commandDelegate];
         
         service.eventsDelegate = self.eventsDelegate;
         service.actionsDelegate = self.actionsDelegate;
@@ -719,21 +719,6 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 }
 
 #pragma other functions
-//void placesInside(JSONArray data, CallbackContext callbackContext){
-//    if (!checkInited (callbackContext)) return;
-//    List<MOCAPlace> places = MOCA.getProximityService().getPlaces();
-//    JSONArray arr = new JSONArray();
-//    for(MOCAPlace p : places){
-//        if (p.getCurrentState() == MOCARegionState.Inside){
-//            try {
-//                arr.put(Utils.placeToJSON(p));
-//            } catch (JSONException e) {
-//                callbackContext.error("Cannot get places inside");
-//            }
-//        }
-//    }
-//    callbackContext.success(arr);
-//}
 
 -(void)placesInside:(CDVInvokedUrlCommand *)command
 {
