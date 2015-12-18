@@ -28,7 +28,8 @@
 
 +(NSDictionary *)messageWithBeacon:(MOCABeacon *)beacon
 {
-    NSDictionary *details = @{
+    
+    NSDictionary *detail = @{
         @"major":beacon.major,
         @"minor":beacon.minor,
         @"name":beacon.name,
@@ -38,12 +39,12 @@
         @"uuid": [beacon.proximityUUID UUIDString]
     };
     
-    return @{ @"details": details };
+    return @{ @"detail": detail };
 }
 
 +(NSDictionary *)messageWithPlace:(MOCAPlace *)place
 {
-    NSDictionary *details = @{
+    NSDictionary *detail = @{
         @"id":place.identifier,
         @"geofence": @{
             @"lat": [NSNumber numberWithDouble: place.geofence.center.latitude],
@@ -54,25 +55,25 @@
         @"type": @"place"
     };
     
-    return @{ @"details": details };
+    return @{ @"detail": detail };
 }
 
 +(NSDictionary *)messageWithZone:(MOCAZone *)zone
 {
-    NSDictionary *details = @{
+    NSDictionary *detail = @{
         @"name":zone.name,
         @"timestamp": [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]],
         @"type": @"zone",
         @"id": zone.identifier
     };
     
-    return @{ @"details": details };
+    return @{ @"detail": detail };
 }
 
 +(NSDictionary *)message:(id)message forAction:(NSString *)action
 {
     return @{
-         @"details": @{
+         @"detail": @{
               action: message
          }
     };
