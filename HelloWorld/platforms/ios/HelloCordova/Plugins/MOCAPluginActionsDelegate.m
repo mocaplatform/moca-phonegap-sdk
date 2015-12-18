@@ -42,7 +42,7 @@
 {
     NSDictionary *message = [MOCAPluginCallbackMessage message:messageContent forAction:action];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:message];
-    [pluginResult setKeepCallbackAsBool:NO];
+    [pluginResult setKeepCallbackAsBool:YES];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
@@ -83,7 +83,10 @@
         [self sendResultForCommand:command withMessage:alertMessage andAction:DISPLAY_ALERT];
         MOCA_LOG_DEBUG(@"displayNotificationAlert custom handler");
     }
-    [self.defaultDelegate action:sender displayNotificationAlert:alertMessage];
+    if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
+        [self.defaultDelegate action:sender displayNotificationAlert:alertMessage];
+    }
+    
 }
 
 /*
@@ -97,7 +100,8 @@
     if(command) {
         [self sendResultForCommand:command withMessage:url.absoluteString andAction:OPEN_URL];
         MOCA_LOG_DEBUG(@"openUrl custom handler");
-    } else {
+    }
+    if((command && ![command argumentAtIndex:0]) || !command) {
         [self.defaultDelegate action:sender openUrl:url];
     }
 }
@@ -112,9 +116,12 @@
     if(command) {
         [self sendResultForCommand:command withMessage:html andAction:SHOW_EMBEDDED_HTML];
         MOCA_LOG_DEBUG(@"showHtmlWithString custom handler");
-    } else {
+    }
+    if((command && ![command argumentAtIndex:0]) || !command) {
         [self.defaultDelegate action:sender showHtmlWithString:html];
     }
+    
+    
 }
 
 /*
@@ -127,7 +134,8 @@
     if(command) {
         [self sendResultForCommand:command withMessage:url.absoluteString andAction:PLAY_VIDEO_FROM_URL];
         MOCA_LOG_DEBUG(@"playVideoFromUrl custom handler");
-    } else {
+    }
+    if((command && ![command argumentAtIndex:0]) || !command) {
         [self.defaultDelegate action:sender playVideoFromUrl:url];
     }
 }
@@ -141,7 +149,8 @@
     if(command) {
         [self sendResultForCommand:command withMessage:url.absoluteString andAction:IMAGE_FROM_URL];
         MOCA_LOG_DEBUG(@"displayImageFromUrl custom handler");
-    } else {
+    }
+    if((command && ![command argumentAtIndex:0]) || !command) {
         [self.defaultDelegate action:sender displayImageFromUrl:url];
     }
 }
@@ -156,7 +165,8 @@
     if(command) {
         [self sendResultForCommand:command withMessage:url.absoluteString andAction:PASSBOOK_FROM_URL];
         MOCA_LOG_DEBUG(@"displayPassFromUrl custom handler");
-    } else {
+    }
+    if((command && ![command argumentAtIndex:0]) || !command) {
         [self.defaultDelegate action:sender displayPassFromUrl:url];
     }
 }
@@ -173,7 +183,8 @@
         NSDictionary *messageContent = @{ @"tagName": tagName, @"tagValue": value };
         [self sendResultForCommand:command withMessage:messageContent andAction:ADD_TAG];
         MOCA_LOG_DEBUG(@"addTag custom handler");
-    } else {
+    }
+    if((command && ![command argumentAtIndex:0]) || !command) {
         [self.defaultDelegate action:sender addTag:tagName withValue:value];
     }
 }
@@ -189,7 +200,8 @@
     if(command) {
         [self sendResultForCommand:command withMessage:soundFilename andAction:PLAY_NOTIFICATION_SOUND];
         MOCA_LOG_DEBUG(@"playNotificationSound custom handler");
-    } else {
+    }
+    if((command && ![command argumentAtIndex:0]) || !command) {
         [self.defaultDelegate action:sender playNotificationSound:soundFilename];
     }
 }
@@ -204,7 +216,8 @@
     if(command) {
         [self sendResultForCommand:command withMessage:customAttribute andAction:PERFORM_CUSTOM_ACTION];
         MOCA_LOG_DEBUG(@"performCustomAction custom handler");
-    } else {
+    }
+    if((command && ![command argumentAtIndex:0]) || !command) {
         [self.defaultDelegate action:sender performCustomAction:customAttribute];
     }
 }
