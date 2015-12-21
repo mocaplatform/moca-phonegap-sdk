@@ -1,6 +1,6 @@
 //
 //  MOCAPlugin.m
-//  v1.6.0
+//  v2.0.0
 //
 //  MOCA PhoneGap Plugin (iOS)
 //
@@ -88,9 +88,10 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 @implementation MOCAPlugin
 
 - (void)pluginInitialize {
-    MOCA_LOG_INFO("Initializing MOCAPlugin V1.6.0");
+    MOCA_LOG_INFO("Initializing MOCAPlugin V2.0.0");
     [self initializeSDK];
 }
+
 
 + (void)load {
     NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
@@ -101,6 +102,12 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
         MOCAConfig *config = [[MOCAConfig alloc] initWithDictionary:dict];
         [MOCA initializeSDK:config];
     }
+    
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:[MOCA class]
+               selector:@selector(handleLocalNotification:)
+                   name:UIApplicationDidFinishLaunchingNotification
+                 object:nil];
 }
 
 + (NSDictionary *)configurationDictionaryFromCordova: (NSDictionary *)settings {
