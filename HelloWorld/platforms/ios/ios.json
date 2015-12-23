@@ -45,5 +45,8 @@
                 "MOCA"
             ]
         }
-    ]
+    ],
+    "plugin_metadata": {
+        "com.innoquant.moca.phonegap": "2.0.0"
+    }
 }

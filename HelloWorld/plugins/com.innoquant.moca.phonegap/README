@@ -19,48 +19,17 @@ This plugin is meant to work with Cordova 3.4.0+ and the latest versions of the 
 GETTING STARTED
 -----------------
 
-## Developer documentation  
-
-See documentation in docs/html folder.
-
-### More information    
-
-For information, please visit [http://mocaplatform.com](http://mocaplatform.com)
-
-
-INSTALLATION
-------------
-
-Automatic installation using PhoneGap/Cordova CLI (iOS and Android)
-
-1. For iOS, make sure you update your iOS project to Cordova iOS version 3.4.1 before installing this plugin.
-
-  ````
-    cordova platform update ios
-  ````
-  
-2. For Android, make sure the Android SDK is up to date. Google Play Service 6.1+ are required.
-
-  ````
-    cordova platform update android
-  ````
-   
-3. Install this plugin using PhoneGap/Cordova cli:
-
-   ````
-   cordova plugin add https://github.com/innoquant/moca-phonegap.git#:/MOCASDK
-   ````
-   
-4. Modify the config.xml directory to contain (replacing with your configuration settings):
-   
-   ````
-   <!-- MOCA SDK credentials -->
-   <preference name="moca_app_key" value="YOUR_APP_KEY" />
-   <preference name="moca_app_secret" value="YOUR-APP-SECRET" />
-   ````
+For installation instructions and examples, please visit the [MOCA Developer portal](http://developer.mocaplatform.com/docs/installation).
 
 CHANGELOG
 -----------
+v2.0.0
+- API Change. 
+- Android: Event callbacks and Action callbacks are now available.
+- Android: MOCA SDK will auto init in background.
+- New method: `placesInside` returns an array of places you are currently visiting.
+- Support for Android SDK 1.8.5
+
 v1.7.0
 - Support for Andrdoid SDK 1.8.0 and iOS 1.7.0
 

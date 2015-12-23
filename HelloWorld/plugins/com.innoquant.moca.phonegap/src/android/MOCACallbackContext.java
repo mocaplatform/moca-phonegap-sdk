@@ -10,12 +10,12 @@ import org.json.JSONArray;
 public class MOCACallbackContext {
     private CallbackContext _context;
     private JSONArray _args = new JSONArray();
-    private Boolean _returnValue = false;
+    private Boolean _booleanArg = false;
 
     public MOCACallbackContext(CallbackContext ctx, JSONArray args) {
         _context = ctx;
         _args = args;
-        getBooleanArg(args);
+        setBooleanArg(args);
     }
 
     public void sendPluginResult(PluginResult result){
@@ -26,17 +26,17 @@ public class MOCACallbackContext {
         return _args;
     }
 
-    private void getBooleanArg(JSONArray arr){
+    private void setBooleanArg(JSONArray arr){
         if( arr != null && arr.length() > 0){
             try {
-                _returnValue = Boolean.parseBoolean(arr.getString(0));
+                _booleanArg = Boolean.parseBoolean(arr.getString(0));
             }catch (JSONException e){
-                _returnValue = false;
+                _booleanArg = false;
             }
         }
     }
 
-    public boolean getReturnValue() {
-        return _returnValue;
+    public boolean getBooleanArg() {
+        return _booleanArg;
     }
 }

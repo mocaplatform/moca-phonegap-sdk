@@ -1,3 +1,4 @@
+
 //
 //  MOCAProximityDelegate.h
 //
@@ -154,6 +155,23 @@ NS_CLASS_AVAILABLE(NA, 7_0)
 
 @end
 
+
+/**
+ * Type of context when an action if fired.
+ *
+ * Actions can be fired in two situations:
+ * - when proximity trigger (beacon/geofence) fires
+ * - when a user clicks on a push notification with an associated action
+ */
+typedef NS_ENUM(NSInteger, MOCAFireSituation) {
+    // Indicates that an action is fired automatically by a proximity trigger
+    // when the app is foreground or background.
+    MOCAFiredByProximity,
+    // Indicates that an action is fired by a user clicking a push notification
+    // generated previously by proximity action fired in background.
+    MOCAFiredByPushClicked
+};
+
 /**
  * Protocol defines the delegate methods to respond to proximity-invoked actions.
  * All methods are optional.
@@ -177,72 +195,79 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  * An app that displays a splash screen may want to enable proximity actions
  * to be displayed only after displaying the home screen.
  */
--(BOOL)canDisplayProximityActionNow:(MOCAProximityService*)service DEPRECATED_MSG_ATTRIBUTE("use new action-based method instead.");
--(BOOL)actionCanDisplayNow:(MOCAAction*)sender;
+-(BOOL)actionCanDisplayNow:(MOCAAction*)sender withSituation:(MOCAFireSituation)situation;
+
+/**
+ * Called when action if fired and accepted by actionCanDisplayNow() method.
+ * This method is invoked for all action types and should be used to perform generic action logic.
+ * @return YES if action execution flow should proceed, or NO otherwise.
+ */
+-(BOOL)action:(MOCAAction*)sender withSituation:(MOCAFireSituation)situation;
 
 /**
  * Called when an alert notification should be displayed to a user.
  * @param alertMessage a simple string to be displayed as an alert
+ * @return YES if the alert was shown to the user, NO otherwise.
  */
--(void)displayNotificationAlert:(NSString *)alertMessage DEPRECATED_MSG_ATTRIBUTE("use new action-based method instead.");
--(void)action:(MOCAAction*)sender displayNotificationAlert:(NSString *)alertMessage;
+-(BOOL)action:(MOCAAction*)sender displayNotificationAlert:(NSString *)alertMessage withSituation:(MOCAFireSituation)situation;
 
 /*
  * Called when a URL content should be displayed to a user.
  * @param url a content URL to be displayed
+ * @return YES if the alert was shown to the user, NO otherwise.
  */
--(void)openUrl:(NSURL*)url DEPRECATED_MSG_ATTRIBUTE("use new action-based method instead.");
--(void)action:(MOCAAction*)sender openUrl:(NSURL*)url;
+-(BOOL)action:(MOCAAction*)sender openUrl:(NSURL*)url withSituation:(MOCAFireSituation)situation;
 
 /*
  * Called when a embedded HTML content should be displayed to a user.
  * @param html a HTML content to be displayed
+ * @return YES if the alert was shown to the user, NO otherwise.
  */
--(void)showHtmlWithString:(NSString*)html DEPRECATED_MSG_ATTRIBUTE("use new action-based method instead.");
--(void)action:(MOCAAction*)sender showHtmlWithString:(NSString*)html;
+-(BOOL)action:(MOCAAction*)sender showHtmlWithString:(NSString*)html withSituation:(MOCAFireSituation)situation;
 
 /*
  * Called when a video from URL should be played to a user.
  * @param url - video content URL
+ * @return YES if the alert was shown to the user, NO otherwise.
  */
--(void)playVideoFromUrl:(NSURL*)url DEPRECATED_MSG_ATTRIBUTE("use new action-based method instead.");
--(void)action:(MOCAAction*)sender playVideoFromUrl:(NSURL*)url;
+-(BOOL)action:(MOCAAction*)sender playVideoFromUrl:(NSURL*)url withSituation:(MOCAFireSituation)situation;
+
 /*
  * Called when an image from URL should be displayed to a user.
  * @param url - image URL
+ * @return YES if the alert was shown to the user, NO otherwise.
  */
--(void)displayImageFromUrl:(NSURL*)url DEPRECATED_MSG_ATTRIBUTE("use new action-based method instead.");
--(void)action:(MOCAAction*)sender displayImageFromUrl:(NSURL*)url;
+-(BOOL)action:(MOCAAction*)sender displayImageFromUrl:(NSURL*)url withSituation:(MOCAFireSituation)situation;
 
 /*
  * Called when a Passbook pass card from URL should be displayed to a user.
  * @param url - pass URL
+ * @return YES if the alert was shown to the user, NO otherwise.
  */
--(void)displayPassFromUrl:(NSURL*)url DEPRECATED_MSG_ATTRIBUTE("use new action-based method instead.");
--(void)action:(MOCAAction*)sender displayPassFromUrl:(NSURL*)url;
+-(BOOL)action:(MOCAAction*)sender displayPassFromUrl:(NSURL*)url withSituation:(MOCAFireSituation)situation;
 
 /*
  * Called when a user should be tagged.
  * @param tagName name of the tag
  * @param value value to be added
+ * @return YES if the tag should be added to user profile, NO otherwise.
  */
--(void)addTag:(NSString*)tagName withValue:(NSString*)value DEPRECATED_MSG_ATTRIBUTE("use new action-based method instead.");
--(void)action:(MOCAAction*)sender addTag:(NSString*)tagName withValue:(NSString*)value;
+-(BOOL)action:(MOCAAction*)sender addTag:(NSString*)tagName withValue:(NSString*)value;
 
 /*
  * Called when a sound notification should be played.
  * @param soundFilename The sound file to play or `default` for the standard notification sound.
  * This file must be included in the application bundle or available in system bundle.
+ * @return YES if the alert was shown to the user, NO otherwise.
  */
--(void)playNotificationSound:(NSString *)soundFilename DEPRECATED_MSG_ATTRIBUTE("use new action-based method instead.");
--(void)action:(MOCAAction*)sender playNotificationSound:(NSString *)soundFilename;
+-(BOOL)action:(MOCAAction*)sender playNotificationSound:(NSString *)soundFilename withSituation:(MOCAFireSituation)situation;
 
 /*
  * Called when the app should execute a custom action.
  * @param customAttribute - user provided custom attribute
+ * @return YES if the alert was shown to the user, NO otherwise.
  */
--(void)performCustomAction:(NSString*)customAttribute DEPRECATED_MSG_ATTRIBUTE("use new action-based method instead.");
--(void)action:(MOCAAction*)sender performCustomAction:(NSString*)customAttribute;
+-(BOOL)action:(MOCAAction*)sender performCustomAction:(NSString*)customAttribute withSituation:(MOCAFireSituation)situation;
 
 /** 
  * Called to customize the app root view that should be used to display overlay popup window.

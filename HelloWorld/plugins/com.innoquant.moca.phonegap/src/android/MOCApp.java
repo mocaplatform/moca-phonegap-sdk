@@ -208,7 +208,7 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
 
                 //Arguments in callbacks are used to determine if MOCA should
                 //show a Proximity Experience, or only send callbacks.
-                return callbackCtx.getReturnValue();
+                return callbackCtx.getBooleanArg();
             }
             catch (JSONException e){
                 MLog.e(eventName + "callback failed: " + e);

@@ -2,11 +2,11 @@
 //  MOCA.h
 //
 //  MOCA iOS SDK
-//  Version 1.6.8
+//  Version 1.9
 //
-//  This module is part of InnoQuant MOCA Platform.
+//  This module is part of MOCA Platform.
 //
-//  Copyright (c) 2012-2015 InnoQuant Strategic Analytics, S.L.
+//  Copyright (c) 2015 InnoQuant Strategic Analytics, S.L.
 //  All rights reserved.
 //
 //  All rights to this software by InnoQuant are owned by InnoQuant
@@ -113,7 +113,6 @@
  */
 + (MOCAInstance*) currentInstance;
 
-
 /**
  * Get status of the proximity service.
  *
@@ -136,7 +135,6 @@
  * @return The MOCAProximityService object
  */
 + (MOCAProximityService*) proximityService __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);
-
 
 /**
  * Gets the inbox object.
@@ -184,7 +182,9 @@
 /**
  * Updates the push device token and registers the token with MOCA cloud. This won't occur until
  * push notification is enabled for the app. This call is required.
- * This method MUST be called from 'appliaton:didRegisterForRemoteNotificationsWithDeviceToken:' handler.
+ * This method SHOULD be called from 'appliaton:didRegisterForRemoteNotificationsWithDeviceToken:' handler.
+ *
+ * @param deviceToken - push token. If nil, MOCA will unregister the token.
  *
  * Example:
  *
@@ -197,6 +197,26 @@
  * }
  */
 +(void)registerDeviceToken:(NSData*)deviceToken;
+
+/**
+ * Tells MOCA that a remote push notification has been received by the application.
+ * This is called by iOS when the app is in background OR in foreground.
+ *
+ * This method SHOULD be called from your application delegate's
+ * `application:didReceiveRemoteNotification:fetchCompletionHandler` delegate method.
+ *
+ * Example:
+ * - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+ *       fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler
+ * {
+ *    NSLog (@"Received remote notification: %@", userInfo);
+ *
+ *    // Notify MOCA handler
+ *    [MOCA handleRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+ * }
+ *
+ */
++(void)handleRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler;
 
 /**
  * Tells MOCA that a remote push notification has been received by the application.
@@ -266,6 +286,18 @@
  */
 +(BOOL)handleActionWithIdentifier:(NSString *)identifier
              forLocalNotification:(UILocalNotification *)notification;
+
+/**
+ * Called when your app has been activated by the user selecting an action from a remote notification.
+ * A nil action identifier indicates the default action.
+ *
+ * @param identifier - the notification action identifier or nil for default action
+ * @param notification -  the local notification
+ *
+ * @return YES if the action was executed or NO otherwise.
+ */
++(BOOL) handleActionWithIdentifier:(NSString *)identifier
+             forRemoteNotification:(NSDictionary *)userInfo;
 
 /**
  * Shutdown the library

@@ -1,6 +1,6 @@
 //
 //  MOCAPlugin.m
-//  v1.6.0
+//  v2.0.0
 //
 //  MOCA PhoneGap Plugin (iOS)
 //
@@ -22,6 +22,15 @@
 //  the software available to any entities without the explicit written
 //  permission of InnoQuant.
 //
+
+// TODO:
+
+// - load
+// - placesInside
+// - refactor returns
+// - Utils.m
+// - fireEvent
+// - getJSONFromObject
 
 #import "MOCAPlugin.h"
 
@@ -69,6 +78,9 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 
 @interface MOCAPlugin ()
 
+@property (nonatomic, strong) MOCAPluginEventsDelegate* eventsDelegate;
+@property (nonatomic, strong) MOCAPluginActionsDelegate* actionsDelegate;
+
 - (void)initializeSDK;
 
 @end
@@ -76,31 +88,46 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 @implementation MOCAPlugin
 
 - (void)pluginInitialize {
-    MOCA_LOG_INFO("Initializing MOCAPlugin V1.6.0");
+    MOCA_LOG_INFO("Initializing MOCAPlugin V2.0.0");
     [self initializeSDK];
 }
 
-- (void)initializeSDK {
-    //Init MOCA config options
-    NSDictionary *settings = self.commandDelegate.settings;
-    // build MOCA configuration
+
++ (void)load {
+    NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
+    NSDictionary *dict = [preferences dictionaryForKey: @"MOCA_CONFIG"];
+    
+    if(dict && ![MOCA initialized]) {
+        MOCA_LOG_DEBUG(@"MOCA init in load");
+        MOCAConfig *config = [[MOCAConfig alloc] initWithDictionary:dict];
+        [MOCA initializeSDK:config];
+    }
+    
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:[MOCA class]
+               selector:@selector(handleLocalNotification:)
+                   name:UIApplicationDidFinishLaunchingNotification
+                 object:nil];
+}
+
++ (NSDictionary *)configurationDictionaryFromCordova: (NSDictionary *)settings {
     NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
     // app key
     NSString * appKey = [settings valueForKey:@"moca_app_key"];
     if (!appKey) {
         MOCA_LOG_ERROR ("MOCA app key not specified in settings. Missing 'moca_app_key' parameter.");
-        return;
+        return nil;
     }
     [dict setObject:appKey forKey:@"APP_KEY"];
-
+    
     // app secret
     NSString * appSecret = [settings valueForKey:@"moca_app_secret"];
     if (!appSecret) {
         MOCA_LOG_ERROR ("MOCA app secret not specified in settings. Missing 'moca_app_secret' parameter.");
-        return;
+        return nil;
     }
     [dict setObject:appSecret forKey:@"APP_SECRET"];
-
+    
     // log level
     NSString * logLevelStr = [settings valueForKey:@"moca_log_level"];
     if (!logLevelStr) {
@@ -110,32 +137,42 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     
     // disk size cache in MB
     [dict setObject:[NSNumber numberWithInt:100] forKey:@"CACHE_DISK_SIZE_IN_MB"];
-
+    
     // automatic push setup (disabled by default)
     BOOL pushEnabled = NO;
     NSString * pushEnabledStr = [settings valueForKey:@"moca_auto_push_setup_enabled"];
     if (pushEnabledStr) {
         pushEnabled = [pushEnabledStr integerValue];
-    }    
+    }
     [dict setObject:[NSNumber numberWithBool:pushEnabled] forKey:@"AUTOMATIC_PUSH_SETUP_ENABLED"];
-
+    
     // proximity service (enabled by default)
     BOOL proximityEnabled = YES;
     NSString * proximityEnabledStr = [settings valueForKey:@"moca_proximity_enabled"];
     if (proximityEnabledStr) {
         proximityEnabled = [proximityEnabledStr integerValue];
-    }    
+    }
     [dict setObject:[NSNumber numberWithBool:proximityEnabled] forKey:@"PROXIMITY_SERVICE_ENABLED"];
-
+    
     // geo service (enabled by default)
     BOOL geoEnabled = YES;
     NSString * geoEnabledStr = [settings valueForKey:@"moca_geolocation_enabled"];
     if (geoEnabledStr) {
         geoEnabled = [geoEnabledStr integerValue];
-    }    
+    }
     [dict setObject:[NSNumber numberWithBool:geoEnabled] forKey:@"GEOLOCATION_SERVICE_ENABLED"];
+    
+    return dict;
+}
 
-    // create config object
+
+- (void)initializeSDK {
+    //Init MOCA config options
+    NSDictionary *settings = self.commandDelegate.settings;
+    NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
+    
+    // build MOCA configuration
+    NSDictionary *dict = [MOCAPlugin configurationDictionaryFromCordova:settings];
     MOCAConfig *config = [[MOCAConfig alloc] initWithDictionary:dict];
     if (!config) {
         MOCA_LOG_ERROR ("Invalid MOCA configuration. Please review your config.xml file.");
@@ -144,7 +181,12 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
         
     // Create MOCA singleton that's used to talk to MOCA cloud.
     // Please populate MOCAConfig.plist with your info.
-    [MOCA initializeSDK:config];
+    if(![MOCA initialized]) {
+        [MOCA initializeSDK:config];
+        [preferences setObject:dict forKey:@"MOCA_CONFIG"];
+    }
+    
+
     // Setup 'PhoneGap' distribution flag
     MOCAInstance * instance = [MOCA currentInstance];
     if (instance) {
@@ -152,8 +194,13 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     }
     MOCAProximityService * service = [MOCA proximityService];
     if (service) {
-        service.eventsDelegate = self;
-        service.actionsDelegate = self;
+        self.eventsDelegate = [MOCAPluginEventsDelegate delegateWithDefault: service.eventsDelegate
+                                                         andCommandDelegate: self.commandDelegate];
+        self.actionsDelegate = [MOCAPluginActionsDelegate delegateWithDefault: service.actionsDelegate
+                                                           andCommandDelegate: self.commandDelegate];
+        
+        service.eventsDelegate = self.eventsDelegate;
+        service.actionsDelegate = self.actionsDelegate;
     } else {
         MOCA_LOG_WARNING ("MOCA proximity service not available on this device.");
     }
@@ -418,7 +465,7 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     dispatch_async(dispatch_get_main_queue(), ^{
         //if we're expecting any arguments
         if(command.arguments.count) {
-            MOCA_LOG_ERROR(@"Parameter number mismatch: expected 0 and received %d", command.arguments.count);
+            MOCA_LOG_ERROR(@"Parameter number mismatch: expected 0 and received %lu", (unsigned long)command.arguments.count);
             [self failWithCallbackID:command.callbackId];
             return;
         }
@@ -607,284 +654,91 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-
-// save with block
-// login
-// currentUser
-// setValue:forProperty:
-// valueForProperty:
-// allProperties
-
-
-#pragma mark
-
-
-#pragma mark Phonegap bridge: MOCA User
-
-// save with block
-// setValue:forProperty:
-// valueForProperty:
-// allProperties
-// logout
-
-#pragma mark
-
-#pragma mark Phonegap bridge: MOCA User
-
-// addTag
-// addTag:withValue
-// containsTag
-// getTagValue
-// getTopTags
-// allTags
-
-#pragma mark
-
-#pragma mark Phonegap bridge: Proximity Event Callbacks
-
-/**
- * Method triggered when iOS device detects a new beacon.
- *
- * @param service proximity service
- * @param beacon MOCA beacon
- *
- * @return void
- */
--(void)proximityService:(MOCAProximityService*)service
-          didEnterRange:(MOCABeacon *)beacon
-          withProximity:(CLProximity)proximity
-{
-    NSDictionary *args = [[NSMutableDictionary alloc] init];
-    [args setValue:beacon.identifier forKey:@"identifier"];
-    [args setValue:beacon.name forKey:@"name"];
-    if (beacon.code) {
-        [args setValue:beacon.code forKey:@"code"];
-    }
-    [args setValue:[NSNumber numberWithInt:proximity] forKey:@"proximity"];
-    [self fireDocumentEvent:@"moca.enterbeacon" withArgs:args];
+-(void) stashEventCommand:(CDVInvokedUrlCommand*)command {
+    MOCA_LOG_DEBUG(@"stashing event command");
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
+    [pluginResult setKeepCallbackAsBool:YES];
+    [self.eventsDelegate addCommand:command];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-/**
- * Method triggered when iOS device lost the connection to previously detected beacon.
- *
- * @param service proximity service
- * @param beacon MOCA beacon
- *
- * @return void
- */
--(void)proximityService:(MOCAProximityService*)service
-           didExitRange:(MOCABeacon *)beacon
-{
-    NSDictionary *args = [[NSMutableDictionary alloc] init];
-    [args setValue:beacon.identifier forKey:@"identifier"];
-    [args setValue:beacon.name forKey:@"name"];
-    [self fireDocumentEvent:@"moca.exitbeacon" withArgs:args];
+-(void) stashActionCommand:(CDVInvokedUrlCommand*)command {
+    MOCA_LOG_DEBUG(@"stashing action command");
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
+    [pluginResult setKeepCallbackAsBool:YES];
+    [self.actionsDelegate addCommand:command];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-
-/**
- * Method triggered when the state of a beacon proximity did changed.
- *
- * @param service proximity service
- * @param beacon MOCA beacon
- * @param prevProximity - previous beacon proximity state
- * @param curProximity - current beacon proximity state
- *
- * @return void
- */
--(void)proximityService:(MOCAProximityService*)service
-didBeaconProximityChange:(MOCABeacon*)beacon
-          fromProximity:(CLProximity)prevProximity
-            toProximity:(CLProximity)curProximity
-{
-    NSDictionary *args = [[NSMutableDictionary alloc] init];
-    [args setValue:beacon.identifier forKey:@"identifier"];
-    [args setValue:[NSNumber numberWithInt:prevProximity] forKey:@"prevProximity"];
-    [args setValue:[NSNumber numberWithInt:curProximity] forKey:@"curProximity"];
-    [self fireDocumentEvent:@"moca.beaconproximitychange" withArgs:args];
+#pragma events
+-(void) enterBeacon:(CDVInvokedUrlCommand*)command {
+    [self stashEventCommand:command];
+}
+-(void) exitBeacon:(CDVInvokedUrlCommand*)command {
+    [self stashEventCommand:command];
+}
+-(void) beaconProximityChange:(CDVInvokedUrlCommand*)command {
+    [self stashEventCommand:command];
+}
+-(void) enterPlace:(CDVInvokedUrlCommand*)command {
+    [self stashEventCommand:command];
+}
+-(void) exitPlace:(CDVInvokedUrlCommand*)command {
+    [self stashEventCommand:command];
+}
+-(void) enterZone:(CDVInvokedUrlCommand*)command {
+    [self stashEventCommand:command];
+}
+-(void) exitZone:(CDVInvokedUrlCommand*)command {
+    [self stashEventCommand:command];
+}
+-(void) didLoadedBeaconsData:(CDVInvokedUrlCommand*)command {
+    [self stashEventCommand:command];
 }
 
-/**
- * Method triggered when iOS device did entered a place.
- *
- * @param service proximity service
- * @param place MOCA place
- *
- * @return void
- */
--(void)proximityService:(MOCAProximityService*)service
-          didEnterPlace:(MOCAPlace *)place
-{
-    NSDictionary *args = [[NSMutableDictionary alloc] init];
-    [args setValue:place.identifier forKey:@"identifier"];
-    [args setValue:place.name forKey:@"name"];
-    [self fireDocumentEvent:@"moca.enterplace" withArgs:args];
+#pragma actions
+-(void) customAction:(CDVInvokedUrlCommand*)command {
+    [self stashActionCommand:command];
+}
+-(void) displayAlert:(CDVInvokedUrlCommand*)command {
+    [self stashActionCommand:command];
+}
+-(void) openUrl:(CDVInvokedUrlCommand*)command {
+    [self stashActionCommand:command];
+}
+-(void) showEmbeddedHtml:(CDVInvokedUrlCommand*)command {
+    [self stashActionCommand:command];
+}
+-(void) playVideo:(CDVInvokedUrlCommand*)command {
+    [self stashActionCommand:command];
+}
+-(void) showImage:(CDVInvokedUrlCommand*)command {
+    [self stashActionCommand:command];
+}
+-(void) addPassbook:(CDVInvokedUrlCommand*)command {
+    [self stashActionCommand:command];
+}
+-(void) addTag:(CDVInvokedUrlCommand*)command {
+    [self stashActionCommand:command];
+}
+-(void) playSound:(CDVInvokedUrlCommand*)command {
+    [self stashActionCommand:command];
 }
 
-/**
- * Method triggered when iOS device did exit place.
- *
- * @param service proximity service
- * @param place MOCA place
- *
- * @return void
- */
--(void)proximityService:(MOCAProximityService*)service
-           didExitPlace:(MOCAPlace *)place
-{
-    NSDictionary *args = [[NSMutableDictionary alloc] init];
-    [args setValue:place.identifier forKey:@"identifier"];
-    [args setValue:place.name forKey:@"name"];
-    [self fireDocumentEvent:@"moca.exitplace" withArgs:args];
-}
+#pragma other functions
 
-/**
- * Method triggered when iOS device did entered a specific zone of a place.
- *
- * @param service proximity service
- * @param zone MOCA zone
- *
- * @return void
- */
--(void)proximityService:(MOCAProximityService*)service
-           didEnterZone:(MOCAZone *)zone
+-(void)placesInside:(CDVInvokedUrlCommand *)command
 {
-    NSDictionary *args = [[NSMutableDictionary alloc] init];
-    [args setValue:zone.identifier forKey:@"identifier"];
-    [args setValue:zone.name forKey:@"name"];
-    if (zone.floorNumber) {
-        [args setValue:zone.floorNumber forKey:@"floorNumber"];
-    }
-    if (zone.shortId) {
-        [args setValue:zone.shortId forKey:@"shortId"];
-    }
-    if (zone.place) {
-        [args setValue:zone.place.identifier forKey:@"placeId"];
-    }
-    [self fireDocumentEvent:@"moca.enterzone" withArgs:args];
-}
-
-/**
- * Method triggered when iOS device did exit a specific zone of a place.
- *
- * @param service proximity service
- * @param zone MOCA zone
- *
- * @return void
- */
--(void)proximityService:(MOCAProximityService*)service
-            didExitZone:(MOCAZone *)zone
-{
-    NSDictionary *args = [[NSMutableDictionary alloc] init];
-    [args setValue:zone.identifier forKey:@"identifier"];
-    [args setValue:zone.name forKey:@"name"];
-    if (zone.floorNumber) {
-        [args setValue:zone.floorNumber forKey:@"floorNumber"];
-    }
-    if (zone.shortId) {
-        [args setValue:zone.shortId forKey:@"shortId"];
-    }
-    if (zone.place) {
-        [args setValue:zone.place.identifier forKey:@"placeId"];
-    }
-    [self fireDocumentEvent:@"moca.exitzone" withArgs:args];
-}
-
-/**
- * Method invoked when a proximity experience scheduled in MOCA-cloud
- * needs to evaluate a custom trigger.
- *
- * @param service proximity service
- * @param customAttribute custom trigger attribute string. Defined in MOCA console.
- *
- * @return YES if the custom trigger fired, or NO otherwise.
- */
--(BOOL)proximityService:(MOCAProximityService*)service
-    handleCustomTrigger:(NSString*)customAttribute
-{
-    NSDictionary *args = [[NSMutableDictionary alloc] init];
-    if (customAttribute) {
-        [args setValue:customAttribute forKey:@"customAttribute"];
-    } else {
-        [args setValue:@"" forKey:@"customAttribute"];
-    }
-    [self fireDocumentEvent:@"moca.customTrigger" withArgs:args];
-    return YES;
-}
-
-/**
- * Method invoked when a proximity service loaded or updated a registry of beacons
- * from MOCA cloud.
- *
- * @param service proximity service
- * @param beacons current collection of registered beacons
- *
- * @return YES if the custom trigger fired, or NO otherwise.
- */
--(void)proximityService:(MOCAProximityService*)service
-   didLoadedBeaconsData:(NSArray*)beacons
-{
-    NSDictionary *args = [[NSMutableDictionary alloc] init];
-    NSMutableArray * arr = [[NSMutableArray alloc] init];
-    for(MOCABeacon * b in beacons) {
-        NSDictionary *bObj = [[NSMutableDictionary alloc] init];
-        [bObj setValue:b.identifier forKey:@"identifier"];
-        [bObj setValue:b.name forKey:@"name"];
-        if (b.code) {
-            [bObj setValue:b.code forKey:@"code"];
+    NSArray *places = [[MOCA proximityService] places];
+    NSMutableArray *messages = [[NSMutableArray alloc] init];
+    for (MOCAPlace *place in places) {
+        if ([place currentState] == CLRegionStateInside) {
+            [messages addObject:[MOCAPluginCallbackMessage messageWithPlace:place]];
         }
-        [arr addObject: bObj];
     }
-    [args setValue:arr forKey:@"beacons"];
-    [self fireDocumentEvent:@"moca.dataready" withArgs:args];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:messages];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
-
-/**
- * Create and dispatch custom JavaScript event with given arguments.
- *
- * The JavaScript developer must register for custom events in the following way:
- * document.addEventListener("moca.enterplace", onEnterPlace, false);
- *
- *  function onEnterPlace(event) {
- *     // Called when MOCA detected user entering a place.
- *   }
- */
--(void)fireDocumentEvent:(NSString*)eventName withArgs:(NSDictionary*)args
-{
-    if (self.commandDelegate) {
-        NSError *error;
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:args
-                                                           options:0
-                                                             error:&error];
-        
-        if (!jsonData) {
-            MOCA_LOG_ERROR(@"fireDocumentEvent failed due to JSON serialization error: %@", error.localizedDescription);
-            return;
-        }
-        NSString * dictJsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        // create and dispatch JavaScript custom event
-        NSString * js = [NSString stringWithFormat:@"var e = new CustomEvent('%@', { 'detail': %@ });document.dispatchEvent(e);", eventName, dictJsonStr];
-        MOCA_LOG_INFO(@"[MOCA calling JS]: %@", js);
-        [self.commandDelegate evalJs:js scheduledOnRunLoop:YES];
-    }
-}
-
-/*
- * Called when the app should execute a custom action.
- * @param customAttribute - user provided custom attribute
- */
--(void)performCustomAction:(NSString*)customAttribute
-{
-    NSDictionary *args = [[NSMutableDictionary alloc] init];
-    if (customAttribute) {
-        [args setValue:customAttribute forKey:@"customAttribute"];
-    } else {
-        [args setValue:@"" forKey:@"customAttribute"];
-    }
-    [self fireDocumentEvent:@"moca.customaction" withArgs:args];
-}
-
-
 
 @end
 

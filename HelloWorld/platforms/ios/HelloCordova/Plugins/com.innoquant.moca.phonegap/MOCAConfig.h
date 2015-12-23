@@ -112,6 +112,13 @@
  */
 @property (nonatomic, readonly) BOOL              stealthMode;
 
+
+/**
+ * If enabled the MOCA Proximity service starts MOCA iBeacon driver (default driver).
+ * Defaults to YES.
+ */
+@property (nonatomic, readonly) BOOL              mocaDriverEnabled;
+
 /**
  * Custom properties.
  */

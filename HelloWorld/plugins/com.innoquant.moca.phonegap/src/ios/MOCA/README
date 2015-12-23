@@ -1,0 +1,240 @@
+# MOCA iOS SDK
+# v1.8.9
+# 23/12/2015
+# Copyright © 2012-2015, InnoQuant. All rights reserved.
+
+MOCA iOS SDK is a drop-in framework that provides an easy way to integrate 
+proximity experience services into your iOS apps. 
+
+
+GETTING STARTED
+-----------------
+
+## User documentation
+
+All user documentation can be found [here](http://developer.mocaplatform.com).
+
+### More information    
+
+For information, please visit [https://mocaplatform.com](http://mocaplatform.com)
+
+## Developer documentation  
+
+See documentation in docs/html folder.
+More information for developers is available at [Developer portal](http://developer.mocaplatform.com)
+
+
+INSTALLATION
+------------
+
+For iOS8+ use drag and drop MOCAKit.framework into your app project in XCode.
+Ensure it is added in 'Embedded Binaries' section of General target tab as well as
+it is listed in "Linked Frameworks and Binaries" section.
+
+The framework is a universal FAT binary compiled for the following architectures:
+- armv7/armv7s/arm64/x86_64/i386
+
+To support iOS 6 and 7 apps, use static library libMOCALib.a provided in the bundle.
+The library is a universal FAT library compiled for the following architectures:
+- armv7/armv7s/arm64/x86_64/i386
+
+Ensure the following frameworks and libraries are added as binary dependencies:
+- MobileCoreServices.framework
+- SystemConfiguration.framework
+- CoreBluetooth.framework
+- CoreLocation.framework
+- UIKit.framework
+- AudioToolbox.framework
+- libsqlite3.0.dynlib
+- PassKit.framework (optional)
+- AdSupport framework (optional, if the app uses Ads)
+
+For iOS 8, ensure the NSLocationAlwaysUsageDescription property is added to your plist.
+For example:
+
+NSLocationAlwaysUsageDescription=This app will use your location information to identify nearby places and to notify you about available proximity experiences.
+
+In app capabilities, ensure the following entitlements are enabled:
+- Background fetch
+- Remote notifications
+
+Optionally, link PassKit.framework to use Passbook experiences in your app.
+
+CHANGELOG
+-----------
+
+v.1.8.9
+- Updated device type detection: iPad Pro, iPad Mini 4, iPhone 6s, 6s plus
+- Track Ad ID only if AdSupport framework is linked with the app
+- Track new app properties: device screen size, default URI schema
+- Track tag event
+- fix: some logs were printed even when log was set to off. (#107)
+- API change: MOCAProximityActionsDelegate changed to support full customization.
+- Moca Device Identifier - share same ID across apps with MOCA SDK (AppIdentity:getOrCreateVirtualDeviceIdentifier)
+- Track BLE status (3 new variable: BleState, BlePowerOnCount, BlePowerOffCount)
+- Segments (simple, complex, tags) 
+
+v.1.8.0
+- Rich Push notifications
+- Push analytics
+
+v.1.7.0
+- Adds country/lang/etc. fields to campaign analytics
+- iOS 9 support.
+- Bitcode support.
+- HTTPS support. All MOCA communications use HTTPS MOCA Device API endpoint.
+
+v.1.6.9
+- FIX: Background task no longer runs when app is in foreground
+
+v.1.6.8
+- Enhancement: Better integration with Cocoapods
+
+v.1.6.7
+- FIX: Driver is no longer stopped when user turns bluetooth off
+
+v.1.6.6
+- New flag in the MOCAConfig.plist: BACKGROUND_LOCATION_ENABLED allows to disable tracking when app goes to background.
+- Fix: GEOLOCATION_SERVICE_ENABLED flag is now evaluated before askking for location (Wi-Fi / Cellullar / GPS) updates.
+
+v.1.6.5
+- Enhancement: enter/exit zone is now fired when device approaches a beacon in any proximity range (immediate/near/far).
+  Before that version, the trigger was called only when device approached near or immediate beacon proximity.
+- Fix: OnZoneExit logic was corrected.
+
+v1.6.4
+- Fix: place overlay always on top in app top window.
+- Add API callback to customize where to show the overlay window.
+
+v1.6.3
+- Critical bug fix for iOS 8.3. AutoLayout constrain violation: "A multiplier of 0 or a nil second item together with a location for the first attribute creates
+  an illegal constraint of a location equal to a constant. Location attributes must be specified in pairs".
+  This bug affects all apps with MOCA SDK 1.6.3 running on iOS 8.3.
+- Bug fix: persist experience fired at timestamp after app kill / restart to guarantee consistent repeat frequency.
+
+v1.6.2
+- Updated API in MOCAProximityActionsDelegate. Previous methods deprecated (but still working).
+  Enables custom delegate to get access to MOCAAction class and underlying action details such as background alert text.
+
+v1.6.1
+- Improved beacon ranging in background. The SDK uses now maximum available time doing ranging (up to 190 seconds) after being woken up in background.
+
+v1.6.0
+- Major refactoring of MOCA iBeacons driver to improve detection of beacon enter/exit region events when the app has been killed.
+  In some situations when the app has been killed by the user or OS, the detection of beacons may take up to several minutes
+  after the user turn the screen on or unlocks the phone.
+
+v.1.5.3
+- MOCA JavaScript API for HTML creativities: html content delivered by MOCA may now access instance/user properties from within SDK.
+  UIWebView uses JavaScript-to-Objective-C bridge to communicate both environments.
+
+v.1.5.2
+- Bug fix: auto register for push notifications called even if disabled
+- Bug fix: register for location services not always called in iOS 7
+- Analytics: track actions fired in foreground/background.
+
+v1.5.1
+- NaoMicro driver was refactored out of SDK and is now available as an add-in.
+- Optional AdSupport framework integration (SDK detects automatically if the App supports Ads).
+- Bug fix: session tracking improved
+
+v1.5.0.
+- New JavaScript API for MOCA WebView Overlay
+- Crash fix in ProximityManager when server request fails.
+
+v1.4.9
+-Update NaoMicro SDK
+
+v1.4.8
+-Update NaoMicro SDK
+
+v1.4.7
+-Fix: dispatch NaoMicro beacon events when delivered in background thread to UI thread
+
+v1.4.6
+-Fix: delay in opening custom URL
+
+v1.4.5
+- Fix: logout
+
+v1.4.4
+- Improved iBeacon error debuging (eg. notify reason for beacon monitoring failure)
+- Fix: set string array value for custom property
+- Fix: rename remaining AFNetworking symbols in 386/x86_64 archs
+- Improvement: smarter bluetooth on/off, airplane mode on/off handling
+
+v1.4.3.1
+- PoleStar NaoMicro SDK integration v12022015, bugfix
+
+v1.4.3
+- PoleStar NaoMicro SDK integration v11022015, support for i386/x86_64
+- Get top view fix for interactive UI views (toast, webview)
+- Default delay between subsequent actions set to 15 seconds
+- Removed heart beat events
+- New API for MOCAProximityService segments
+- New API callback MOCAProximityActionDelegate: -(BOOL)canDisplayProximityActionNow:(MOCAProximityService*)service;
+
+V.1.4.2
+- FMDB symbols renamed to avoid conflict within hosting app that also use FMDB
+
+V1.4.1
+- Latest NeoMicro Driver (6/02/2014)
+- Varios bug fixes
+- Visit tracking enabled
+- Hearbeat events disabled
+
+v1.4.0
+- Inbox API support
+- Full NaoMicro SDK integration (Exit Alert support)
+- Segmentation engine
+- Remove Monitored Region from NaoMicro SDK bug fix
+
+v1.3.9
+New features:
+- Inbox API (stub)
+- Push Notification Actions
+- Proximity engine improvements in background
+- Bug fix: restart proximity engine when location services authorization changes at start
+- Bug fix: persistent properties in MOCAUser
+
+V1.3.6
+New features:
+- PoleStar NAO Micro integration
+
+v1.3.2
+New features:
+- User Profile Sensing (Tags, Beacons, Places, Visit History)
+- Tag API
+- Improved analytics
+- Exit beacon trigger fix
+- Support for show embedded html action
+- Full screen overlay popup window
+- Various bug fixes
+- Binary data codecs (efficient binary data serialization support)
+
+v1.3.0
+Features:
+- iOS 8 support
+- Improved geo-location tracking with low battery usage
+- Improved geofencing support
+- Beacon/Zone/Place analytics
+- Geo analytics
+- Passbook actions support
+- FAT library support
+
+v1.2.2
+Features:
+- SDK shutdown
+- Configurable geolocation tracking service
+
+Bug fixes:
+- Custom action parse error fixed
+- Install action delegated bug fixed
+- Proximity client locking issue fixed
+
+
+LICENSE
+-----------
+
+See LICENSE.md file for licensing information and credits.
+
