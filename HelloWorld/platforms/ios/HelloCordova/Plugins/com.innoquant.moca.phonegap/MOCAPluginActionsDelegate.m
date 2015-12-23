@@ -76,7 +76,7 @@
  * Called when an alert notification should be displayed to a user.
  * @param alertMessage a simple string to be displayed as an alert
  */
--(void)action:(MOCAAction*)sender displayNotificationAlert:(NSString *)alertMessage
+-(BOOL)action:(MOCAAction*)sender displayNotificationAlert:(NSString *)alertMessage withSituation:(MOCAFireSituation)situation
 {
     CDVInvokedUrlCommand *command = [self.commands objectForKey:DISPLAY_ALERT];
     if(command) {
@@ -84,9 +84,9 @@
         MOCA_LOG_DEBUG(@"displayNotificationAlert custom handler");
     }
     if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
-        [self.defaultDelegate action:sender displayNotificationAlert:alertMessage];
+        [self.defaultDelegate action:sender displayNotificationAlert:alertMessage withSituation:situation];
     }
-    
+    return ![[command argumentAtIndex:0] boolValue];
 }
 
 /*
@@ -94,33 +94,34 @@
  * @param url a content URL to be displayed
  */
 
--(void)action:(MOCAAction*)sender openUrl:(NSURL*)url
+-(BOOL)action:(MOCAAction*)sender openUrl:(NSURL*)url withSituation:(MOCAFireSituation)situation
 {
     CDVInvokedUrlCommand *command = [self.commands objectForKey:OPEN_URL];
     if(command) {
         [self sendResultForCommand:command withMessage:url.absoluteString andAction:OPEN_URL];
         MOCA_LOG_DEBUG(@"openUrl custom handler");
     }
-    if((command && ![command argumentAtIndex:0]) || !command) {
-        [self.defaultDelegate action:sender openUrl:url];
+    if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
+        [self.defaultDelegate action:sender openUrl:url withSituation:situation];
     }
+    return ![[command argumentAtIndex:0] boolValue];
 }
 
 /*
  * Called when a embedded HTML content should be displayed to a user.
  * @param html a HTML content to be displayed
  */
--(void)action:(MOCAAction*)sender showHtmlWithString:(NSString*)html
+-(BOOL)action:(MOCAAction*)sender showHtmlWithString:(NSString*)html withSituation:(MOCAFireSituation)situation
 {
     CDVInvokedUrlCommand *command = [self.commands objectForKey:SHOW_EMBEDDED_HTML];
     if(command) {
         [self sendResultForCommand:command withMessage:html andAction:SHOW_EMBEDDED_HTML];
         MOCA_LOG_DEBUG(@"showHtmlWithString custom handler");
     }
-    if((command && ![command argumentAtIndex:0]) || !command) {
-        [self.defaultDelegate action:sender showHtmlWithString:html];
+    if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
+        [self.defaultDelegate action:sender showHtmlWithString:html withSituation:situation];
     }
-    
+    return ![[command argumentAtIndex:0] boolValue];
     
 }
 
@@ -128,47 +129,50 @@
  * Called when a video from URL should be played to a user.
  * @param url - video content URL
  */
--(void)action:(MOCAAction*)sender playVideoFromUrl:(NSURL*)url
+-(BOOL)action:(MOCAAction*)sender playVideoFromUrl:(NSURL*)url withSituation:(MOCAFireSituation)situation
 {
     CDVInvokedUrlCommand *command = [self.commands objectForKey:PLAY_VIDEO_FROM_URL];
     if(command) {
         [self sendResultForCommand:command withMessage:url.absoluteString andAction:PLAY_VIDEO_FROM_URL];
         MOCA_LOG_DEBUG(@"playVideoFromUrl custom handler");
     }
-    if((command && ![command argumentAtIndex:0]) || !command) {
-        [self.defaultDelegate action:sender playVideoFromUrl:url];
+    if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
+        [self.defaultDelegate action:sender playVideoFromUrl:url withSituation:situation];
     }
+    return ![[command argumentAtIndex:0] boolValue];
 }
 /*
  * Called when an image from URL should be displayed to a user.
  * @param url - image URL
  */
--(void)action:(MOCAAction*)sender displayImageFromUrl:(NSURL*)url
+-(BOOL)action:(MOCAAction*)sender displayImageFromUrl:(NSURL*)url withSituation:(MOCAFireSituation)situation
 {
     CDVInvokedUrlCommand *command = [self.commands objectForKey:IMAGE_FROM_URL];
     if(command) {
         [self sendResultForCommand:command withMessage:url.absoluteString andAction:IMAGE_FROM_URL];
         MOCA_LOG_DEBUG(@"displayImageFromUrl custom handler");
     }
-    if((command && ![command argumentAtIndex:0]) || !command) {
-        [self.defaultDelegate action:sender displayImageFromUrl:url];
+    if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
+        [self.defaultDelegate action:sender displayImageFromUrl:url withSituation:situation];
     }
+    return ![[command argumentAtIndex:0] boolValue];
 }
 
 /*
  * Called when a Passbook pass card from URL should be displayed to a user.
  * @param url - pass URL
  */
--(void)action:(MOCAAction*)sender displayPassFromUrl:(NSURL*)url
+-(BOOL)action:(MOCAAction*)sender displayPassFromUrl:(NSURL*)url withSituation:(MOCAFireSituation)situation
 {
     CDVInvokedUrlCommand *command = [self.commands objectForKey:PASSBOOK_FROM_URL];
     if(command) {
         [self sendResultForCommand:command withMessage:url.absoluteString andAction:PASSBOOK_FROM_URL];
         MOCA_LOG_DEBUG(@"displayPassFromUrl custom handler");
     }
-    if((command && ![command argumentAtIndex:0]) || !command) {
-        [self.defaultDelegate action:sender displayPassFromUrl:url];
+    if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
+        [self.defaultDelegate action:sender displayPassFromUrl:url withSituation:situation];
     }
+    return ![[command argumentAtIndex:0] boolValue];
 }
 
 /*
@@ -176,7 +180,7 @@
  * @param tagName name of the tag
  * @param value value to be added
  */
--(void)action:(MOCAAction*)sender addTag:(NSString*)tagName withValue:(NSString*)value
+-(BOOL)action:(MOCAAction*)sender addTag:(NSString*)tagName withValue:(NSString*)value
 {
     CDVInvokedUrlCommand *command = [self.commands objectForKey:ADD_TAG];
     if(command) {
@@ -184,9 +188,10 @@
         [self sendResultForCommand:command withMessage:messageContent andAction:ADD_TAG];
         MOCA_LOG_DEBUG(@"addTag custom handler");
     }
-    if((command && ![command argumentAtIndex:0]) || !command) {
+    if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
         [self.defaultDelegate action:sender addTag:tagName withValue:value];
     }
+    return ![[command argumentAtIndex:0] boolValue];
 }
 
 /*
@@ -194,32 +199,34 @@
  * @param soundFilename The sound file to play or `default` for the standard notification sound.
  * This file must be included in the application bundle or available in system bundle.
  */
--(void)action:(MOCAAction*)sender playNotificationSound:(NSString *)soundFilename
+-(BOOL)action:(MOCAAction*)sender playNotificationSound:(NSString *)soundFilename withSituation:(MOCAFireSituation)situation
 {
     CDVInvokedUrlCommand *command = [self.commands objectForKey:PLAY_NOTIFICATION_SOUND];
     if(command) {
         [self sendResultForCommand:command withMessage:soundFilename andAction:PLAY_NOTIFICATION_SOUND];
         MOCA_LOG_DEBUG(@"playNotificationSound custom handler");
     }
-    if((command && ![command argumentAtIndex:0]) || !command) {
-        [self.defaultDelegate action:sender playNotificationSound:soundFilename];
+    if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
+        [self.defaultDelegate action:sender playNotificationSound:soundFilename withSituation:situation];
     }
+    return ![[command argumentAtIndex:0] boolValue];
 }
 
 /*
  * Called when the app should execute a custom action.
  * @param customAttribute - user provided custom attribute
  */
--(void)action:(MOCAAction*)sender performCustomAction:(NSString*)customAttribute
+-(BOOL)action:(MOCAAction*)sender performCustomAction:(NSString*)customAttribute withSituation:(MOCAFireSituation)situation
 {
     CDVInvokedUrlCommand *command = [self.commands objectForKey:PERFORM_CUSTOM_ACTION];
     if(command) {
         [self sendResultForCommand:command withMessage:customAttribute andAction:PERFORM_CUSTOM_ACTION];
         MOCA_LOG_DEBUG(@"performCustomAction custom handler");
     }
-    if((command && ![command argumentAtIndex:0]) || !command) {
-        [self.defaultDelegate action:sender performCustomAction:customAttribute];
+    if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
+        [self.defaultDelegate action:sender performCustomAction:customAttribute withSituation:situation];
     }
+    return ![[command argumentAtIndex:0] boolValue];
 }
 
 /**
