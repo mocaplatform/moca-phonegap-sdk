@@ -210,11 +210,11 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     
 }
 
--(void)handleLocalNotification:(UILocalNotification*)notification
+-(void)handleLocalNotification:(NSNotification*)notification
 {
     if (MOCA.initialized)
     {
-        [MOCA handleLocalNotification:notification];
+        [MOCA handleLocalNotification:notification.object];
     }
 }
 
