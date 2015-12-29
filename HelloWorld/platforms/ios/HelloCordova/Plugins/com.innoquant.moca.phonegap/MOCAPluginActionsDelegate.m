@@ -86,7 +86,7 @@
     if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
         [self.defaultDelegate action:sender displayNotificationAlert:alertMessage withSituation:situation];
     }
-    return ![[command argumentAtIndex:0] boolValue];
+    return YES;
 }
 
 /*
@@ -104,7 +104,7 @@
     if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
         [self.defaultDelegate action:sender openUrl:url withSituation:situation];
     }
-    return ![[command argumentAtIndex:0] boolValue];
+    return YES;
 }
 
 /*
@@ -121,7 +121,7 @@
     if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
         [self.defaultDelegate action:sender showHtmlWithString:html withSituation:situation];
     }
-    return ![[command argumentAtIndex:0] boolValue];
+    return YES;
     
 }
 
@@ -139,7 +139,7 @@
     if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
         [self.defaultDelegate action:sender playVideoFromUrl:url withSituation:situation];
     }
-    return ![[command argumentAtIndex:0] boolValue];
+    return YES;
 }
 /*
  * Called when an image from URL should be displayed to a user.
@@ -155,7 +155,7 @@
     if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
         [self.defaultDelegate action:sender displayImageFromUrl:url withSituation:situation];
     }
-    return ![[command argumentAtIndex:0] boolValue];
+    return YES;
 }
 
 /*
@@ -172,7 +172,7 @@
     if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
         [self.defaultDelegate action:sender displayPassFromUrl:url withSituation:situation];
     }
-    return ![[command argumentAtIndex:0] boolValue];
+    return YES;
 }
 
 /*
@@ -191,7 +191,7 @@
     if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
         [self.defaultDelegate action:sender addTag:tagName withValue:value];
     }
-    return ![[command argumentAtIndex:0] boolValue];
+    return YES;
 }
 
 /*
@@ -209,7 +209,7 @@
     if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
         [self.defaultDelegate action:sender playNotificationSound:soundFilename withSituation:situation];
     }
-    return ![[command argumentAtIndex:0] boolValue];
+    return YES;
 }
 
 /*
@@ -226,7 +226,7 @@
     if((command && ![[command argumentAtIndex:0] boolValue]) || !command) {
         [self.defaultDelegate action:sender performCustomAction:customAttribute withSituation:situation];
     }
-    return ![[command argumentAtIndex:0] boolValue];
+    return YES;
 }
 
 /**
