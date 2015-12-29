@@ -1,3 +1,7 @@
 HelloWorld/platforms/android/.idea
 **/.idea/
 **/ant-build/
+*.xcworkspacedata
+*.xcscmblueprint
+*.xcuserstate
+*.xcbkptlist

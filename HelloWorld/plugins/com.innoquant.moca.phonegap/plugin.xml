@@ -153,7 +153,7 @@
         </config-file>
 
         <!-- MOCA SDK -->
-        <resource-file src="libs/moca-android-sdk-1.8.5.aar" target="libs/moca-android-sdk-1.8.5.aar" />
+        <resource-file src="libs/moca-android-sdk-1.8.7.aar" target="libs/moca-android-sdk-1.8.7.aar" />
         <source-file src="src/android/MOCAPlugin.java" target-dir="src/com/innoquant/moca/phonegap" />
         <source-file src="src/android/MOCAConstants.java" target-dir="src/com/innoquant/moca/phonegap" />
         <source-file src="src/android/MOCAAPI.java" target-dir="src/com/innoquant/moca/phonegap" />
@@ -190,23 +190,30 @@
 
         <header-file src="src/ios/MOCAPlugin.h" />
         <source-file src="src/ios/MOCAPlugin.m" />
+        <header-file src="src/ios/MOCAPluginActionsDelegate.h" />
+        <source-file src="src/ios/MOCAPluginActionsDelegate.m" />
+        <header-file src="src/ios/MOCAPluginEventsDelegate.h" />
+        <source-file src="src/ios/MOCAPluginEventsDelegate.m" />
+        <header-file src="src/ios/MOCAPluginCallbackMessage.h" />
+        <source-file src="src/ios/MOCAPluginCallbackMessage.m" />
+        <header-file src="src/ios/MOCAPluginConstants.h" />
 
         <!-- Public header files -->
-        <header-file src="src/ios/MOCA/Header/MOCA.h"  />
-        <header-file src="src/ios/MOCA/Header/MOCAAction.h"  />
-        <header-file src="src/ios/MOCA/Header/MOCABeacon.h"  />
-        <header-file src="src/ios/MOCA/Header/MOCAConfig.h"  />
-        <header-file src="src/ios/MOCA/Header/MOCAEvent.h"  />
-        <header-file src="src/ios/MOCA/Header/MOCAInbox.h"  />
-        <header-file src="src/ios/MOCA/Header/MOCAInstance.h"  />
-        <header-file src="src/ios/MOCA/Header/MOCALog.h"  />
-        <header-file src="src/ios/MOCA/Header/MOCAPlace.h"  />
-        <header-file src="src/ios/MOCA/Header/MOCAPropertyContainer.h"  />
-        <header-file src="src/ios/MOCA/Header/MOCAProximityDelegate.h"  />
-        <header-file src="src/ios/MOCA/Header/MOCAProximityService.h"  />
-        <header-file src="src/ios/MOCA/Header/MOCASerializable.h"  />
-        <header-file src="src/ios/MOCA/Header/MOCAUser.h"  />
-        <header-file src="src/ios/MOCA/Header/MOCAZone.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCA.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCAAction.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCABeacon.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCAConfig.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCAEvent.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCAInbox.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCAInstance.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCALog.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCAPlace.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCAPropertyContainer.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCAProximityDelegate.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCAProximityService.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCASerializable.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCAUser.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCAZone.h"  />
 
         <!-- MOCA SDK Library Resource files -->
         <source-file src="src/ios/MOCA/libMOCALib.a" framework="true"/>

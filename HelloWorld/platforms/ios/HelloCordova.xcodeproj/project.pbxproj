@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03B6339F701843D6ACE80DCD /* libMOCALib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F26955CAE6D8470B982500A2 /* libMOCALib.a */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		20BF8330E6FC42EC9AB6C04F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C340381366440E88B84D64 /* CoreLocation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		2A181BA64AC1423799AB7756 /* libMOCALib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB20D4DEBB1E4A7A96CE19B6 /* libMOCALib.a */; };
 		301BF552109A68D80062928A /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; };
 		302D95F114D2391D003F00A1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* MainViewController.m */; };
 		302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* MainViewController.xib */; };
@@ -39,6 +39,8 @@
 		63BEE6701C245DF200D95DDF /* MOCAPluginActionsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BEE66C1C245DF200D95DDF /* MOCAPluginActionsDelegate.m */; };
 		63BEE6711C245DF200D95DDF /* MOCAPluginCallbackMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BEE66E1C245DF200D95DDF /* MOCAPluginCallbackMessage.m */; };
 		63C290DE1C2182B6008F3761 /* MOCAPluginEventsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C290DD1C2182B6008F3761 /* MOCAPluginEventsDelegate.m */; };
+		63FDBDEB1C31881000E7188F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63FDBDEA1C31881000E7188F /* MapKit.framework */; };
+		67F0C6D5BC2F45EAA24153E3 /* MOCAPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7364AEFD1FE9466F9924121C /* MOCAPlugin.m */; };
 		7E7966DE1810823500FA85AD /* icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966D41810823500FA85AD /* icon-40.png */; };
 		7E7966DF1810823500FA85AD /* icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966D51810823500FA85AD /* icon-40@2x.png */; };
 		7E7966E01810823500FA85AD /* icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966D61810823500FA85AD /* icon-50.png */; };
@@ -54,7 +56,6 @@
 		ACCFFD3D73FD45BB8D4CB92D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCDA324C05E462FAF30B14D /* Security.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CC1B1E75B6EC43DCBD8D91E8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B212D60C09E4CB3ACB4BD3B /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
-		EC61AE513FF44B5B82A78C20 /* MOCAPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 630C4A88E76D43EBB8FF0BB4 /* MOCAPlugin.m */; };
 		F07404A6107041A58CE93B37 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6471025A55B4EA1B58B782F /* Foundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -76,19 +77,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0349FBAC25534319998AFA48 /* MOCAEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAEvent.h; path = com.innoquant.moca.phonegap/MOCAEvent.h; sourceTree = "<group>"; };
-		0A812F9653074CABA8C42656 /* MOCAInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAInstance.h; path = com.innoquant.moca.phonegap/MOCAInstance.h; sourceTree = "<group>"; };
 		0DCDA324C05E462FAF30B14D /* Security.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		108DBE4D443B4559A4B24419 /* libsqlite3.dylib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		121B0BBD965F4A4D8C537AA3 /* MOCAAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAAction.h; path = com.innoquant.moca.phonegap/MOCAAction.h; sourceTree = "<group>"; };
-		12C8F2572EBE4332865A1775 /* MOCALog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCALog.h; path = com.innoquant.moca.phonegap/MOCALog.h; sourceTree = "<group>"; };
-		16B6D2BE008044F88F509065 /* MOCAInbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAInbox.h; path = com.innoquant.moca.phonegap/MOCAInbox.h; sourceTree = "<group>"; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* HelloCordova.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloCordova.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2332A2C9F67B4CD2851A3D50 /* CoreBluetooth.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
-		24B5DC72ADB14EC6B20B6171 /* MOCAConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAConfig.h; path = com.innoquant.moca.phonegap/MOCAConfig.h; sourceTree = "<group>"; };
-		287A23C0D845499F86EF34D5 /* MOCAUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAUser.h; path = com.innoquant.moca.phonegap/MOCAUser.h; sourceTree = "<group>"; };
+		25BCCB9A03D44A2D8FBA85AE /* MOCAZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAZone.h; path = com.innoquant.moca.phonegap/MOCAZone.h; sourceTree = "<group>"; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
@@ -113,11 +108,11 @@
 		30FC414816E50CA1004E6F35 /* icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72@2x.png"; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* HelloCordova-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HelloCordova-Prefix.pch"; sourceTree = "<group>"; };
 		3C5EA34D69BA4F8C8AC0F583 /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		44F2DE250ACA4C398E165A20 /* MOCASerializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCASerializable.h; path = com.innoquant.moca.phonegap/MOCASerializable.h; sourceTree = "<group>"; };
 		4721FD89F8A844D8B91381ED /* CoreTelephony.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		472229DAD3DD4F8EAF9108A1 /* CFNetwork.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		4AF71FC63BDE425D9B1F7988 /* MOCA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCA.h; path = com.innoquant.moca.phonegap/MOCA.h; sourceTree = "<group>"; };
+		4AD521B0A5314BB7BF9E3C35 /* MOCAPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAPlugin.h; path = com.innoquant.moca.phonegap/MOCAPlugin.h; sourceTree = "<group>"; };
 		5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
-		630C4A88E76D43EBB8FF0BB4 /* MOCAPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOCAPlugin.m; path = com.innoquant.moca.phonegap/MOCAPlugin.m; sourceTree = "<group>"; };
 		63BEE66B1C245DF200D95DDF /* MOCAPluginActionsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAPluginActionsDelegate.h; path = com.innoquant.moca.phonegap/MOCAPluginActionsDelegate.h; sourceTree = "<group>"; };
 		63BEE66C1C245DF200D95DDF /* MOCAPluginActionsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOCAPluginActionsDelegate.m; path = com.innoquant.moca.phonegap/MOCAPluginActionsDelegate.m; sourceTree = "<group>"; };
 		63BEE66D1C245DF200D95DDF /* MOCAPluginCallbackMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAPluginCallbackMessage.h; path = com.innoquant.moca.phonegap/MOCAPluginCallbackMessage.h; sourceTree = "<group>"; };
@@ -125,11 +120,11 @@
 		63BEE66F1C245DF200D95DDF /* MOCAPluginConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAPluginConstants.h; path = com.innoquant.moca.phonegap/MOCAPluginConstants.h; sourceTree = "<group>"; };
 		63C290DC1C2182B6008F3761 /* MOCAPluginEventsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAPluginEventsDelegate.h; path = com.innoquant.moca.phonegap/MOCAPluginEventsDelegate.h; sourceTree = "<group>"; };
 		63C290DD1C2182B6008F3761 /* MOCAPluginEventsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOCAPluginEventsDelegate.m; path = com.innoquant.moca.phonegap/MOCAPluginEventsDelegate.m; sourceTree = "<group>"; };
+		63FDBDEA1C31881000E7188F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		6A32F1C0BC964B9A928BB255 /* MOCAPlace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAPlace.h; path = com.innoquant.moca.phonegap/MOCAPlace.h; sourceTree = "<group>"; };
 		6B212D60C09E4CB3ACB4BD3B /* UIKit.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		6BE4AE74076A4A80BCE011C5 /* MOCABeacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCABeacon.h; path = com.innoquant.moca.phonegap/MOCABeacon.h; sourceTree = "<group>"; };
-		6C66CC2D5C7E4BD2A6C65AAB /* MOCAPropertyContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAPropertyContainer.h; path = com.innoquant.moca.phonegap/MOCAPropertyContainer.h; sourceTree = "<group>"; };
-		6C6DAFB781204F2D976EC766 /* MOCAProximityService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAProximityService.h; path = com.innoquant.moca.phonegap/MOCAProximityService.h; sourceTree = "<group>"; };
-		7022DD4237984767B19FF92F /* MOCAZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAZone.h; path = com.innoquant.moca.phonegap/MOCAZone.h; sourceTree = "<group>"; };
+		6CB4290EECB04F1CADCA0776 /* MOCAEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAEvent.h; path = com.innoquant.moca.phonegap/MOCAEvent.h; sourceTree = "<group>"; };
+		7364AEFD1FE9466F9924121C /* MOCAPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOCAPlugin.m; path = com.innoquant.moca.phonegap/MOCAPlugin.m; sourceTree = "<group>"; };
 		7E7966D41810823500FA85AD /* icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-40.png"; sourceTree = "<group>"; };
 		7E7966D51810823500FA85AD /* icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-40@2x.png"; sourceTree = "<group>"; };
 		7E7966D61810823500FA85AD /* icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-50.png"; sourceTree = "<group>"; };
@@ -143,18 +138,25 @@
 		865D0E5F229447089503D8F5 /* AudioToolbox.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		88968F7F88864138842C0C65 /* PassKit.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* HelloCordova-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "HelloCordova-Info.plist"; path = "../HelloCordova-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
-		AC4E67F510054E92B28952F7 /* MOCAProximityDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAProximityDelegate.h; path = com.innoquant.moca.phonegap/MOCAProximityDelegate.h; sourceTree = "<group>"; };
-		AD10B3C4C1524A06BFD3DA2A /* MOCASerializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCASerializable.h; path = com.innoquant.moca.phonegap/MOCASerializable.h; sourceTree = "<group>"; };
+		8E3F8C48A85E4B61A06D9CBE /* MOCAAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAAction.h; path = com.innoquant.moca.phonegap/MOCAAction.h; sourceTree = "<group>"; };
+		8F43CA13255A4724B626A019 /* MOCAInbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAInbox.h; path = com.innoquant.moca.phonegap/MOCAInbox.h; sourceTree = "<group>"; };
+		93C658D6E48B4D789A61FB3A /* MOCAProximityService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAProximityService.h; path = com.innoquant.moca.phonegap/MOCAProximityService.h; sourceTree = "<group>"; };
+		99F11C5DE3EB4E29BD9BEB7C /* MOCAInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAInstance.h; path = com.innoquant.moca.phonegap/MOCAInstance.h; sourceTree = "<group>"; };
+		AD28A39541C6400E953936F5 /* MOCA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCA.h; path = com.innoquant.moca.phonegap/MOCA.h; sourceTree = "<group>"; };
 		B6471025A55B4EA1B58B782F /* Foundation.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B7437DEF74D4437B8C253820 /* MOCAPropertyContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAPropertyContainer.h; path = com.innoquant.moca.phonegap/MOCAPropertyContainer.h; sourceTree = "<group>"; };
+		B8ABDA2BF99D402BBEF141B8 /* MOCABeacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCABeacon.h; path = com.innoquant.moca.phonegap/MOCABeacon.h; sourceTree = "<group>"; };
+		BE572D9ED03943D986C8A082 /* MOCAUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAUser.h; path = com.innoquant.moca.phonegap/MOCAUser.h; sourceTree = "<group>"; };
+		C6A898AB46F54F648178D493 /* MOCAProximityDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAProximityDelegate.h; path = com.innoquant.moca.phonegap/MOCAProximityDelegate.h; sourceTree = "<group>"; };
+		C84195E5822C4E0DBADA92EF /* MOCAConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAConfig.h; path = com.innoquant.moca.phonegap/MOCAConfig.h; sourceTree = "<group>"; };
+		CB20D4DEBB1E4A7A96CE19B6 /* libMOCALib.a */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = archive.ar; name = libMOCALib.a; path = HelloCordova/Plugins/com.innoquant.moca.phonegap/libMOCALib.a; sourceTree = "<group>"; };
 		D3C340381366440E88B84D64 /* CoreLocation.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
-		D8D394914F8B479280AC20D1 /* MOCAPlace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAPlace.h; path = com.innoquant.moca.phonegap/MOCAPlace.h; sourceTree = "<group>"; };
+		E43D1B0FCEC049C7919F34B0 /* MOCALog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCALog.h; path = com.innoquant.moca.phonegap/MOCALog.h; sourceTree = "<group>"; };
 		EB87FDF21871DA7A0020F90C /* merges */ = {isa = PBXFileReference; lastKnownFileType = folder; name = merges; path = ../../merges; sourceTree = "<group>"; };
 		EB87FDF31871DA8E0020F90C /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = ../../www; sourceTree = "<group>"; };
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
-		F26955CAE6D8470B982500A2 /* libMOCALib.a */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = archive.ar; name = libMOCALib.a; path = HelloCordova/Plugins/com.innoquant.moca.phonegap/libMOCALib.a; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = HelloCordova/config.xml; sourceTree = "<group>"; };
-		FA545197C3874D008956AFB7 /* MOCAPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOCAPlugin.h; path = com.innoquant.moca.phonegap/MOCAPlugin.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,13 +173,14 @@
 				F07404A6107041A58CE93B37 /* Foundation.framework in Frameworks */,
 				ACCFFD3D73FD45BB8D4CB92D /* Security.framework in Frameworks */,
 				45C6B92A97604BF5A63A1FEE /* SystemConfiguration.framework in Frameworks */,
+				63FDBDEB1C31881000E7188F /* MapKit.framework in Frameworks */,
 				CC1B1E75B6EC43DCBD8D91E8 /* UIKit.framework in Frameworks */,
 				390E3CEC788E4DB185A26B1D /* CoreTelephony.framework in Frameworks */,
 				20BF8330E6FC42EC9AB6C04F /* CoreLocation.framework in Frameworks */,
 				51CDFF3DF8484F9FB662302D /* PassKit.framework in Frameworks */,
 				86602361E9724A17985E904A /* AudioToolbox.framework in Frameworks */,
 				5174886E42144FE8B06CFDF5 /* CoreBluetooth.framework in Frameworks */,
-				03B6339F701843D6ACE80DCD /* libMOCALib.a in Frameworks */,
+				2A181BA64AC1423799AB7756 /* libMOCALib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +250,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63FDBDEA1C31881000E7188F /* MapKit.framework */,
 				5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
 				305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */,
@@ -261,7 +265,7 @@
 				88968F7F88864138842C0C65 /* PassKit.framework */,
 				865D0E5F229447089503D8F5 /* AudioToolbox.framework */,
 				2332A2C9F67B4CD2851A3D50 /* CoreBluetooth.framework */,
-				F26955CAE6D8470B982500A2 /* libMOCALib.a */,
+				CB20D4DEBB1E4A7A96CE19B6 /* libMOCALib.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -277,23 +281,6 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				630C4A88E76D43EBB8FF0BB4 /* MOCAPlugin.m */,
-				FA545197C3874D008956AFB7 /* MOCAPlugin.h */,
-				4AF71FC63BDE425D9B1F7988 /* MOCA.h */,
-				121B0BBD965F4A4D8C537AA3 /* MOCAAction.h */,
-				6BE4AE74076A4A80BCE011C5 /* MOCABeacon.h */,
-				24B5DC72ADB14EC6B20B6171 /* MOCAConfig.h */,
-				0349FBAC25534319998AFA48 /* MOCAEvent.h */,
-				16B6D2BE008044F88F509065 /* MOCAInbox.h */,
-				0A812F9653074CABA8C42656 /* MOCAInstance.h */,
-				12C8F2572EBE4332865A1775 /* MOCALog.h */,
-				D8D394914F8B479280AC20D1 /* MOCAPlace.h */,
-				6C66CC2D5C7E4BD2A6C65AAB /* MOCAPropertyContainer.h */,
-				AC4E67F510054E92B28952F7 /* MOCAProximityDelegate.h */,
-				6C6DAFB781204F2D976EC766 /* MOCAProximityService.h */,
-				AD10B3C4C1524A06BFD3DA2A /* MOCASerializable.h */,
-				287A23C0D845499F86EF34D5 /* MOCAUser.h */,
-				7022DD4237984767B19FF92F /* MOCAZone.h */,
 				63C290DC1C2182B6008F3761 /* MOCAPluginEventsDelegate.h */,
 				63C290DD1C2182B6008F3761 /* MOCAPluginEventsDelegate.m */,
 				63BEE66B1C245DF200D95DDF /* MOCAPluginActionsDelegate.h */,
@@ -301,6 +288,23 @@
 				63BEE66D1C245DF200D95DDF /* MOCAPluginCallbackMessage.h */,
 				63BEE66E1C245DF200D95DDF /* MOCAPluginCallbackMessage.m */,
 				63BEE66F1C245DF200D95DDF /* MOCAPluginConstants.h */,
+				7364AEFD1FE9466F9924121C /* MOCAPlugin.m */,
+				4AD521B0A5314BB7BF9E3C35 /* MOCAPlugin.h */,
+				AD28A39541C6400E953936F5 /* MOCA.h */,
+				8E3F8C48A85E4B61A06D9CBE /* MOCAAction.h */,
+				B8ABDA2BF99D402BBEF141B8 /* MOCABeacon.h */,
+				C84195E5822C4E0DBADA92EF /* MOCAConfig.h */,
+				6CB4290EECB04F1CADCA0776 /* MOCAEvent.h */,
+				8F43CA13255A4724B626A019 /* MOCAInbox.h */,
+				99F11C5DE3EB4E29BD9BEB7C /* MOCAInstance.h */,
+				E43D1B0FCEC049C7919F34B0 /* MOCALog.h */,
+				6A32F1C0BC964B9A928BB255 /* MOCAPlace.h */,
+				B7437DEF74D4437B8C253820 /* MOCAPropertyContainer.h */,
+				C6A898AB46F54F648178D493 /* MOCAProximityDelegate.h */,
+				93C658D6E48B4D789A61FB3A /* MOCAProximityService.h */,
+				44F2DE250ACA4C398E165A20 /* MOCASerializable.h */,
+				BE572D9ED03943D986C8A082 /* MOCAUser.h */,
+				25BCCB9A03D44A2D8FBA85AE /* MOCAZone.h */,
 			);
 			name = Plugins;
 			path = HelloCordova/Plugins;
@@ -386,6 +390,17 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = YTLF2484X3;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -492,8 +507,8 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				63C290DE1C2182B6008F3761 /* MOCAPluginEventsDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
-				EC61AE513FF44B5B82A78C20 /* MOCAPlugin.m in Sources */,
 				63BEE6711C245DF200D95DDF /* MOCAPluginCallbackMessage.m in Sources */,
+				67F0C6D5BC2F45EAA24153E3 /* MOCAPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

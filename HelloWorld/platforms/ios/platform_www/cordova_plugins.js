@@ -11,6 +11,8 @@ module.exports = [
 ];
 module.exports.metadata = 
 // TOP OF METADATA
-{}
+{
+    "com.innoquant.moca.phonegap": "2.0.0"
+}
 // BOTTOM OF METADATA
 });

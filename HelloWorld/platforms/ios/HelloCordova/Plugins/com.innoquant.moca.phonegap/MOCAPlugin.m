@@ -1,6 +1,6 @@
 //
 //  MOCAPlugin.m
-//  v1.6.0
+//  v2.0.0
 //
 //  MOCA PhoneGap Plugin (iOS)
 //
@@ -88,20 +88,21 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 @implementation MOCAPlugin
 
 - (void)pluginInitialize {
-    MOCA_LOG_INFO("Initializing MOCAPlugin V1.6.0");
+    MOCA_LOG_INFO("Initializing MOCAPlugin V2.0.0");
     [self initializeSDK];
 }
 
-+ (void)load {
-    NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
-    NSDictionary *dict = [preferences dictionaryForKey: @"MOCA_CONFIG"];
-    
-    if(dict && ![MOCA initialized]) {
-        MOCA_LOG_DEBUG(@"MOCA init in load");
-        MOCAConfig *config = [[MOCAConfig alloc] initWithDictionary:dict];
-        [MOCA initializeSDK:config];
-    }
-}
+
+//+ (void)load {
+//    NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
+//    NSDictionary *dict = [preferences dictionaryForKey: @"MOCA_CONFIG"];
+//    
+//    if(dict && ![MOCA initialized]) {
+//        MOCA_LOG_DEBUG(@"MOCA init in load");
+//        MOCAConfig *config = [[MOCAConfig alloc] initWithDictionary:dict];
+//        [MOCA initializeSDK:config];
+//    }
+//}
 
 + (NSDictionary *)configurationDictionaryFromCordova: (NSDictionary *)settings {
     NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
@@ -125,8 +126,9 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     NSString * logLevelStr = [settings valueForKey:@"moca_log_level"];
     if (!logLevelStr) {
         logLevelStr = @"warning";
+        [dict setObject:logLevelStr forKey:@"LOG_LEVEL"];
     }
-    [dict setObject:logLevelStr forKey:@"LOG_LEVEL"];
+    
     
     // disk size cache in MB
     [dict setObject:[NSNumber numberWithInt:100] forKey:@"CACHE_DISK_SIZE_IN_MB"];
@@ -136,24 +138,26 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     NSString * pushEnabledStr = [settings valueForKey:@"moca_auto_push_setup_enabled"];
     if (pushEnabledStr) {
         pushEnabled = [pushEnabledStr integerValue];
+        [dict setObject:[NSNumber numberWithBool:pushEnabled] forKey:@"AUTOMATIC_PUSH_SETUP_ENABLED"];
     }
-    [dict setObject:[NSNumber numberWithBool:pushEnabled] forKey:@"AUTOMATIC_PUSH_SETUP_ENABLED"];
+    
     
     // proximity service (enabled by default)
     BOOL proximityEnabled = YES;
     NSString * proximityEnabledStr = [settings valueForKey:@"moca_proximity_enabled"];
     if (proximityEnabledStr) {
         proximityEnabled = [proximityEnabledStr integerValue];
+        [dict setObject:[NSNumber numberWithBool:proximityEnabled] forKey:@"PROXIMITY_SERVICE_ENABLED"];
     }
-    [dict setObject:[NSNumber numberWithBool:proximityEnabled] forKey:@"PROXIMITY_SERVICE_ENABLED"];
+    
     
     // geo service (enabled by default)
     BOOL geoEnabled = YES;
     NSString * geoEnabledStr = [settings valueForKey:@"moca_geolocation_enabled"];
     if (geoEnabledStr) {
         geoEnabled = [geoEnabledStr integerValue];
+        [dict setObject:[NSNumber numberWithBool:geoEnabled] forKey:@"GEOLOCATION_SERVICE_ENABLED"];
     }
-    [dict setObject:[NSNumber numberWithBool:geoEnabled] forKey:@"GEOLOCATION_SERVICE_ENABLED"];
     
     return dict;
 }
@@ -197,7 +201,23 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     } else {
         MOCA_LOG_WARNING ("MOCA proximity service not available on this device.");
     }
+    
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self
+               selector:@selector(handleLocalNotification:)
+                   name:CDVLocalNotification
+                 object:nil];
+    
 }
+
+-(void)handleLocalNotification:(NSNotification*)notification
+{
+    if (MOCA.initialized)
+    {
+        [MOCA handleLocalNotification:notification.object];
+    }
+}
+
 
 - (void)performCallbackWithCommand:(CDVInvokedUrlCommand*)command 
                          expecting:(NSArray *)expected 
