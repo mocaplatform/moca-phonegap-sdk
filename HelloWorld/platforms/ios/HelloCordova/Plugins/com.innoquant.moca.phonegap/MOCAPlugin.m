@@ -191,8 +191,7 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     }
     MOCAProximityService * service = [MOCA proximityService];
     if (service) {
-        self.eventsDelegate = [MOCAPluginEventsDelegate delegateWithDefault: service.eventsDelegate
-                                                         andCommandDelegate: self.commandDelegate];
+        self.eventsDelegate = [MOCAPluginEventsDelegate withCommandDelegate: self.commandDelegate];
         self.actionsDelegate = [MOCAPluginActionsDelegate delegateWithDefault: service.actionsDelegate
                                                            andCommandDelegate: self.commandDelegate];
         
