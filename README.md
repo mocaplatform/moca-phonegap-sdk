@@ -17,6 +17,5 @@ MOCA PhoneGap SDK is a drop-in Cordova plugin that provides an easy way to integ
 How to use it
 -------------
 
-
 For installation instructions and examples, please visit the [MOCA Developer portal](http://developer.mocaplatform.com/docs/installation).
 
