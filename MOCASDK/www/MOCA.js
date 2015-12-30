@@ -23,7 +23,34 @@
 //
 
 var MOCA = function () {
+    // CONSTANTS
+    // Events
+    this.DID_ENTER_RANGE = "enterBeacon";
+    this.DID_EXIT_RANGE = "exitBeacon";
+    this.BEACON_PROXIMITY_CHANGE = "beaconProximityChange";
+    this.DID_ENTER_PLACE = "enterPlace";
+    this.DID_EXIT_PLACE = "exitPlace";
+    this.DID_ENTER_ZONE = "enterZone";
+    this.DID_EXIT_ZONE = "exitZone";
 
+    // Actions
+    this.DISPLAY_ALERT = "displayAlert";
+    this.OPEN_URL = "openUrl";
+    this.SHOW_EMBEDDED_HTML = "showEmbeddedHtml";
+    this.PLAY_VIDEO_FROM_URL = "playVideo";
+    this.IMAGE_FROM_URL = "showImage";
+    this.PASSBOOK_FROM_URL = "addPassbook";
+    this.ADD_TAG = "addTag";
+    this.PLAY_NOTIFICATION_SOUND = "playSound";
+    this.PERFORM_CUSTOM_ACTION = "customAction";
+
+    // Other
+    this.DID_LOADED_BEACONS_DATA = "didLoadedBeaconsData";
+
+    this.APP_KEY = "moca_app_key";
+    this.APP_SECRET = "moca_app_secret";
+
+    this.GCM_SENDER_ID = "gcm_sender_id";
 };
 
 var MOCAInstance = function () {
@@ -181,10 +208,10 @@ MOCAInstance.prototype.pushEnabled = function (callback) {
 // Handle enter beacon range event
 //
 // MOCA.addEnterBeaconListener (function (e) {
-//     // e.identifier -- beacon id
-//     // e.name -- beacon name
-//     // e.code -- beacon code, optional
-//     // e.proximity -- numeric proximity code (unknown=0, immediate=1, near=2, far=3)
+//     // e.identifier // beacon id
+//     // e.name // beacon name
+//     // e.code // beacon code, optional
+//     // e.proximity // numeric proximity code (unknown=0, immediate=1, near=2, far=3)
 // });
 //
 MOCA.prototype.addEnterBeaconListener = function (callback) {
@@ -195,8 +222,8 @@ MOCA.prototype.addEnterBeaconListener = function (callback) {
 // Handle exit beacon range event
 //
 // MOCA.addExitBeaconListener (function (e) {
-//     // e.identifier -- beacon id
-//     // e.name -- beacon name
+//     // e.identifier // beacon id
+//     // e.name // beacon name
 // });
 //
 MOCA.prototype.addExitBeaconListener = function (callback) {
@@ -208,9 +235,9 @@ MOCA.prototype.addExitBeaconListener = function (callback) {
 // Method triggered when the state of a beacon proximity did changed.
 //
 // MOCA.addBeaconProximityChangeListener (function (e) {
-//     // e.identifier -- beacon id
-//     // e.prevProximity -- previous beacon proximity state (unkown=0, immediate=1, near=2, far=3)
-//     // e.curProximity -- current beacon proximity state (unkown=0, immediate=1, near=2, far=3)
+//     // e.identifier // beacon id
+//     // e.prevProximity // previous beacon proximity state (unkown=0, immediate=1, near=2, far=3)
+//     // e.curProximity // current beacon proximity state (unkown=0, immediate=1, near=2, far=3)
 // });
 //
 MOCA.prototype.addBeaconProximityChangeListener = function (callback) {
@@ -221,8 +248,8 @@ MOCA.prototype.addBeaconProximityChangeListener = function (callback) {
 // Method triggered when the device did entered a place.
 //
 // MOCA.addEnterPlaceListener (function (e) {
-//     // e.identifier -- place id
-//     // e.name -- place name
+//     // e.identifier // place id
+//     // e.name // place name
 // });
 //
 MOCA.prototype.addEnterPlaceListener = function (callback) {
@@ -233,8 +260,8 @@ MOCA.prototype.addEnterPlaceListener = function (callback) {
 // Method triggered when the device did exited a place.
 //
 // MOCA.addExitPlaceListener (function (e) {
-//     // e.identifier -- place id
-//     // e.name -- place name
+//     // e.identifier // place id
+//     // e.name // place name
 // });
 //
 MOCA.prototype.addExitPlaceListener = function (callback) {
@@ -245,11 +272,11 @@ MOCA.prototype.addExitPlaceListener = function (callback) {
 // Method triggered when the device did entered a zone.
 //
 // MOCA.addEnterZoneListener (function (e) {
-//     // e.identifier -- zone id
-//     // e.name -- zone name
-//     // e.placeId -- place identifier this zone belongs to
-//     // e.floorNumber -- zone floorNumber, optional
-//     // e.shortId -- zone shortId, optional
+//     // e.identifier // zone id
+//     // e.name // zone name
+//     // e.placeId // place identifier this zone belongs to
+//     // e.floorNumber // zone floorNumber, optional
+//     // e.shortId // zone shortId, optional
 // });
 //
 MOCA.prototype.addEnterZoneListener = function (callback) {
@@ -261,11 +288,11 @@ MOCA.prototype.addEnterZoneListener = function (callback) {
 // Method triggered when the device did exited a place.
 //
 // MOCA.addExitZoneListener (function (e) {
-//     // e.identifier -- zone id
-//     // e.name -- zone name
-//     // e.placeId -- place identifier this zone belongs to
-//     // e.floorNumber -- zone floorNumber, optional
-//     // e.shortId -- zone shortId, optional
+//     // e.identifier // zone id
+//     // e.name // zone name
+//     // e.placeId // place identifier this zone belongs to
+//     // e.floorNumber // zone floorNumber, optional
+//     // e.shortId // zone shortId, optional
 // });
 //
 MOCA.prototype.addExitZoneListener = function (callback) {
@@ -277,18 +304,30 @@ MOCA.prototype.addExitZoneListener = function (callback) {
 // from MOCA cloud or from local cache.
 //
 // MOCA.addDataReadyListener (function (e) {
-//     // e.beacons -- array of beacon objects. each beacon has identifier, name and code.
+//     // e.beacons // array of beacon objects. each beacon has identifier, name and code.
 // });
 //
 MOCA.prototype.addDataReadyListener = function (callback) {
     this.call_native(callback, "didLoadedBeaconsData");
 };
 
+
+// ----------------------------------------
+// MOCA Action Callbacks
+// ----------------------------------------
+
+// Action Object:
+// {
+//   "detail": {
+//     "action_name": "action_message"
+//   }
+// }
+
 //
 // Method invoked when a custom action is invoked.
 //
 // MOCA.addCustomActionListener (function (e) {
-//     // e.customAttribute -- custom action attribute provided by MOCA
+//     // e.detail
 // });
 //
 MOCA.prototype.addCustomActionListener = function (callback) {
@@ -296,13 +335,13 @@ MOCA.prototype.addCustomActionListener = function (callback) {
 };
 
 //
-// Method invoked when a custom action is invoked.
+// Method invoked when a message action is invoked.
 //
 // args: (false, callback) to allow MOCA to show the experience.
 //       (true, callback) to prevent MOCA from showing the experience. (No message will be shown)
 //
 // MOCA.addDisplayAlertListener (false, function (e) {
-//     // e.detail -- String with Message to show
+//     // e.detail.displayAlert // String with Message to show
 // });
 //
 MOCA.prototype.addDisplayAlertListener = function (args, callback) {
@@ -310,13 +349,13 @@ MOCA.prototype.addDisplayAlertListener = function (args, callback) {
 };
 
 //
-// Method invoked when a custom action is invoked.
+// Method invoked when an "open url" action is invoked.
 //
 // args: (false, callback) to allow MOCA to show the experience.
 //       (true, callback) to prevent MOCA from showing the experience. (No webview will be shown)
 //
-// MOCA.addOpenUrlListener (function (e) {
-//     // e.details -- String with URL
+// MOCA.addOpenUrlListener (false, function (e) {
+//     // e.detail.openUrl // String with URL
 // });
 //
 MOCA.prototype.addOpenUrlListener = function (args, callback) {
@@ -324,14 +363,14 @@ MOCA.prototype.addOpenUrlListener = function (args, callback) {
 };
 
 //
-// Method invoked when a custom action is invoked.
+// Method invoked when an embedded html action is invoked.
 //
 //
 // args: (false, callback) to allow MOCA to show the experience.
 //       (true, callback) to prevent MOCA from showing the experience. (No webview will be shown)
 //
-// MOCA.addShowEmbeddedHtmlListener (function (e) {
-//     // e.details -- String with embedded HTML
+// MOCA.addShowEmbeddedHtmlListener (false, function (e) {
+//     // e.detail.showEmbeddedHtml // String with embedded HTML
 // });
 //
 MOCA.prototype.addShowEmbeddedHtmlListener = function (args, callback) {
@@ -339,14 +378,14 @@ MOCA.prototype.addShowEmbeddedHtmlListener = function (args, callback) {
 };
 
 //
-// Method invoked when a custom action is invoked.
+// Method invoked when a video action is invoked.
 //
 //
 // args: (false, callback) to allow MOCA to show the experience.
 //       (true, callback) to prevent MOCA from showing the experience. (No video will be played)
 //
-// MOCA.addPlayVideoListener (function (e) {
-//     // e.details -- String with video URL
+// MOCA.addPlayVideoListener (false, function (e) {
+//     // e.detail.playVideo // String with video URL
 // });
 //
 MOCA.prototype.addPlayVideoListener = function (args, callback) {
@@ -354,14 +393,14 @@ MOCA.prototype.addPlayVideoListener = function (args, callback) {
 };
 
 //
-// Method invoked when a custom action is invoked.
+// Method invoked when a image action is invoked.
 //
 //
 // args: (false, callback) to allow MOCA to show the experience.
 //       (true, callback) to prevent MOCA from showing the experience. (No image will be shown)
 //
-// MOCA.addShowImageListener (function (e) {
-//     // e.details -- String with Image URL
+// MOCA.addShowImageListener (false, function (e) {
+//     // e.detail.showImage // String with Image URL
 // });
 //
 MOCA.prototype.addShowImageListener = function (args, callback) {
@@ -369,14 +408,14 @@ MOCA.prototype.addShowImageListener = function (args, callback) {
 };
 
 //
-// Method invoked when a custom action is invoked.
+// Method invoked when a passbook action is invoked.
 //
 //
 // args: (false, callback) to allow MOCA to show the experience.
 //       (true, callback) to prevent MOCA from showing the experience. (No passbook will be shown)
 //
-// MOCA.addAddPassbookListener (function (e) {
-//     // e.details -- String with Passbook URL
+// MOCA.addAddPassbookListener (false, function (e) {
+//     // e.detail.addPassbook // String with Passbook URL
 // });
 //
 MOCA.prototype.addAddPassbookListener = function (args, callback) {
@@ -384,10 +423,10 @@ MOCA.prototype.addAddPassbookListener = function (args, callback) {
 };
 
 //
-// Method invoked when a custom action is invoked.
+// Method invoked when a tag action is invoked.
 //
 // MOCA.addAddTagListener (function (e) {
-//     // e.details -- JSONObject with tagName and tagValue
+//     // e.detail.addTag // JSONObject with tagName and tagValue
 // });
 //
 MOCA.prototype.addAddTagListener = function (callback) {
@@ -395,14 +434,14 @@ MOCA.prototype.addAddTagListener = function (callback) {
 };
 
 //
-// Method invoked when a custom action is invoked.
+// Method invoked when a sound action is invoked.
 //
 //
 // args: (false, callback) to allow MOCA to show the experience.
 //       (true, callback) to prevent MOCA from showing the experience. (No sound will be played)
 //
-// MOCA.addPlaySoundListener (function (e) {
-//     // e.detail -- String with sound path
+// MOCA.addPlaySoundListener (false, function (e) {
+//     // e.detail.playSound // String with sound path
 //});
 //
 MOCA.prototype.addPlaySoundListener = function (args, callback) {
