@@ -17,11 +17,9 @@
 @implementation MOCAPluginEventsDelegate
 
 
-+(MOCAPluginEventsDelegate *) delegateWithDefault:(id<MOCAProximityEventsDelegate>)defaultDelegate
-                               andCommandDelegate:(id<CDVCommandDelegate>)commandDelegate
++(MOCAPluginEventsDelegate *) withCommandDelegate:(id<CDVCommandDelegate>)commandDelegate
 {
     MOCAPluginEventsDelegate *delegate = [[MOCAPluginEventsDelegate alloc] init];
-    delegate.defaultDelegate = defaultDelegate;
     delegate.commandDelegate = commandDelegate;
     return delegate;
 }
@@ -79,9 +77,6 @@
         [self sendResultWithBeacon:beacon andCommand:command];
         MOCA_LOG_DEBUG(@"didEnterRange custom handler");
     }
-    if((command && ![command argumentAtIndex:0]) || !command) {
-        [self.defaultDelegate proximityService:service didEnterRange:beacon withProximity:proximity];
-    }
 }
 
 /**
@@ -99,9 +94,6 @@
     if(command) {
         [self sendResultWithBeacon:beacon andCommand:command];
         MOCA_LOG_DEBUG(@"didExitRange custom handler");
-    }
-    if((command && ![command argumentAtIndex:0]) || !command) {
-        [self.defaultDelegate proximityService:service didExitRange:beacon];
     }
 }
 
@@ -146,9 +138,6 @@
         [self sendResultWithPlace:place andCommand:command];
         MOCA_LOG_DEBUG(@"didEnterPlace custom handler");
     }
-    if((command && ![command argumentAtIndex:0]) || !command) {
-        [self.defaultDelegate proximityService:service didEnterPlace:place];
-    }
 }
 
 /**
@@ -166,9 +155,6 @@
     if(command) {
         [self sendResultWithPlace:place andCommand:command];
         MOCA_LOG_DEBUG(@"didExitPlace custom handler");
-    }
-    if((command && ![command argumentAtIndex:0]) || !command) {
-        [self.defaultDelegate proximityService:service didExitPlace:place];
     }
 }
 
@@ -188,9 +174,6 @@
         [self sendResultWithZone:zone andCommand:command];
         MOCA_LOG_DEBUG(@"didEnterZone custom handler");
     }
-    if((command && ![command argumentAtIndex:0]) || !command) {
-        [self.defaultDelegate proximityService:service didEnterZone:zone];
-    }
 }
 
 /**
@@ -208,9 +191,6 @@
     if(command) {
         [self sendResultWithZone:zone andCommand:command];
         MOCA_LOG_DEBUG(@"didExitZone custom handler");
-    }
-    if((command && ![command argumentAtIndex:0]) || !command) {
-        [self.defaultDelegate proximityService:service didExitZone:zone];
     }
 }
 
@@ -251,9 +231,6 @@
     id command = [self.commands objectForKey:DID_LOADED_BEACONS_DATA];
     if(command) {
         MOCA_LOG_DEBUG(@"didLoadedBeaconsData custom handler");
-    }
-    if((command && ![command argumentAtIndex:0]) || !command) {
-        [self.defaultDelegate proximityService:service didLoadedBeaconsData:beacons];
     }
 }
 
