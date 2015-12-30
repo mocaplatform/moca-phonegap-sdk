@@ -28,7 +28,7 @@ v2.0.0
 - Android: Event callbacks and Action callbacks are now available.
 - Android: MOCA SDK will auto init in background.
 - New method: `placesInside` returns an array of places you are currently visiting.
-- Support for Android SDK 1.8.5
+- Support for Android SDK 1.8.7
 
 v1.7.0
 - Support for Andrdoid SDK 1.8.0 and iOS 1.7.0
