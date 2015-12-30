@@ -46,12 +46,22 @@
 
     <!-- android -->
     <platform name="android">   
-        <info>                                        
+        <info>                        
+            ANDROID NOTES:
+
             - Add your GCMSender in the config.xml BEFORE building. This is needed for Remote Push Notifications.
             - You can get this id by creating a new push project in your Google Developer Console.
             - Use the following format in your config.xml:
                 -  &lt;preference name="gcm_sender" value="\ YOUR_GCM_SENDER" /&gt;, please note the space after the backslash.
             - More information at http://developer.mocaplatform.com and support@mocaplatform.com
+            
+            - IMPORTANT: MOCA Plugin modifies your AndroidManifest.xml file in order to load even when no activity is instantiated (background execution). In particular, it adds the following line:
+
+                    android:name="com.innoquant.moca.phonegap.MOCApp"
+
+            to the &lt;application&gt; tag 
+            If you use another plugin that requires / does the same, you'll need to manually create a single class that inherits from application, change the android:name to your class, and implement the code needed for both plugins. If you find this situation please report it in the "issues" section of the plugin GitHub project.
+
         </info> 
         <hook type="after_plugin_add" src="scripts/app_name.js" />
 
@@ -166,7 +176,9 @@
     
     <!-- ios -->
     <platform name="ios">
-        <info>                                        
+        <info>                   
+            iOS NOTES:
+
             - Add a new key in your "YOUR-APP-NAME-Info.plist" as follows:
              key: NSLocationAlwaysUsageDescription value: --string describing why you need location services--
 
@@ -174,7 +186,10 @@
 
              key: NSLocationAlwaysUsageDescription, value: This app will use your location information to identify nearby places and to notify you about available proximity experiences. 
 
-             IMPORTANT: If this key is not present, Proximity Experiencies won't work at all.
+             NOTE: This key is automatically added by MOCA Plugin, please add a nice and friendly text explaining why you need access to device location.
+
+             - iOS 9+ requires all remote content to be hosted in HTTPS servers. In order to allow experiences hosted in any server, this plugin adds automatically an exception for "App Transport Security". 
+             Learn more about this feature in : http://developer.mocaplatform.com/docs/moca-ios-sdk-configuration#section-app-transport-security
 
         </info>
         <config-file target="config.xml" parent="/widget">
@@ -186,6 +201,12 @@
 
         <config-file target="*-Info.plist" parent="NSLocationAlwaysUsageDescription">
             <string></string>
+        </config-file>
+        <config-file target="*-Info.plist" parent="NSAppTransportSecurity">
+          <dict>
+              <key>NSAllowsArbitraryLoads</key>
+              <true/>
+          </dict>
         </config-file>
 
         <header-file src="src/ios/MOCAPlugin.h" />
