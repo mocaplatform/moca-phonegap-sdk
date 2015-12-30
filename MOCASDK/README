@@ -1,7 +1,7 @@
 # MOCA PhoneGap SDK
-# v1.7.0
-# 30/10/2015
-# Copyright © 2014-2015, InnoQuant. All rights reserved.
+# v2.0.0
+# 29/12/2015
+# Copyright © 2014-2016, InnoQuant. All rights reserved.
 
 MOCA PhoneGap SDK is a drop-in Cordova plugin that provides an easy way to integrate proximity experience services into your cross-platform PhoneGap apps. 
 
