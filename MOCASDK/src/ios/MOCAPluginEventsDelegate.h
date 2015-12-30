@@ -18,8 +18,7 @@
 @property (nonatomic, strong) id<MOCAProximityEventsDelegate> defaultDelegate;
 @property (nonatomic, strong) id<CDVCommandDelegate> commandDelegate;
 
-+(MOCAPluginEventsDelegate *) delegateWithDefault:(id<MOCAProximityEventsDelegate>)defaultDelegate
-                               andCommandDelegate:(id<CDVCommandDelegate>)commandDelegate;
++(MOCAPluginEventsDelegate *) withCommandDelegate:(id<CDVCommandDelegate>)commandDelegate;
 
 -(void)addCommand:(CDVInvokedUrlCommand*)command;
 
