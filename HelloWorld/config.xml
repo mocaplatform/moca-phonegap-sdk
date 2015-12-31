@@ -27,7 +27,5 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-        <preference name="moca_app_key" value="iipEJbofTX2Er8dXoHz-rA" />
-        <preference name="moca_app_secret" value="AlykmFoZALOvCTyZdU7T5b6MMi0=" />
     </platform>
 </widget>

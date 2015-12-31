@@ -5,3 +5,5 @@ HelloWorld/platforms/android/.idea
 *.xcscmblueprint
 *.xcuserstate
 *.xcbkptlist
+# iOS, Android projects
+HelloWorld/platforms/**

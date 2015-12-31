@@ -10,7 +10,7 @@
     "com.innoquant.moca.phonegap": {
         "source": {
             "type": "local",
-            "path": "../MOCASDK"
+            "path": "/Users/ivan/Git/moca-phonegap-sdk/MOCASDK"
         },
         "is_top_level": true,
         "variables": {}

@@ -98,6 +98,12 @@
                             "xml": "<string />",
                             "count": 1
                         }
+                    ],
+                    "NSAppTransportSecurity": [
+                        {
+                            "xml": "<dict><key>NSAllowsArbitraryLoads</key><true /></dict>",
+                            "count": 1
+                        }
                     ]
                 }
             }
@@ -105,7 +111,7 @@
     },
     "installed_plugins": {
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.innoquant.helloworld"
+            "PACKAGE_NAME": "io.cordova.hellocordova"
         },
         "com.innoquant.moca.phonegap": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
