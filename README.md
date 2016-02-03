@@ -19,3 +19,13 @@ How to use it
 
 For installation instructions and examples, please visit the [MOCA Developer portal](http://developer.mocaplatform.com/docs/installation).
 
+Versioning
+----------------
+- This project uses [SemVer](http://semver.org/)
+- Version of the plugin is `MAX(Android plugin, iOS plugin)`
+
+Release notes
+-------------
+
+###v2.0.1
+Fixed a bug that prevented JavaScript calls being called in the very first app launch.
