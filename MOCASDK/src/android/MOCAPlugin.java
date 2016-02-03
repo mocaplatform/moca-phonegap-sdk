@@ -53,7 +53,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * MOCA PhoneGap Plugin for Android SDK, v2.0.0
+ * MOCA PhoneGap Plugin for Android SDK, v2.0.1
  */
 public class MOCAPlugin extends CordovaPlugin {
 
@@ -136,8 +136,10 @@ public class MOCAPlugin extends CordovaPlugin {
                 config.setGcmSender(gcmSender);
             }
             MOCASharedPrefs.persistValues(appKey, appSecret, gcmSender, cordova.getActivity().getApplicationContext());
-
             MOCA.initializeSDK(cordova.getActivity().getApplication(), config);
+
+            Application app = cordova.getActivity().getApplication();
+            ((MOCApp)app).startListeners();
         }
     }
 

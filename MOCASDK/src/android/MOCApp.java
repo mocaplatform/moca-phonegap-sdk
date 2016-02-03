@@ -45,12 +45,18 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
                 MOCA.initializeSDK(this, config);
             }
         }
+        this.startListeners();
+    }
+
+    public void startListeners(){
         if(MOCA.initialized()){
             MOCA.getProximityService().setActionListener(this);
             MOCA.getProximityService().setEventListener(this);
         }
+        else{
+            MLog.wtf("Cannot listen MOCA Events. MOCA is not running.");
+        }
     }
-
 
     public void addCallbackContext(String action, MOCACallbackContext callbackContext){
         this.callbackContextMap.put(action, callbackContext);
@@ -218,7 +224,7 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
             }
         }
         else {
-            MLog.e("Invalid callback  " + eventName);
+            MLog.w("No JavaScript listeners for  " + eventName);
         }
         return false;
     }
