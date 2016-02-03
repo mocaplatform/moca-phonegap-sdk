@@ -27,4 +27,4 @@ Release notes
 -------------
 
 ###v2.0.1
-Fixed a bug that prevented JavaScript calls being called in the very first app launch.
+Fixed a bug that prevented JavaScript calls from being called in the very first app launch.
