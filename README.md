@@ -22,7 +22,6 @@ For installation instructions and examples, please visit the [MOCA Developer por
 Versioning
 ----------------
 - This project uses [SemVer](http://semver.org/)
-- Version of the plugin is `MAX(Android plugin, iOS plugin)`
 
 Release notes
 -------------
