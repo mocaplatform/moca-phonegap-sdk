@@ -26,5 +26,11 @@ Versioning
 Release notes
 -------------
 
+###v2.1.0
+
+- Support for MOCA iOS SDK 1.9.4
+- Support for Android SDK 1.8.10 
+
+
 ###v2.0.1
 Fixed a bug that prevented JavaScript calls from being called in the very first app launch.
