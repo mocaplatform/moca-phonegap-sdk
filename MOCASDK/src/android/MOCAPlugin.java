@@ -279,7 +279,7 @@ public class MOCAPlugin extends CordovaPlugin {
                 callbackContext.error ("Expected boolean argument");
                 return;
             }
-            boolean enabled = data.getBoolean (0);
+            boolean enabled = data.getJSONArray(0).getBoolean(0);
             MOCA.setProximityEnabled (enabled);
             callbackContext.success();
         }
@@ -296,7 +296,7 @@ public class MOCAPlugin extends CordovaPlugin {
                 callbackContext.error ("Expected boolean argument");
                 return;
             }
-            boolean enabled = data.getBoolean (0);
+            boolean enabled = data.getJSONArray(0).getBoolean(0);
             MOCA.setGeoTrackingEnabled (enabled);
             callbackContext.success();
         }
