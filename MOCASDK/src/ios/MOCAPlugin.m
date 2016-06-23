@@ -425,6 +425,33 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+/**
+ * Starts/stops geotracking service
+ *
+ * @param enabled - bool 
+ */
+-(void) setGeoTrackingEnabled:(CDVInvokedUrlCommand*)command {
+
+    CDVPluginResult* pluginResult = nil;
+    
+    if (command.arguments.count >= 1) {
+        id obj = [command.arguments objectAtIndex:0];
+        
+        if ([obj isKindOfClass:[NSNumber class]]) {
+            BOOL fEnabled = [obj boolValue];
+            MOCA_LOG_DEBUG(@"setGeoTrackingEnabled: %@", fEnabled?@"Enabled":@"Disabled");
+            [MOCA setGeoTrackingEnabled:fEnabled];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        } else {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+        }
+        
+    } else {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+    }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 
 // GETTERS
 

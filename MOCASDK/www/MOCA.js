@@ -140,6 +140,10 @@ MOCA.prototype.setProximityEnabled = function (enabled, callback) {
     this.call_native(callback, "setProximityEnabled", [enabled]);
 };
 
+MOCA.prototype.setGeoTrackingEnabled = function (enabled, callback) {
+    this.call_native(callback, "setGeoTrackingEnabled", [enabled]);
+};
+
 // Login/Logout
 MOCA.prototype.login = function (userId, callback) {
     this.call_native(callback, "instance_userLogin", [userId]);
