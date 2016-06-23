@@ -6,7 +6,7 @@
 //
 //  This module is part of MOCA Platform.
 //
-//  Copyright (c) 2015 InnoQuant Strategic Analytics, S.L.
+//  Copyright (c) 2012-2016 InnoQuant Strategic Analytics, S.L.
 //  All rights reserved.
 //
 //  All rights to this software by InnoQuant are owned by InnoQuant
@@ -136,6 +136,48 @@
  */
 + (MOCAProximityService*) proximityService __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);
 
+
+/**
+ * Starts/stops MOCA remote push notification service (APNS).
+ * @param enabled - YES to register the token/start the service, NO to unregister the token/stop service.
+ */
++(void)setRemotePushEnabled:(BOOL)enabled;
+
+/**
+ * Return YES if MOCA remote push notifications are available and enabled.
+ * @return YES if the the service is enabled, NO otherwise.
+ */
++(BOOL)remotePushEnabled;
+
+/**
+ * Return YES if MOCA geolocation tracking service is available and enabled.
+ * @return YES if the the service is enabled, NO otherwise.
+ */
++(BOOL)geoTrackingEnabled;
+
+/**
+ * Starts/stops MOCA geolocation tracking service.
+ * This requires event tracking service to be enabled as well in order to
+ * submit data to the cloud.
+ * @param enabled - YES to start the service, NO to stop service.
+ */
++(void)setGeoTrackingEnabled:(BOOL)enabled;
+
+/**
+ * Return YES if MOCA event tracking service is available and enabled.
+ * @return YES if the the service is enabled, NO otherwise.
+ */
++(BOOL)eventTrackingEnabled;
+
+/**
+ * Starts/stops MOCA event tracking service.
+ * @param enabled - YES to start the service, NO to stop service.
+ *
+ * If this service is enabled, MOCA collects and submits tracked events
+ * to MOCA cloud.
+ */
++(void)setEventTrackingEnabled:(BOOL)enabled;
+
 /**
  * Gets the inbox object.
  * This method requires iOS 7.0 or newer.
@@ -143,6 +185,8 @@
  * @return The MOCAInbox object.
  */
 + (MOCAInbox*) inbox;
+
++ (CLLocation *) lastKnownLocation;
 
 /**
  * Gets the current log level of MOCA library.

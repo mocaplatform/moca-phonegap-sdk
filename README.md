@@ -26,6 +26,10 @@ Versioning
 Release notes
 -------------
 
+###v2.2.0
+- Support for MOCA iOS 1.9.6
+- Support for Android SDK 1.9.1
+
 ###v2.1.0
 
 - Support for MOCA iOS SDK 1.9.4

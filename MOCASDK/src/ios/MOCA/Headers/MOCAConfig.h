@@ -119,6 +119,13 @@
  */
 @property (nonatomic, readonly) BOOL              mocaDriverEnabled;
 
+
+/**
+ * If enabled the MOCA tracks events and sends them to the cloud.
+ * Defaults to YES.
+ */
+@property (nonatomic, readonly) BOOL              eventTrackingEnabled;
+
 /**
  * Custom properties.
  */

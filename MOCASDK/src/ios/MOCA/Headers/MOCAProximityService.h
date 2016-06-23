@@ -1,11 +1,11 @@
 //
-//  MOCAProximityManager.h
+//  MOCAProximityService.h
 //
 //  MOCA iOS SDK
 //
 //  This module is part of InnoQuant MOCA Platform.
 //
-//  Copyright (c) 2015 InnoQuant Strategic Analytics, S.L.
+//  Copyright (c) 2016 InnoQuant Strategic Analytics, S.L.
 //  All rights reserved.
 //
 //  All rights to this software by InnoQuant are owned by InnoQuant

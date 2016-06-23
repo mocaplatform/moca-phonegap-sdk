@@ -5,7 +5,7 @@
 //
 //  This module is part of InnoQuant MOCA Platform.
 //
-//  Copyright (c) 2012-2015 InnoQuant Strategic Analytics, S.L.
+//  Copyright (c) 2012-2016 InnoQuant Strategic Analytics, S.L.
 //  All rights reserved.
 //
 //  All rights to this software by InnoQuant are owned by InnoQuant
@@ -26,6 +26,7 @@
 #import "MOCASerializable.h"
 
 @class MOCAUser;
+@class MOCASegment;
 
 /**
  * MOCA instance.
@@ -76,6 +77,15 @@
  * Current logged user if any or <code>nil</code> if none.
  */
 @property (readonly, retain) MOCAUser* currentUser;
+
+/**
+ * Identifier for Advertising (IDFA). Optional.
+ * Only available when AdSupport framework is linked with the app, otherwise returns nil.
+ * @since V1.9
+ */
+@property (readonly, retain) NSString* adIdentifier;
+
+
 
 #pragma mark General
 
@@ -143,6 +153,11 @@
 -(void)addTag:(NSString*)tagName;
 
 /**
+ * Remove a tag from this instance if exists.
+ */
+-(void)removeTag:(NSString*)tagName;
+
+/**
  * Add a tag with a given value to this instance.
  * @value - update expression with syntax [=|+|-] <double> value.
  * For example "+1" increments the tag value by 1.
@@ -166,12 +181,42 @@
 /**
  * Retrieves top-k tags ranked by values.
  */
--(NSArray*)getTopTags:(unsigned int)topK;
+-(NSArray<NSString*>*)getTopTags:(unsigned int)topK;
 
 /**
  * Retrieves names of all tags associated with this instance.
  */
--(NSArray*)allTags;
+-(NSArray<NSString*>*)allTags;
+
+#pragma mark
+
+
+#pragma mark Segments
+
+/**
+ * Retrieves all segments this instances matches to.
+ * @return array of segment objects
+ */
+-(NSArray<NSString*>*)allSegments;
+
+/**
+ * Retrieves all segments this instances matches to.
+ * @return array of segment objects
+ */
+-(NSArray<MOCASegment*>*)allSegmentObjects;
+
+/**
+ * Checks whether specific segment @segmentName matches this instance.
+ * @return YES if instance matches the segment, or NO otherwise.
+ */
+-(BOOL)matchesSegmentWithName:(NSString*)segmentName;
+
+/**
+ * Checks whether specific @segment matches this instance.
+ * @return YES if instance matches the segment, or NO otherwise.
+ */
+-(BOOL)matchesSegment:(MOCASegment*)segment;
+
 
 #pragma mark
 
