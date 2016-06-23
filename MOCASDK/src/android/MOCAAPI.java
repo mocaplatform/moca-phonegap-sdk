@@ -11,6 +11,7 @@ public class MOCAAPI {
     public static final String INSTANCE_IDENTIFIER = "instance_identifier";
     public static final String PROXIMITY_ENABLED = "proximityEnabled";
     public static final String SET_PROXIMITY_ENABLED = "setProximityEnabled";
+    public static final String SET_GEOTRACKING_ENABLED = "setGeoTrackingEnabled";
     public static final String INSTANCE_USER_LOGIN = "instance_userLogin";
     public static final String INSTANCE_USER_LOGGED_IN = "instance_userLoggedIn";
     public static final String INSTANCE_USER_LOGOUT = "instance_userLogout";

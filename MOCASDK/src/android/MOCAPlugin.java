@@ -74,7 +74,8 @@ public class MOCAPlugin extends CordovaPlugin {
             MOCAAPI.INSTANCE_SET_CUSTOM_PROPERTY,
             MOCAAPI.INSTANCE_CUSTOM_PROPERTY,
             MOCAAPI.CUSTOM_PROPERTY,
-            MOCAAPI.PLACES_INSIDE
+            MOCAAPI.PLACES_INSIDE,
+            MOCAAPI.SET_GEOTRACKING_ENABLED
     );
 
     private final static List<String> knownCallbackActions = Arrays.asList(
@@ -284,6 +285,23 @@ public class MOCAPlugin extends CordovaPlugin {
         }
         catch (JSONException e) {
             callbackContext.error ("setProximityEnabled failed. Error: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unused")
+    void setGeoTrackingEnabled(JSONArray data, CallbackContext callbackContext) {
+        if (!checkInited (callbackContext)) return;
+        try {
+            if (data.length() < 1) {
+                callbackContext.error ("Expected boolean argument");
+                return;
+            }
+            boolean enabled = data.getBoolean (0);
+            MOCA.setGeoTrackingEnabled (enabled);
+            callbackContext.success();
+        }
+        catch (JSONException e) {
+            callbackContext.error ("setGeoTrackingEnabled failed. Error: " + e.getMessage());
         }
     }
 
