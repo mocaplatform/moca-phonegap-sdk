@@ -108,19 +108,17 @@
  *
  * @return void
  */
-//-(void)proximityService:(MOCAProximityService*)service
-//didBeaconProximityChange:(MOCABeacon*)beacon
-//          fromProximity:(CLProximity)prevProximity
-//            toProximity:(CLProximity)curProximity
-//{
-//    CDVInvokedUrlCommand *command = [self.commands objectForKey:@"didBeaconProximityChange"];
-//    if(command) {
-//        [self sendResultWithBeacon:beacon andCommand:command];
-//        MOCA_LOG_DEBUG(@"didBeaconProximityChange custom handler");
-//    } else {
-//        [self.defaultDelegate proximityService:service didBeaconProximityChange:beacon fromProximity:prevProximity toProximity:curProximity];
-//    }
-//}
+-(void)proximityService:(MOCAProximityService*)service
+didBeaconProximityChange:(MOCABeacon*)beacon
+          fromProximity:(CLProximity)prevProximity
+            toProximity:(CLProximity)curProximity
+{
+    CDVInvokedUrlCommand *command = [self.commands objectForKey:BEACON_PROXIMITY_CHANGE];
+    if(command) {
+        [self sendResultWithBeacon:beacon andCommand:command];
+        MOCA_LOG_DEBUG(@"didBeaconProximityChange custom handler");
+    } 
+}
 
 /**
  * Method triggered when iOS device did entered a place.

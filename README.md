@@ -25,6 +25,8 @@ Versioning
 
 Release notes
 -------------
+###v2.2.2
+- Fix: beacon proximity change callback is not called correctly on iOS.
 
 ###v2.2.0
 - Support for MOCA iOS 1.9.6
