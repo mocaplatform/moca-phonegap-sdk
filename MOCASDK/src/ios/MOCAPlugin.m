@@ -33,10 +33,11 @@
 // - getJSONFromObject
 
 #import "MOCAPlugin.h"
+#import "MOCAAutoIntegration.h"
 
 // ----------------------------------------------------------------------
 
-
+static NSString *MOCAPluginVersion = @"2.3.0";
 typedef id (^UACordovaCallbackBlock)(NSArray *args);
 typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 
@@ -88,21 +89,25 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 @implementation MOCAPlugin
 
 - (void)pluginInitialize {
-    MOCA_LOG_INFO("Initializing MOCAPlugin V2.0.0");
+    MOCA_LOG_INFO("Initializing MOCAPlugin %@", MOCAPluginVersion);
+    [MOCAAutoIntegration autoIntegrate];
     [self initializeSDK];
 }
 
 
-//+ (void)load {
-//    NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
-//    NSDictionary *dict = [preferences dictionaryForKey: @"MOCA_CONFIG"];
-//    
-//    if(dict && ![MOCA initialized]) {
-//        MOCA_LOG_DEBUG(@"MOCA init in load");
-//        MOCAConfig *config = [[MOCAConfig alloc] initWithDictionary:dict];
-//        [MOCA initializeSDK:config];
-//    }
-//}
++ (void)load {
+    NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
+    NSDictionary *dict = [preferences dictionaryForKey: @"MOCA_CONFIG"];
+     
+    if(dict && ![MOCA initialized]) {
+        MOCA_LOG_DEBUG(@"MOCA init in load");
+        MOCAConfig *config = [[MOCAConfig alloc] initWithDictionary:dict];
+        if(config){
+            [MOCA initializeSDK:config];
+        }
+
+    }
+}
 
 + (NSDictionary *)configurationDictionaryFromCordova: (NSDictionary *)settings {
     NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
@@ -201,20 +206,6 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
         MOCA_LOG_WARNING ("MOCA proximity service not available on this device.");
     }
     
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self
-               selector:@selector(handleLocalNotification:)
-                   name:CDVLocalNotification
-                 object:nil];
-    
-}
-
--(void)handleLocalNotification:(NSNotification*)notification
-{
-    if (MOCA.initialized)
-    {
-        [MOCA handleLocalNotification:notification.object];
-    }
 }
 
 
