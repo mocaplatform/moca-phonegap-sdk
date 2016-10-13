@@ -25,6 +25,10 @@ Versioning
 
 Release notes
 -------------
+###2.3
+- Compatibility fix with latest versions of Cordova (iOS): Integration with native events in the AppDelegate is done via method swizzling.
+- Latest Android library version.
+
 ###v2.2.2
 - Fix: beacon proximity change callback is not called correctly on iOS.
 

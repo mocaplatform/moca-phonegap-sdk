@@ -89,24 +89,12 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 @implementation MOCAPlugin
 
 - (void)pluginInitialize {
+    if ([MOCA initialized]) {
+        return;
+    }
     MOCA_LOG_INFO("Initializing MOCAPlugin %@", MOCAPluginVersion);
     [MOCAAutoIntegration autoIntegrate];
     [self initializeSDK];
-}
-
-
-+ (void)load {
-    NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
-    NSDictionary *dict = [preferences dictionaryForKey: @"MOCA_CONFIG"];
-     
-    if(dict && ![MOCA initialized]) {
-        MOCA_LOG_DEBUG(@"MOCA init in load");
-        MOCAConfig *config = [[MOCAConfig alloc] initWithDictionary:dict];
-        if(config){
-            [MOCA initializeSDK:config];
-        }
-
-    }
 }
 
 + (NSDictionary *)configurationDictionaryFromCordova: (NSDictionary *)settings {

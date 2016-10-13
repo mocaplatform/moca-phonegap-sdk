@@ -1,6 +1,6 @@
 //
 //  MOCAAutoIntegration.m
-//  HelloCordova
+//  MOCAPlugin
 //
 //  Created by Iván González on 12/10/16.
 //
@@ -17,6 +17,9 @@ static MOCAAutoIntegration *_instance;
     NSMutableDictionary *_originalMethods;
 }
 
+/** 
+ * Starts the auto integration
+ */
 
 + (void) autoIntegrate
 {
@@ -26,6 +29,8 @@ static MOCAAutoIntegration *_instance;
         [_instance swizzleAppDelegate];
     });
 }
+
+
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -34,6 +39,11 @@ static MOCAAutoIntegration *_instance;
     return self;
 }
 
+
+/** Swizzles the Application Delegate
+ *  This should be called after the application has loaded, otherwise the delegate will be nil and
+ *  the swizzling will fail.
+ */
 
 - (void) swizzleAppDelegate
 {
@@ -63,6 +73,13 @@ static MOCAAutoIntegration *_instance;
     
 }
 
+/** Inject an implementation in an instance method by using ObjC Method Swizzling (@warning that's black magic).
+ * the original implementation is stored so it can be executed after the swizzled code.
+ * @param selector, the selector of the method where the new code will be injected.
+ * @param implementation, the implementation to be injected
+ * @param class, the class where the method is.
+ */
+
 - (void)swizzle:(SEL)selector implementation:(IMP)implementation class:(Class)class {
     Method method = class_getInstanceMethod(class, selector);
     if (method) {
@@ -78,17 +95,25 @@ static MOCAAutoIntegration *_instance;
     }
 }
 
+/** Injected code in the didRegisterForRemoteNotificationWithDeviceToken method of the App Delegate.
+ *
+ */
 void ApplicationDidRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, UIApplication *application, NSData *deviceToken) {
     
     [MOCA registerDeviceToken:deviceToken];
     
     //Execute original method, if any
+    //Bear in mind that in the context where this code is executed, `self` is the AppDelegate, not MOCAAutoIntegrate
+    
     IMP original = [_instance originalImplementation:_cmd class:[self class]];
     if (original) {
         ((void(*)(id, SEL, UIApplication *, NSData *))original)(self, _cmd, application, deviceToken);
     }
 }
 
+/** Injected code in the didReceiveRemoteNotification method of the App Delegate.
+ *
+ */
 void ApplicationDidReceiveRemoteNotificationFetchCompletionHandler(id self,
                                                                    SEL _cmd,
                                                                    UIApplication *application,
@@ -102,12 +127,15 @@ void ApplicationDidReceiveRemoteNotificationFetchCompletionHandler(id self,
     //call original implementation
     
     IMP original = [_instance originalImplementation:_cmd class:[self class]];
-    ((void(*)(id, SEL, UIApplication *, NSDictionary *,
-              void (^)(UIBackgroundFetchResult)))original)(self, _cmd, application, userInfo, handler);
-    
-
+    if(original){
+        ((void(*)(id, SEL, UIApplication *, NSDictionary *,
+                  void (^)(UIBackgroundFetchResult)))original)(self, _cmd, application, userInfo, handler);
+    }
 }
 
+/** Injected code in the didReceiveLocalNotification of the App Delegate.
+ *
+ */
 void ApplicationDidReceiveLocalNotification(id self, SEL _cmd, UIApplication *application ,UILocalNotification *notification) {
     if (MOCA.initialized)
     {
@@ -121,6 +149,12 @@ void ApplicationDidReceiveLocalNotification(id self, SEL _cmd, UIApplication *ap
     }
 }
 
+
+/** Retrieves a previously saved implementation
+ * @param selector a SEL describing the method implementation to retrieve
+ * @param class, the class name that originally contained the method.
+ * @return the requested implementation, nil if was not previously stored (not found).
+ */
 
 - (IMP)originalImplementation:(SEL)selector class:(Class)class {
     NSString *selectorString = NSStringFromSelector(selector);
@@ -139,6 +173,12 @@ void ApplicationDidReceiveLocalNotification(id self, SEL _cmd, UIApplication *ap
     [value getValue:&implementation];
     return implementation;
 }
+
+/** Stores implementations (IMP)
+ * @param implementation: the implementation to be saved
+ * @param selector
+ * @param class, both `class` and `selector` are used as keys to store the implementation.
+ */
 
 - (void)storeOriginalImplementation:(IMP)implementation selector:(SEL)selector class:(Class)class {
     NSString *selectorString = NSStringFromSelector(selector);

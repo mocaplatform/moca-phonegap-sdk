@@ -1,6 +1,6 @@
 //
 //  MOCAAutoIntegration.h
-//  HelloCordova
+//  MOCAPlugin
 //
 //  Created by Iván González on 12/10/16.
 //

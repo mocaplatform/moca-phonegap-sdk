@@ -20,25 +20,18 @@
      </js-module>
 
     <info>
+                                  .           .          ZM?             ..7M$..       .$    =.         
+                                 8M           M      .MI    .MM.        MN.  . 8M      .MN.  ..:        
+                                 M7N         M?Z    M.         .  .  .M.               M.M.             
+                                .M.M        M+ M   M.           MM   M                M.  M             
+                                 M .M       M .M   7             ..  M               .M    7            
+                                .M   M    .M  .M .O.             8   ,               M     M.           
+                                =7  .DZ   M    M   7             M. .M              M=      M           
+                                M     M  7M    O:  M.            M   M.             M       =M          
+                                M     .M M.    .M   M           M.   .M            M         M          
+                               .M       M      .M    .MI     MM .      .MN     8  MZ          M.        
+                               .+       .      .?     . .ZM? .             7M$.  .?.          $.      
 
-                                                    .:/++++++++++:-`            
-                                                 -+o/-`         `.:oo/`         
-                                              `/s/.                 `-oo.       
-                                             :s/`     `---.....``      .+.      
-                                           `oo`    `::-          ```    `+sys/  
-                                          `oo     :/`               `   :yyyyy- 
-                                          /s`    /-       .```          `/sss/  
-                                         `y/    -/     `-.    `             :-  
-                                         .y-    +.     /                    o+  
-                                         .y-    +.     /                    oo  
-                                          y/    -/     `-.    `            `y/  
-                                          /s`    /-       .```             /y`  
-                                          `oo     :/`               `     -y:   
-                                           `oo`    `::.          ```     :y:    
-                                             :s:      `--......``      .oo.     
-                                              `/s/`                  -oo-       
-                                                 -+o/-`          .:+o/.         
-                                                    .:/++++++++++/-`            
                                         
         Remember to add your MOCA AppKey and MOCA AppSecret to your app's config.xml BEFORE building.
         Learn more at http://developer.mocaplatform.com
@@ -163,7 +156,7 @@
         </config-file>
 
         <!-- MOCA SDK -->
-        <resource-file src="libs/moca-sdk-android-1.9.1.aar" target="libs/moca-sdk-android-1.9.1.aar" />
+        <resource-file src="libs/moca-sdk-android-1.9.5.aar" target="libs/moca-sdk-android-1.9.5.aar" />
         <source-file src="src/android/MOCAPlugin.java" target-dir="src/com/innoquant/moca/phonegap" />
         <source-file src="src/android/MOCAConstants.java" target-dir="src/com/innoquant/moca/phonegap" />
         <source-file src="src/android/MOCAAPI.java" target-dir="src/com/innoquant/moca/phonegap" />
@@ -218,6 +211,8 @@
         <header-file src="src/ios/MOCAPluginCallbackMessage.h" />
         <source-file src="src/ios/MOCAPluginCallbackMessage.m" />
         <header-file src="src/ios/MOCAPluginConstants.h" />
+        <source-file src="src/ios/MOCAAutoIntegration.m" />
+        <header-file src="src/ios/MOCAAutoIntegration.h" />
 
         <!-- Public header files -->
         <header-file src="src/ios/MOCA/Headers/MOCA.h"  />
