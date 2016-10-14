@@ -25,7 +25,7 @@ Versioning
 
 Release notes
 -------------
-###2.3
+###v2.3.0
 - Compatibility fix with latest versions of Cordova (iOS): Integration with native events in the AppDelegate is done via method swizzling.
 - Latest Android library version.
 
