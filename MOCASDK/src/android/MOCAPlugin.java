@@ -75,7 +75,8 @@ public class MOCAPlugin extends CordovaPlugin {
             MOCAAPI.INSTANCE_CUSTOM_PROPERTY,
             MOCAAPI.CUSTOM_PROPERTY,
             MOCAAPI.PLACES_INSIDE,
-            MOCAAPI.SET_GEOTRACKING_ENABLED
+            MOCAAPI.SET_GEOTRACKING_ENABLED,
+            MOCAAPI.PERFORM_FETCH
     );
 
     private final static List<String> knownCallbackActions = Arrays.asList(
@@ -433,6 +434,23 @@ public class MOCAPlugin extends CordovaPlugin {
             }
         }
         callbackContext.success(arr);
+    }
+
+    void performFetch(JSONArray data, final CallbackContext callbackContext) {
+        if (!checkInited (callbackContext)) return;
+
+        MOCA.performFetchWithCallback(new MOCACallback<ProximityData>() {
+            @Override
+            public void success(ProximityData proximityData) {
+                callbackContext.success();
+            }
+
+            @Override
+            public void failure(MOCAException e) {
+                callbackContext.error(e.getMessage());
+            }
+        });
+
     }
 
 
