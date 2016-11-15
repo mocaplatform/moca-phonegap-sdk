@@ -25,6 +25,10 @@ Versioning
 
 Release notes
 -------------
+
+###v2.3.1
+- Added explicit background modes for the MOCA Plugin [iOS]
+
 ###v2.3.0
 - Compatibility fix with latest versions of Cordova (iOS): Integration with native events in the AppDelegate is done via method swizzling.
 - Latest Android library version.
@@ -41,6 +45,30 @@ Release notes
 - Support for MOCA iOS SDK 1.9.4
 - Support for Android SDK 1.8.10 
 
-
 ###v2.0.1
 Fixed a bug that prevented JavaScript calls from being called in the very first app launch.
+
+###v1.7.0
+- Support for Andrdoid SDK 1.8.0 and iOS 1.7.0
+
+###v1.6.9
+- Support for MOCA iOS SDK v1.6.8 and Android v1.6.2.
+- Removed Google Play Services as a plugin (Android), added as a gradle dependency.
+
+###v1.5.0
+- Support for MOCA SDK for Android v1.5.0 (proximity start/stop functionality)
+
+###v1.4.9
+- Extended JavaScript API
+- Support for MOCA SDK for iOS from v1.5.2
+- Support for MOCA SDK for Android from v1.4.9
+- Tested with Cordova 4.3
+
+###v1.3.0
+This release provides support for both iOS and Android
+- Support for MOCA SDK for iOS from v1.3.9
+- Support for MOCA SDK for Android from v1.3.0
+
+###v1.0.0
+First release
+- Support for MOCA SDK for iOS from v1.3.9
