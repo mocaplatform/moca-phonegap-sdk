@@ -209,7 +209,15 @@
                 <string>remote-notification</string>
             </array>
         </config-file>
-        
+            
+        <config-file parent="aps-environment" target="*/Entitlements-Debug.plist">
+          <string>development</string>
+        </config-file>
+
+        <config-file parent="aps-environment" target="*/Entitlements-Release.plist">
+          <string>production</string>
+        </config-file>
+
         <header-file src="src/ios/MOCAPlugin.h" />
         <source-file src="src/ios/MOCAPlugin.m" />
         <header-file src="src/ios/MOCAPluginActionsDelegate.h" />
