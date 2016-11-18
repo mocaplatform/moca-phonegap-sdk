@@ -28,12 +28,15 @@ package com.innoquant.moca.phonegap;
 import android.app.Application;
 
 import com.innoquant.moca.MOCA;
+import com.innoquant.moca.MOCACallback;
 import com.innoquant.moca.MOCAConfig;
+import com.innoquant.moca.MOCAException;
 import com.innoquant.moca.MOCAInstance;
 import com.innoquant.moca.MOCALogLevel;
 import com.innoquant.moca.MOCAPlace;
 import com.innoquant.moca.MOCARegionState;
 import com.innoquant.moca.MOCAUser;
+import com.innoquant.moca.proximity.ProximityData;
 import com.innoquant.moca.utils.MLog;
 
 import org.apache.cordova.CallbackContext;

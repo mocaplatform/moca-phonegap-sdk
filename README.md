@@ -26,6 +26,9 @@ Versioning
 Release notes
 -------------
 
+###v2.3.2
+- Fixed an import issue in the Android implementation
+
 ###v2.3.1
 - Added explicit background modes for the MOCA Plugin [iOS]
 
