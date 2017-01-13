@@ -26,6 +26,9 @@ Versioning
 Release notes
 -------------
 
+###v2.3.3
+- Added new `NSBluetoothPeripheralUsageDescription` mandatory key for iOS 10+ applications.
+
 ###v2.3.2
 - Fixed an import issue in the Android implementation
 

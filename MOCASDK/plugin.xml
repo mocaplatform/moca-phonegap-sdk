@@ -2,7 +2,7 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="com.innoquant.moca.phonegap"
-    version="2.3.2">
+    version="2.3.3">
 
     <name>MOCA SDK Plugin</name>
     <description>InnoQuant MOCA SDK Plugin for PhoneGap/Cordova</description>    
@@ -117,7 +117,7 @@
             </intent-filter>
         </receiver>
 
-                <!-- Required by MOCA to receive GCM remote push notifications -->
+        <!-- Required by MOCA to receive GCM remote push notifications -->
         <receiver
             android:name="com.innoquant.moca.push.GcmPushReceiver"
             android:exported="true"
@@ -172,17 +172,12 @@
         <info>                   
             iOS NOTES:
 
-            - Add a new key in your "YOUR-APP-NAME-Info.plist" as follows:
-             key: NSLocationAlwaysUsageDescription value: --string describing why you need location services--
+            - The key NSLocationAlwaysUsageDescription value: --string describing why you need location services--, is automatically added by this plugin to your "YOUR-APP-NAME-Info.plist" file.
 
-             Example:
-
-             key: NSLocationAlwaysUsageDescription, value: This app will use your location information to identify nearby places and to notify you about available proximity experiences. 
-
-             NOTE: This key is automatically added by MOCA Plugin, please add a nice and friendly text explaining why you need access to device location.
-
-             - iOS 9+ requires all remote content to be hosted in HTTPS servers. In order to allow experiences hosted in any server, this plugin adds automatically an exception for "App Transport Security". 
+            - iOS 9+ requires all remote content to be hosted in HTTPS servers. In order to allow experiences hosted in any server, this plugin adds automatically an exception for "App Transport Security".
              Learn more about this feature in : http://developer.mocaplatform.com/docs/moca-ios-sdk-configuration#section-app-transport-security
+             
+            - The key NSBluetoothAlwaysUsageDescription, is automatically added to your "YOUR-APP-NAME-Info.plist" file.
 
         </info>
         <config-file target="config.xml" parent="/widget">
@@ -193,7 +188,10 @@
         </config-file>
 
         <config-file target="*-Info.plist" parent="NSLocationAlwaysUsageDescription">
-            <string></string>
+            <string>This app will use your location information to identify nearby places and to notify you about available proximity experiences.</string>
+        </config-file>
+        <config-file target="*-Info.plist" parent="NSBluetoothPeripheralUsageDescription">
+            <string>This app uses Bluetooth to find nearby iBeacon devices.</string>
         </config-file>
         <config-file target="*-Info.plist" parent="NSAppTransportSecurity">
           <dict>
@@ -201,6 +199,7 @@
               <true/>
           </dict>
         </config-file>
+        
 
         <!-- required background modes:  App registers for location updates -->
         <config-file target="*-Info.plist" parent="UIBackgroundModes">
@@ -218,6 +217,7 @@
           <string>production</string>
         </config-file>
 
+        <!-- MOCA SDK Plugin classes -->
         <header-file src="src/ios/MOCAPlugin.h" />
         <source-file src="src/ios/MOCAPlugin.m" />
         <header-file src="src/ios/MOCAPluginActionsDelegate.h" />
