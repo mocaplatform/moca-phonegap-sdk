@@ -177,7 +177,7 @@
             - iOS 9+ requires all remote content to be hosted in HTTPS servers. In order to allow experiences hosted in any server, this plugin adds automatically an exception for "App Transport Security".
              Learn more about this feature in : http://developer.mocaplatform.com/docs/moca-ios-sdk-configuration#section-app-transport-security
              
-            - The key NSBluetoothAlwaysUsageDescription, is automatically added to your "YOUR-APP-NAME-Info.plist" file.
+            - The key NSBluetoothPeripheralUsageDescription, is automatically added to your "YOUR-APP-NAME-Info.plist" file.
 
         </info>
         <config-file target="config.xml" parent="/widget">
