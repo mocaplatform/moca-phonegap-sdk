@@ -94,39 +94,6 @@
 
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-        <!-- REQUIRED for MOCA. -->
-	    <receiver
-            	android:name="com.innoquant.moca.MOCACoreReceiver"
-            	android:exported="true">
-            	<intent-filter>
-                	<action android:name="com.innoquant.moca.ACTION_SYNC" />
-                	<action android:name="com.innoquant.moca.ACTION_UPLOAD" />
-                	<action android:name="android.intent.action.BOOT_COMPLETED" />
-                	<action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-                	<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-            	</intent-filter>
-        </receiver>
-
-        <!-- REQUIRED by MOCA to handle clicked push notifications -->
-        <receiver android:name="com.innoquant.moca.push.MOCAPushReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.innoquant.moca.push.ACTION_PUSH_RECEIVE" />
-                <action android:name="com.innoquant.moca.push.ACTION_PUSH_DISMISSED" />
-            </intent-filter>
-        </receiver>
-
-        <!-- Required by MOCA to receive GCM remote push notifications -->
-        <receiver
-            android:name="com.innoquant.moca.push.GcmPushReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-            </intent-filter>
-        </receiver>
 
         <service
                 android:name="com.innoquant.moca.drivers.alt.service.BeaconService"
