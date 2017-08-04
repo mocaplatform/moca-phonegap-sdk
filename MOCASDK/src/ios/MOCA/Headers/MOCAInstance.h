@@ -27,6 +27,7 @@
 
 @class MOCAUser;
 @class MOCASegment;
+@protocol MOCAInstanceListener;
 
 /**
  * MOCA instance.
@@ -218,6 +219,25 @@
 -(BOOL)matchesSegment:(MOCASegment*)segment;
 
 
-#pragma mark
+#pragma mark delegates
+
+- (void)removeDelegate:(id <MOCAInstanceListener>)manager;
+
+- (void)addDelegate:(id <MOCAInstanceListener>)manager;
+
+@end
+
+#pragma mark MOCAInstanceListener
+
+@class CLLocation;
+@protocol MOCAInstanceListener <NSObject>
+
+@optional
+
+- (void) user: (MOCAUser *) user didLoginWithInstance: (MOCAInstance *) instance;
+
+- (void) user: (MOCAUser *) user willLogoutWithInstance: (MOCAInstance *) instance;
+
+- (void) mocaInstance: (MOCAInstance *) instance didUpdateLocation: (CLLocation *) location;
 
 @end

@@ -2,11 +2,11 @@
 //  MOCA.h
 //
 //  MOCA iOS SDK
-//  Version 1.9
+//  Version 2.0
 //
 //  This module is part of MOCA Platform.
 //
-//  Copyright (c) 2012-2016 InnoQuant Strategic Analytics, S.L.
+//  Copyright (c) 2012-present InnoQuant Strategic Analytics, S.L.
 //  All rights reserved.
 //
 //  All rights to this software by InnoQuant are owned by InnoQuant
@@ -34,6 +34,8 @@
 #import "MOCAUser.h"
 #import "MOCAInbox.h"
 #import "MOCAProximityService.h"
+#import "MOCAIndoorClient.h"
+#import "MOCARecoClient.h"
 
 /**
  * MOCA object manages the shared state for all MOCA SDK services. 
@@ -179,6 +181,46 @@
 +(void)setEventTrackingEnabled:(BOOL)enabled;
 
 /**
+ * Get status of the recommendation service.
+ *
+ * @return YES if the service is available and enabled, NO otherwise.
+ */
++ (BOOL)recoEnabled __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);
+
+/**
+ * Enables/disables the recommendations service.
+ * @param enable - if YES, start the service, otherwise stop it.
+ */
++ (void)setRecoEnabled:(BOOL)enable __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);
+
+/**
+ * Get status of the WiFi only transfer constraint.
+ *
+ * @return YES if the SDK is allowed to transmit data only when Wifi is available.
+ *         NO otherwise.
+ */
++ (BOOL)wifiOnlyEnabled;
+
+/**
+ * Enables/disables the WiFi only transfer contraint.
+ * @param enable - if YES the SDK is allowed to transmit data only when Wifi is available.
+ *         NO otherwise.
+ */
++ (void)setWifiOnlyEnabled:(BOOL)enabled;
+
+/**
+ * Get status of the Indoor Analytics service. 
+ */
++ (BOOL)indoorAnalyticsEnabled;
+
+/**
+ * Enables / Disables Indoor Analytics tracking. Available for venues with Indoor Location technologies
+ * installed. SDK will remember this setting in subsequent initializations.
+ * @param enable - YES to enable, NO to disable
+ */
++ (void)setIndoorAnalyticsEnabled:(BOOL)enabled;
+
+/**
  * Gets the inbox object.
  * This method requires iOS 7.0 or newer.
  *
@@ -201,6 +243,18 @@
  * @param logLevel New log level.
  */
 + (void) setLogLevel:(MOCALogLevel)logLevel;
+
+/**
+ * Creates a new recommender client for a specific item category.
+ *
+ * Note: the available categories must have bee previously deployed in recommendation
+ * system associated whit your MOCA app.
+ *
+ * @param category - item category (i.e. "exhibitors", "sessions", "speakers").
+ *
+ * @return recommendation client object
+ */
++ (MOCARecoClient*) createRecoClient:(NSString*)category;
 
 /**
  * Tells MOCA that it can begin a cloud fetch operation if it has data to download.
@@ -313,7 +367,7 @@
  * Checks if this specific remote notification payload (userInfo) contains MOCA content.
  * MOCA content is verified by checking "moca" key in the userInfo dictionary.
  *
- * @param notification - The notification to check.
+ * @param userInfo - The notification to check.
  *
  * @return YES if this is MOCA notification or NO otherwise.
  */
@@ -336,12 +390,19 @@
  * A nil action identifier indicates the default action.
  *
  * @param identifier - the notification action identifier or nil for default action
- * @param notification -  the local notification
+ * @param userInfo -  the local notification
  *
  * @return YES if the action was executed or NO otherwise.
  */
 +(BOOL) handleActionWithIdentifier:(NSString *)identifier
              forRemoteNotification:(NSDictionary *)userInfo;
+
+/**
+ * Creates a new indoor location tracker client. Used to get user position indoors
+ *
+ * @return a new instance of the indoor location tracker, nil if not avaialble.
+ */
++(MOCAIndoorClient*)indoorLocationClientWithDelegate: (id <MOCAIndoorDelegate>) delegate;
 
 /**
  * Shutdown the library

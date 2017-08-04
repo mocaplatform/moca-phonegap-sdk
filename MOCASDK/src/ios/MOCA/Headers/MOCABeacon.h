@@ -43,19 +43,9 @@ NS_CLASS_AVAILABLE(NA, 7_0)
 @interface MOCABeacon : MOCAPropertyContainer
 
 /**
- *  Proximity identifier (UUID) associated with the beacon.
+ * Globally unique beacon identifier in MOCA.
  */
-@property (readonly, nonatomic)   NSUUID *  proximityUUID;
-
-/**
- * Most significant value associated with the beacon. 
- */
-@property (readonly, nonatomic)   NSNumber * major;
-
-/**
- * Least significant value associated with the region. 
- */
-@property (readonly, nonatomic)   NSNumber * minor;
+@property (readonly, nonatomic, copy) NSString * identifier;
 
 /**
  * Beacon name. Might be nil if not assigned.
@@ -96,6 +86,20 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  */
 @property (readonly, nonatomic) NSInteger rssi;
 
+/*
+ * Beacon geo location, might be nil.
+ */
+@property (readonly, nonatomic) CLLocation * location;
+
+/**
+ * Beacon floor, might be nil
+ */
+@property (readonly, nonatomic, copy) NSNumber * floor;
+
+/**
+ * Beacon labels.
+ */
+@property (readonly, nonatomic) NSSet<MOCALabel *> * labels;
 
 
 @end

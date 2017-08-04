@@ -6,7 +6,7 @@
 //
 //  This module is part of InnoQuant MOCA Platform.
 //
-//  Copyright (c) 2015 InnoQuant Strategic Analytics, S.L.
+//  Copyright (c) 2015-2016 InnoQuant Strategic Analytics, S.L.
 //  All rights reserved.
 //
 //  All rights to this software by InnoQuant are owned by InnoQuant
@@ -35,6 +35,7 @@
 @class MOCAPlace;
 @class MOCAExperience;
 @class MOCAAction;
+@class MOCALabel;
 
 /**
  * Protocol defines the delegate methods to respond to proximity-related events.
@@ -51,7 +52,6 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  * @param service proximity service
  * @param beacon MOCA beacon
  *
- * @return void
  */
 -(void)proximityService:(MOCAProximityService*)service
           didEnterRange:(MOCABeacon *)beacon
@@ -63,7 +63,6 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  * @param service proximity service
  * @param beacon MOCA beacon
  *
- * @return void
  */
 -(void)proximityService:(MOCAProximityService*)service
           didExitRange:(MOCABeacon *)beacon;
@@ -77,7 +76,6 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  * @param prevProximity - previous beacon proximity state
  * @param curProximity - current beacon proximity state
  *
- * @return void
  */
 -(void)proximityService:(MOCAProximityService*)service
     didBeaconProximityChange:(MOCABeacon*)beacon
@@ -90,7 +88,6 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  * @param service proximity service
  * @param place MOCA place
  *
- * @return void
  */
 -(void)proximityService:(MOCAProximityService*)service
           didEnterPlace:(MOCAPlace *)place;
@@ -101,7 +98,6 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  * @param service proximity service
  * @param place MOCA place
  *
- * @return void
  */
 -(void)proximityService:(MOCAProximityService*)service
           didExitPlace:(MOCAPlace *)place;
@@ -112,7 +108,6 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  * @param service proximity service
  * @param zone MOCA zone
  *
- * @return void
  */
 -(void)proximityService:(MOCAProximityService*)service
            didEnterZone:(MOCAZone *)zone;
@@ -123,10 +118,30 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  * @param service proximity service
  * @param zone MOCA zone
  *
- * @return void
  */
 -(void)proximityService:(MOCAProximityService*)service
            didExitZone:(MOCAZone *)zone;
+
+/**
+ * Method triggered when iOS device did entered a labeled region.
+ *
+ * @param service proximity service
+ * @param label MOCA label
+ *
+ */
+-(void)proximityService:(MOCAProximityService*)service
+          didEnterLabel:(MOCALabel*)label;
+
+/**
+ * Method triggered when iOS device did exit a labeled region.
+ *
+ * @param service proximity service
+ * @param label MOCA label
+ *
+ */
+-(void)proximityService:(MOCAProximityService*)service
+            didExitLabel:(MOCALabel* )label;
+
 
 /**
  * Method invoked when a proximity experience scheduled in MOCA-cloud
@@ -148,7 +163,6 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  * @param service proximity service
  * @param beacons current collection of registered beacons
  *
- * @return YES if the custom trigger fired, or NO otherwise.
  */
 -(void)proximityService:(MOCAProximityService*)service
    didLoadedBeaconsData:(NSArray*)beacons;
@@ -183,7 +197,6 @@ NS_CLASS_AVAILABLE(NA, 7_0)
 
 /**
  * Called to determine if a specific proximity action can be executed now.
- * @param service - proximity service instance
  *
  * Discussion
  *
@@ -271,7 +284,7 @@ NS_CLASS_AVAILABLE(NA, 7_0)
 
 /** 
  * Called to customize the app root view that should be used to display overlay popup window.
- * @param view - default superview to add the overlay to as a child view.
+ * @param superview - default superview to add the overlay to as a child view.
  * @return selected view to be used as superview.
  */
 -(UIView*)willShowOverlayInView:(UIView*) superview;
