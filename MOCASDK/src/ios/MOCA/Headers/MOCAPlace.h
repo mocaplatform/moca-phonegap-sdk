@@ -25,12 +25,17 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "MOCAPropertyContainer.h"
+#import "MOCALabel.h"
+
+@class FloorPlanProvider;
+@class LocationProvider;
 
 /**
  * Represents a real-world place. A place can be associated with geo-fence location
  * and contain a collection of zones. The zones are used to group beacon-based proximity experiences.
  */
 NS_CLASS_AVAILABLE(NA, 7_0)
+
 @interface MOCAPlace : MOCAPropertyContainer
 
 /**
@@ -53,6 +58,21 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  */
 @property (readonly, nonatomic) CLCircularRegion * geofence;
 
+/**
+ * Place labels.
+ */
+@property (readonly, nonatomic) NSSet<MOCALabel *> * labels;
+
+/**
+ * Location provider.
+ */
+@property (readonly, nonatomic) LocationProvider* locationProvider;
+
+/**
+ * Floorplan provider
+ */
+@property (readonly, nonatomic) FloorPlanProvider* floorPlanProvider;
+
 /*
  * Represents the previous state of the device with reference to a place.
  *
@@ -68,5 +88,40 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  * it is outside the place range, otherwise returns CLRegionStateUnknown.
  */
 @property (readonly, nonatomic) CLRegionState currentState;
+
+/*
+ * Indoor Location technology available for this place.
+ * @return true if the place has indoor location technology available.
+ * false otherwise
+ */
+- (BOOL) isIndoorLocationAvailable;
+
+@end
+
+
+@interface FloorPlanProvider: MOCAPropertyContainer
+
+@property (readonly) NSString* providerName;
+@property (readonly) NSString* accessKey;
+@property (readonly) NSString* height;
+@property (readonly) NSString* mapID;
+@property (readonly) NSString* title;
+@property (readonly) NSString* url;
+@property (readonly) NSString* width;
+@property (readonly) NSString* numFloors;
+@property (readonly) NSString* areaM2;
+- (id)initWithProviderDictionary:(NSDictionary *)provider;
+
+@end
+
+@interface LocationProvider : MOCAPropertyContainer
+
+@property (readonly) NSString* accessKey;
+@property (readonly, getter=isEnabled) NSString* enabled;
+@property (readonly) NSString* locationType;
+@property (readonly) NSString* secretKey;
+@property (readonly) NSString* siteId;
+@property (readonly) BOOL isValid;
+- (id)initWithProviderDictionary:(NSDictionary *)provider;
 
 @end

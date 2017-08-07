@@ -5,7 +5,7 @@
 //
 //  This module is part of InnoQuant MOCA Platform.
 //
-//  Copyright (c) 2015 InnoQuant Strategic Analytics, S.L.
+//  Copyright (c) 2015-2016 InnoQuant Strategic Analytics, S.L.
 //  All rights reserved.
 //
 //  All rights to this software by InnoQuant are owned by InnoQuant
@@ -26,6 +26,7 @@
 
 #import "MOCAPropertyContainer.h"
 #import "MOCAPlace.h"
+#import "MOCALabel.h"
 
 /**
  * Proximity zone that is used to group a set of beacons.
@@ -49,6 +50,11 @@ NS_CLASS_AVAILABLE(NA, 7_0)
 @property (readonly, nonatomic, copy) NSString * category;
 
 /**
+ * Zone provider
+ */
+
+@property (readonly, nonatomic, copy) NSString *provider;
+/**
  * Zone short id. Unique inside a place and floor number.
  */
 @property (readonly, nonatomic, copy) NSString * shortId;
@@ -67,6 +73,11 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  * A collection of beacons registered within this zone.
  */
 @property (readonly, nonatomic, retain) NSArray *beacons;
+
+/**
+ * Zone labels.
+ */
+@property (readonly, nonatomic) NSSet<MOCALabel *> * labels;
 
 /*
  * Represents the previous state of the device with reference to a zone.

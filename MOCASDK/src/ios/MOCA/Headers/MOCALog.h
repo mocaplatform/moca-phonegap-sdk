@@ -61,7 +61,7 @@ extern MOCALogLevel _logLevel;
 #endif // DEBUG 
 
 #define MOCA_LOG_ERROR(formatStr, ...) MOCA_LOG(Error, @"❌ERROR", formatStr, ##__VA_ARGS__)
-#define MOCA_LOG_WARNING(formatStr, ...) MOCA_LOG(Warning, @"❗ WARN", formatStr, ##__VA_ARGS__)
+#define MOCA_LOG_WARNING(formatStr, ...) MOCA_LOG(Warning, @"⚠️ WARN", formatStr, ##__VA_ARGS__)
 #define MOCA_LOG_INFO(formatStr, ...) MOCA_LOG(Info, @"✅ INFO", formatStr, ##__VA_ARGS__)
 #define MOCA_LOG_DEBUG(formatStr, ...) MOCA_LOG(Debug, @"💬 DEBUG", formatStr, ##__VA_ARGS__)
 #define MOCA_LOG_TRACE(formatStr, ...) MOCA_LOG(Trace, @"🔎 TRACE", formatStr, ##__VA_ARGS__)

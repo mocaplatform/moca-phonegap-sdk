@@ -204,12 +204,16 @@
         <header-file src="src/ios/MOCA/Headers/MOCAConfig.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAEvent.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAInbox.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCAIndoorClient.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAInstance.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCALabel.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCALog.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAPlace.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAPropertyContainer.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAProximityDelegate.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAProximityService.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCARecoClient.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCASegment.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCASerializable.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAUser.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAZone.h"  />

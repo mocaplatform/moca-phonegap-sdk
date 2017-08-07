@@ -34,16 +34,6 @@ NS_CLASS_AVAILABLE(NA, 7_0)
 @interface MOCAProximityService : NSObject
 
 /**
- * Protocol to handle beacon-related proximity events.
- */
-@property (nonatomic, assign) id<MOCAProximityEventsDelegate>   eventsDelegate;
-
-/**
- * Protocol to handle proximity experience actions.
- */
-@property (nonatomic, assign) id<MOCAProximityActionsDelegate>  actionsDelegate;
-
-/**
  * Enables/disables proximity service on this device through MOCA. Defaults to `YES`.
  */
 @property (nonatomic) BOOL                              proximityEnabled;
@@ -91,6 +81,17 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  *         or NO otherwise.
  */
 -(BOOL)acceptSegment:(NSString*)segmentName;
+
+/**
+ * Protocol to handle beacon-related proximity events.
+ */
+-(void)eventsDelegate: (id<MOCAProximityEventsDelegate>) delegate;
+
+/**
+ * Protocol to handle proximity experience actions.
+ */
+-(void)actionsDelegate: (id<MOCAProximityActionsDelegate>) delegate;
+
 
 
 
