@@ -30,13 +30,10 @@
 {
     
     NSDictionary *detail = @{
-        @"major":beacon.major,
-        @"minor":beacon.minor,
         @"name":beacon.name,
         @"proximity": [self stringForProximity:beacon.proximity],
         @"timestamp": [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]],
-        @"type": @"beacon",
-        @"uuid": [beacon.proximityUUID UUIDString]
+        @"type": @"beacon"
     };
     
     return @{ @"detail": detail };
