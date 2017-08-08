@@ -2,7 +2,7 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="com.innoquant.moca.phonegap"
-    version="2.3.3">
+    version="2.4">
 
     <name>MOCA SDK Plugin</name>
     <description>InnoQuant MOCA SDK Plugin for PhoneGap/Cordova</description>    
@@ -123,7 +123,6 @@
         </config-file>
 
         <!-- MOCA SDK -->
-        <resource-file src="libs/moca-sdk-android-1.9.5.aar" target="libs/moca-sdk-android-1.9.5.aar" />
         <source-file src="src/android/MOCAPlugin.java" target-dir="src/com/innoquant/moca/phonegap" />
         <source-file src="src/android/MOCAConstants.java" target-dir="src/com/innoquant/moca/phonegap" />
         <source-file src="src/android/MOCAAPI.java" target-dir="src/com/innoquant/moca/phonegap" />

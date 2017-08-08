@@ -34,10 +34,11 @@
 
 #import "MOCAPlugin.h"
 #import "MOCAAutoIntegration.h"
+#import "MOCABeacon.h"
 
 // ----------------------------------------------------------------------
 
-static NSString *MOCAPluginVersion = @"2.3.0";
+static NSString *MOCAPluginVersion = @"2.4.0";
 typedef id (^UACordovaCallbackBlock)(NSArray *args);
 typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 
@@ -49,33 +50,6 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 -(id)initWithDictionary:(NSDictionary*)dict;
 
 @end
-
-// ----------------------------------------------------------------------
-
-
-/**
- * Private MOCABeacon interface.
- */
-@interface MOCABeacon ()
-
-/**
- * Beacon ID. Might be nil if not assigned.
- */
-@property (readonly, nonatomic, copy) NSString * identifier;
-
-/**
- * 4-digit beacon code (Unique). Might be nil if not assigned.
- */
-@property (readonly, nonatomic, copy) NSString * code;
-
-/**
- * Zone ID this beacon is assigned to. Might be nil if not assigned.
- */
-@property (readonly, nonatomic, copy) NSString * zoneId;
-
-@end
-
-// ----------------------------------------------------------------------
 
 @interface MOCAPlugin ()
 
@@ -185,11 +159,11 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     MOCAProximityService * service = [MOCA proximityService];
     if (service) {
         self.eventsDelegate = [MOCAPluginEventsDelegate withCommandDelegate: self.commandDelegate];
-        self.actionsDelegate = [MOCAPluginActionsDelegate delegateWithDefault: service.actionsDelegate
+        self.actionsDelegate = [MOCAPluginActionsDelegate delegateWithDefault: [service actionsDelegate]
                                                            andCommandDelegate: self.commandDelegate];
         
-        service.eventsDelegate = self.eventsDelegate;
-        service.actionsDelegate = self.actionsDelegate;
+        [service eventsDelegate:self.eventsDelegate];
+        [service actionsDelegate:self.actionsDelegate];
     } else {
         MOCA_LOG_WARNING ("MOCA proximity service not available on this device.");
     }
