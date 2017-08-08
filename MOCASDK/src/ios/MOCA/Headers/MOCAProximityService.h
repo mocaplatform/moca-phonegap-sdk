@@ -92,6 +92,11 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  */
 -(void)actionsDelegate: (id<MOCAProximityActionsDelegate>) delegate;
 
+/**
+ * Get current actions delegate
+ */
+-(id<MOCAProximityActionsDelegate>) actionsDelegate;
+
 
 
 

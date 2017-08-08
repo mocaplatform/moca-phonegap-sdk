@@ -41,7 +41,6 @@
  */
 NS_CLASS_AVAILABLE(NA, 7_0)
 @interface MOCABeacon : MOCAPropertyContainer
-
 /**
  * Globally unique beacon identifier in MOCA.
  */
@@ -101,5 +100,6 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  */
 @property (readonly, nonatomic) NSSet<MOCALabel *> * labels;
 
+@property (nonatomic) BOOL justWentToUnknown;
 
 @end

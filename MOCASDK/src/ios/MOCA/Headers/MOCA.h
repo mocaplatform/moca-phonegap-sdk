@@ -203,7 +203,7 @@
 
 /**
  * Enables/disables the WiFi only transfer contraint.
- * @param enable - if YES the SDK is allowed to transmit data only when Wifi is available.
+ * @param enabled - if YES the SDK is allowed to transmit data only when Wifi is available.
  *         NO otherwise.
  */
 + (void)setWifiOnlyEnabled:(BOOL)enabled;
@@ -216,7 +216,7 @@
 /**
  * Enables / Disables Indoor Analytics tracking. Available for venues with Indoor Location technologies
  * installed. SDK will remember this setting in subsequent initializations.
- * @param enable - YES to enable, NO to disable
+ * @param enabled - YES to enable, NO to disable
  */
 + (void)setIndoorAnalyticsEnabled:(BOOL)enabled;
 

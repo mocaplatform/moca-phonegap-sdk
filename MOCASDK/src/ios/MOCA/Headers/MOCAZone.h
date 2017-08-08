@@ -95,4 +95,6 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  */
 @property (readonly, nonatomic) CLRegionState currentState;
 
+@property (nonatomic) BOOL justWentOutside;
+
 @end
