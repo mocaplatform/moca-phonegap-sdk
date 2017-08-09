@@ -165,7 +165,15 @@
               <true/>
           </dict>
         </config-file>
-        
+        <config-file target="*-Info.plist" parent="NSLocationAlwaysUsageDescription">
+            <string>This app will use your location information to identify nearby places and to notify you about available proximity experiences.</string>
+        </config-file>
+        <config-file target="*-Info.plist" parent="NSLocationAlwaysAndWhenInUseUsageDescription">
+            <string>Always location permission is needed in order to detect bluetooth beacons and geofences.</string>
+        </config-file>
+        <config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription">
+            <string>When app is in use location permission will be used to notify you about relevant content around your location</string>
+        </config-file>   
 
         <!-- required background modes:  App registers for location updates -->
         <config-file target="*-Info.plist" parent="UIBackgroundModes">
