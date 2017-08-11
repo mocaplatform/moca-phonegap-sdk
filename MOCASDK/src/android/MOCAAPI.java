@@ -20,6 +20,12 @@ public class MOCAAPI {
     public static final String CUSTOM_PROPERTY = "customProperty";
     public static final String PLACES_INSIDE = "placesInside";
     public static final String PERFORM_FETCH = "performFetch";
+    public static final String INSTANCE_ADD_TAG = "instance_add_tag";
+    public static final String INSTANCE_REMOVE_TAG = "instance_remove_tag";
+    public static final String INSTANCE_CONTAINS_TAG = "instance_contains_tag";
+    public static final String INSTANCE_GET_VALUE_FOR_TAG = "instance_get_value_for_tag";
+    public static final String INSTANCE_GET_ALL_TAGS = "instance_get_all_tags";
+    public static final String CURRENT_INSTANCE = "current_instance";
 
     //public static final String GET_REGION_STATE_FOR_PLACE_ID = "getRegionStateforPlaceId";
 

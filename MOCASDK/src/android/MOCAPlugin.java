@@ -27,15 +27,7 @@ package com.innoquant.moca.phonegap;
 
 import android.app.Application;
 
-import com.innoquant.moca.MOCA;
-import com.innoquant.moca.MOCACallback;
-import com.innoquant.moca.MOCAConfig;
-import com.innoquant.moca.MOCAException;
-import com.innoquant.moca.MOCAInstance;
-import com.innoquant.moca.MOCALogLevel;
-import com.innoquant.moca.MOCAPlace;
-import com.innoquant.moca.MOCARegionState;
-import com.innoquant.moca.MOCAUser;
+import com.innoquant.moca.*;
 import com.innoquant.moca.proximity.ProximityData;
 import com.innoquant.moca.utils.MLog;
 
@@ -48,15 +40,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * MOCA PhoneGap Plugin for Android SDK, v2.0.1
+ * MOCA PhoneGap Plugin for Android SDK, v2.4.0
  */
 public class MOCAPlugin extends CordovaPlugin {
 
@@ -79,7 +68,13 @@ public class MOCAPlugin extends CordovaPlugin {
             MOCAAPI.CUSTOM_PROPERTY,
             MOCAAPI.PLACES_INSIDE,
             MOCAAPI.SET_GEOTRACKING_ENABLED,
-            MOCAAPI.PERFORM_FETCH
+            MOCAAPI.PERFORM_FETCH,
+            MOCAAPI.INSTANCE_ADD_TAG,
+            MOCAAPI.INSTANCE_REMOVE_TAG,
+            MOCAAPI.INSTANCE_CONTAINS_TAG,
+            MOCAAPI.INSTANCE_GET_VALUE_FOR_TAG,
+            MOCAAPI.INSTANCE_GET_ALL_TAGS,
+            MOCAAPI.CURRENT_INSTANCE
     );
 
     private final static List<String> knownCallbackActions = Arrays.asList(
@@ -269,6 +264,131 @@ public class MOCAPlugin extends CordovaPlugin {
     }
 
     @SuppressWarnings("unused")
+    void instance_add_tag(JSONArray data, CallbackContext callbackContext) {
+        if (!checkInited (callbackContext)) return;
+        try {
+        	if(data.length() != 2) {
+        		throw new IllegalArgumentException("Add Tag: Incorrect number of arguments, "
+        		 + "tag name and its value are required (e.g. addTag(\"buyer\", \"=1\"))");
+        	}
+        	String tagName = data.getString(0);
+        	String value = data.getString(1);
+        	String[] args = this.getFormattedData(tagName, value);
+
+        	MOCAInstance instance = MOCA.getInstance();
+        	instance.addTag(args[0], args[1]);
+        	callbackContext.success();
+        } catch (Exception e) {
+        	callbackContext.error("add a tag failed. Error: " + e.getMessage());
+        }
+
+    }
+
+    @SuppressWarnings("unused")
+    void instance_remove_tag(JSONArray data, CallbackContext callbackContext){
+        if(!checkInited(callbackContext)) {
+            return;
+        }
+        try {
+            if(data.length() != 1) {
+                throw new IllegalArgumentException("Incorrect number of arguments. TagName needed");
+            }
+            String tagName = data.getString(0);
+            String[] args = this.getFormattedData(tagName, null);
+
+            MOCAInstance instance = MOCA.getInstance();
+            instance.removeTag(args[0]);
+            callbackContext.success();
+
+        } catch (Exception e) {
+            callbackContext.error("instance_remove_tag failed. Error: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unused")
+    void instance_contains_tag(JSONArray data, CallbackContext callbackContext){
+        if(!checkInited(callbackContext)) {
+            return;
+        }
+        try {
+            String tagName = data.getString(0);
+            String[] args = this.getFormattedData(tagName, null);
+            MOCAInstance instance = MOCA.getInstance();
+
+            boolean isTagContained = instance.containsTag(args[0]);
+            callbackContext.success(isTagContained ? 1: 0);
+
+        } catch (Exception e) {
+            callbackContext.error("instance_contains_tag failed. Error: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unused")
+    void instance_get_value_for_tag(JSONArray data, CallbackContext callbackContext){
+        if(!checkInited(callbackContext)) {
+            return;
+        }
+        try {
+            String tagName = data.getString(0);
+            String[] args = this.getFormattedData(tagName, null);
+            MOCAInstance instance = MOCA.getInstance();
+
+            Double value = instance.getTagValue(args[0]);
+            callbackContext.success(value.intValue());
+
+        } catch (Exception e) {
+            callbackContext.error("instance_get_value_for_tag failed. Error: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unused")
+    void instance_get_all_tags(JSONArray data, CallbackContext callbackContext){
+        if(!checkInited(callbackContext)) {
+            return;
+        }
+        try {
+            String tagName = data.getString(0);
+            String[] args = this.getFormattedData(tagName, null);
+            MOCAInstance instance = MOCA.getInstance();
+            Set<MOCATag> tags = instance.getTags();
+            JSONObject tagsJson = new JSONObject();
+            for(MOCATag tag : tags){
+                tagsJson.put(tag.getName(), tag.getValue());
+            }
+
+            callbackContext.success(tagsJson);
+        } catch (Exception e) {
+            callbackContext.error("instance_get_all_tags failed. Error: " + e.getMessage());
+        }
+    }
+
+    private String[] getFormattedData(String tagName, String value) throws IllegalArgumentException {
+    	if(tagName == null || "".equals(tagName)) {
+    		throw new IllegalArgumentException("Tag name is null or empty!");
+    	}
+    	String[] args = new String[2];
+    	args[0] = tagName;
+
+    	String formattedValue;
+    	if(value == null || "null".equals(value)) {
+    		formattedValue = "+1";
+    	}
+    	else {
+    		String pattern = "^[+-=][0-9]+$";
+    		if(value.matches(pattern)){
+    			formattedValue = value;
+    		}
+    		else {
+    			throw new IllegalArgumentException("Tag value not valid. Should be, for instance, '+1' '-2' '=3'." +
+                        " Found " + value);
+    		}
+    	}
+    	args[1] = formattedValue;
+    	return args;
+    }
+
+
+    @SuppressWarnings("unused")
     void proximityEnabled(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited (callbackContext)) return;
         final boolean enabled = MOCA.proximityEnabled();
@@ -420,6 +540,15 @@ public class MOCAPlugin extends CordovaPlugin {
         } catch (JSONException e) {
             callbackContext.error ("instance_customProperty failed. Error: " + e.getMessage());
         }
+    }
+
+    @SuppressWarnings("unused")
+    void current_instance(JSONArray data, CallbackContext callbackContext) throws JSONException {
+        if (!checkInited (callbackContext)) return;
+        MOCAInstance mocaInstance = MOCA.getInstance();
+        JSONObject instanceObj = new JSONObject();
+        instanceObj.put("instance_id", mocaInstance.getId());
+        callbackContext.success(instanceObj);
     }
 
     @SuppressWarnings("unused")
