@@ -7,10 +7,10 @@ What is MOCA SDK?
 -----------------
 
 The MOCA SDK for PhoneGap lets you turn you mobile app into a powerful marketing tool.
-Effortlessly add iBeacon and geolocation driven proximity experiences to your PhoneGap app, engage your users and understand them with MOCA analytics.
+Effortlessly add iBeacon and geolocation driven proximity experiences to your Cordova / PhoneGap / IONIC app, engage your users and understand them with MOCA analytics.
 The SDK enables you to quickly connect to [MOCA backend platform](http://mocaplatform.com), deploy beacon experiences from the cloud, and track your users.
 
-MOCA PhoneGap SDK is a drop-in Cordova plugin that provides an easy way to integrate proximity experience services into your cross-platform PhoneGap apps. 
+MOCA PhoneGap SDK is a drop-in Cordova plugin that provides an easy way to integrate proximity experience services into your cross-platform hybrid apps. 
 
 ![MOCA SDK Framework Architecture](https://github.com/mocaplatform/moca-ios-sdk/blob/master/Assets/images/moca-proximity.png)
 
