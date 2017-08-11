@@ -23,15 +23,6 @@
 //  permission of InnoQuant.
 //
 
-// TODO:
-
-// - load
-// - placesInside
-// - refactor returns
-// - Utils.m
-// - fireEvent
-// - getJSONFromObject
-
 #import "MOCAPlugin.h"
 #import "MOCAAutoIntegration.h"
 #import "MOCABeacon.h"
@@ -250,8 +241,9 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
      */
 
     if ([value isKindOfClass:[NSString class]]) {
+        NSCharacterSet *set = [NSCharacterSet URLHostAllowedCharacterSet];
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                   messageAsString:[value stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                                   messageAsString:[value stringByAddingPercentEncodingWithAllowedCharacters:set]];
     } else if ([value isKindOfClass:[NSNumber class]]) {
         CFNumberType numberType = CFNumberGetType((CFNumberRef)value);
         //note: underlyingly, BOOL values are typedefed as char
@@ -448,6 +440,13 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     }];
 }
 
+-(void)current_instance:(CDVInvokedUrlCommand*)command {
+    [self performCallbackWithCommand:command expecting:nil withBlock:^(NSArray *args){
+        MOCAInstance *currentInstance = [MOCA currentInstance];
+        return currentInstance;
+    }];
+}
+
 /**
  * Fetch proximity data from cloud.
  * (performFetchWithCompletionHandler)
@@ -561,6 +560,158 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
         return [NSNumber numberWithBool:loggedIn];
     }];
 }
+
+//TAG API
+- (void)instance_add_tag:(CDVInvokedUrlCommand*)command {
+    CDVPluginResult* pluginResult = nil;
+    NSUInteger argCount = command.arguments.count;
+    if(argCount == 0) {
+        pluginResult =  [self errorPluginResultWithMessage:@"Invalid number of arguments."];
+    }
+    else {
+        NSArray *args = command.arguments[0];
+        NSString *tagName = @"";
+        NSString *value = @"+1";
+        @try {
+            tagName = [self validTagNameForObject: args[0]];
+        
+            if(argCount >= 2) {
+                value = [self validTagValueForObject: args[1]];
+            }
+        
+            MOCAInstance * instance =  [MOCA currentInstance];
+            if (instance != nil) {
+                [instance addTag:tagName withValue:value];
+                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            }
+            else {
+                pluginResult = [self errorPluginResultWithMessage:@"Internal MOCA SDK Error"];
+            }
+        } @catch(NSException *e) {
+            pluginResult = [self errorPluginResultWithMessage:e.description];
+        }
+    }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)instance_remove_tag:(CDVInvokedUrlCommand*)command {
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+    NSUInteger argCount = command.arguments.count;
+    if(argCount > 0) {
+        @try {
+            NSString *tagName = [self validTagNameForObject: command.arguments[0]];
+            MOCAInstance *instance =  [MOCA currentInstance];
+            if (instance != nil) {
+                [instance removeTag:tagName];
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            }
+            else {
+                pluginResult = [self errorPluginResultWithMessage:@"Internal MOCA SDK Error"];
+            }
+        } @catch(NSException *e) {
+            pluginResult = [self errorPluginResultWithMessage:e.description];
+        }
+    }
+    else {
+        pluginResult =  [self errorPluginResultWithMessage:@"Invalid number of arguments."];
+    }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)instance_contains_tag:(CDVInvokedUrlCommand*)command {
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+    NSUInteger argCount = command.arguments.count;
+    if(argCount == 1) {
+        @try {
+            NSString *tagName = [self validTagNameForObject: command.arguments[0]];
+            MOCAInstance *instance =  [MOCA currentInstance];
+            if (instance != nil) {
+                BOOL isTagContained = [instance containsTag:tagName];
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:isTagContained];
+            }
+        } @catch(NSException *e) {
+            pluginResult = [self errorPluginResultWithMessage:e.description];
+        }
+    }
+    else {
+        pluginResult = [self errorPluginResultWithMessage:@"Invalid number of arguments. Need 1 (tag name to be removed), found 0"];
+    }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)instance_get_value_for_tag:(CDVInvokedUrlCommand*)command {
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+    NSUInteger argCount = command.arguments.count;
+    if(argCount == 1) {
+        @try {
+            NSString *tagName = [self validTagNameForObject: command.arguments[0]];
+            MOCAInstance *instance =  [MOCA currentInstance];
+            if (instance != nil) {
+                NSNumber *value = [instance getTagValue:tagName];
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:value.intValue];
+            }
+        } @catch(NSException *e) {
+            pluginResult = [self errorPluginResultWithMessage:e.description];
+        }
+    }
+    else {
+        pluginResult = [self errorPluginResultWithMessage:@"Invalid number of arguments. Need 1 (tag name), found 0"];
+    }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)instance_get_all_tags:(CDVInvokedUrlCommand*)command {
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+    NSArray *tags = [[NSArray alloc] init];
+    @try {
+        MOCAInstance *instance =  [MOCA currentInstance];
+        if (instance != nil) {
+            tags = [instance getTopTags:1000];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:tags];
+        }
+    } @catch(NSException *e) {
+        pluginResult = [self errorPluginResultWithMessage:e.description];
+    }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+//TAG API Helpers
+-(NSString *) validTagNameForObject: (id) object {
+    if ([object isKindOfClass:[NSString class]]) {
+        return [object stringValue];
+    } else {
+        [NSException raise:@"InvalidArgumentException" format:@"Tag name must be a String. Found %@", NSStringFromClass([object class])];
+    }
+    return nil;
+}
+
+-(NSString *)validTagValueForObject: (id) object {
+    if(object == nil || [object isKindOfClass:[NSNull class]]) {
+        return @"+1";
+    }
+    if ([object isKindOfClass:[NSString class]]) {
+        NSString *tagValue = [object stringValue];
+        NSString *pattern = @"^[+-=][0-9]+$";
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", pattern];
+        if ([predicate evaluateWithObject: tagValue]){
+            return tagValue;
+        }
+        else {
+            [NSException raise:@"InvalidArgumentException"
+                        format:@"Tag value not valid. Should be, for instance, '+1' '-2' '=3'. Found %@ ", tagValue];
+            return nil;
+        }
+    }
+    [NSException raise:@"InvalidArgumentException"
+                format:@"Tag value must be a String. For instance: '+1' '-2' '=3'"];
+    return nil;
+}
+
+-(CDVPluginResult *) errorPluginResultWithMessage:(NSString *) errorMessage {
+    MOCA_LOG_ERROR("%@",errorMessage);
+    return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+}
+
 
 /**
  * Login user
