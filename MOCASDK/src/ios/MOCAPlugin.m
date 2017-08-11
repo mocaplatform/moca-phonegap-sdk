@@ -569,7 +569,7 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
         pluginResult =  [self errorPluginResultWithMessage:@"Invalid number of arguments."];
     }
     else {
-        NSArray *args = command.arguments[0];
+        NSArray *args = command.arguments;
         NSString *tagName = @"";
         NSString *value = @"+1";
         @try {
@@ -621,7 +621,7 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 - (void)instance_contains_tag:(CDVInvokedUrlCommand*)command {
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
     NSUInteger argCount = command.arguments.count;
-    if(argCount == 1) {
+    if(argCount > 0) {
         @try {
             NSString *tagName = [self validTagNameForObject: command.arguments[0]];
             MOCAInstance *instance =  [MOCA currentInstance];
@@ -642,7 +642,7 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 - (void)instance_get_value_for_tag:(CDVInvokedUrlCommand*)command {
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
     NSUInteger argCount = command.arguments.count;
-    if(argCount == 1) {
+    if(argCount > 1) {
         @try {
             NSString *tagName = [self validTagNameForObject: command.arguments[0]];
             MOCAInstance *instance =  [MOCA currentInstance];
