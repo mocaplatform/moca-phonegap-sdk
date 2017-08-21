@@ -2,11 +2,11 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="com.innoquant.moca.phonegap"
-    version="2.4">
+    version="2.4.1">
 
     <name>MOCA SDK Plugin</name>
     <description>InnoQuant MOCA SDK Plugin for PhoneGap/Cordova</description>    
-    <license>Copyright (c) 2014-2016 InnoQuant SL. All rights reserved.</license>
+    <license>Copyright (c) 2014-present InnoQuant SL. All rights reserved.</license>
     
     <engines>
       <engine name="cordova" version=">=3.4.0" />
