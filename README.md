@@ -25,6 +25,12 @@ Versioning
 
 Release notes
 -------------
+###v2.4.3
+- Latest Android SDK (2.3.2) that improves Wi-Fi Beacon behavior.
+
+###v2.4.2
+- Fixed integration with Latest Android SDK
+
 ###v2.4.1
 - Latest iOS (2.2.1) and Android (2.3.2) Native SDKs.
 - Unlimited number of geofences are now supported in both iOS and Android versions. 
