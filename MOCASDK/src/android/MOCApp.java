@@ -3,7 +3,7 @@ package com.innoquant.moca.phonegap;
 import android.app.Application;
 
 import com.innoquant.moca.*;
-import com.innoquant.moca.utils.MLog;
+import com.innoquant.moca.utils.logger.*;
 
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;

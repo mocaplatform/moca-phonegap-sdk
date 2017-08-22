@@ -25,8 +25,8 @@ package com.innoquant.moca.phonegap;
 import android.app.Application;
 import com.innoquant.moca.*;
 import com.innoquant.moca.proximity.ProximityData;
-import com.innoquant.moca.segments.values.*;
-import com.innoquant.moca.utils.MLog;
+import com.innoquant.moca.utils.logger.*;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -224,7 +224,7 @@ public class MOCAPlugin extends CordovaPlugin {
                 callbackContext.error("Invalid log level " + level);
                 return;
             }
-            MLog.setLogLevel(newLevel);
+            MLog.setLogLevel(newLevel, cordova.getActivity().getApplicationContext());
             callbackContext.success();
         } catch (JSONException e) {
             callbackContext.error("setLogLevel failed. Error: " + e.getMessage());
