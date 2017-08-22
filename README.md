@@ -25,6 +25,9 @@ Versioning
 
 Release notes
 -------------
+###v2.4.1
+- Latest iOS (2.2.1) and Android (2.3.2) Native SDKs.
+- Unlimited number of geofences are now supported in both iOS and Android versions. 
 
 ###v2.3.3
 - Added new `NSBluetoothPeripheralUsageDescription` mandatory key for iOS 10+ applications.
