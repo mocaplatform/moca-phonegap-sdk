@@ -25,6 +25,9 @@ Versioning
 
 Release notes
 -------------
+###v2.4.4
+- A new mechanism has been added to the plugin to avoid losing events on startup due to synchronization issues with the JS code. (Android)
+
 ###v2.4.3
 - Latest Android SDK (2.3.2) that improves Wi-Fi Beacon behavior.
 

@@ -22,7 +22,9 @@
 //  permission of InnoQuant.
 //
 package com.innoquant.moca.phonegap;
+
 import android.app.Application;
+
 import com.innoquant.moca.*;
 import com.innoquant.moca.proximity.ProximityData;
 import com.innoquant.moca.utils.logger.*;
@@ -34,10 +36,12 @@ import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 /**
  * MOCA PhoneGap Plugin for Android SDK, v2.4.0
  */
@@ -93,9 +97,11 @@ public class MOCAPlugin extends CordovaPlugin {
 
     private static MOCAPlugin instance;
     private ExecutorService executorService = Executors.newFixedThreadPool(1);
+
     public MOCAPlugin() {
         instance = this;
     }
+
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
@@ -129,10 +135,12 @@ public class MOCAPlugin extends CordovaPlugin {
             ((MOCApp) app).startListeners();
         }
     }
+
     @Override
     public void onResume(boolean multitasking) {
         super.onResume(multitasking);
     }
+
     @Override
     public boolean execute(final String action, final JSONArray data, final CallbackContext callbackContext) {
         if (!knownActions.contains(action) && !knownCallbackActions.contains(action)) {
@@ -158,11 +166,13 @@ public class MOCAPlugin extends CordovaPlugin {
         });
         return true;
     }
+
     @SuppressWarnings("unused")
     void version(JSONArray data, CallbackContext callbackContext) {
         final String version = MOCA.getVersion();
         callbackContext.success(version);
     }
+
     private boolean checkInited(CallbackContext callbackContext) {
         if (!MOCA.initialized()) {
             callbackContext.error("MOCA not initialized");
@@ -170,29 +180,34 @@ public class MOCAPlugin extends CordovaPlugin {
         }
         return true;
     }
+
     @SuppressWarnings("unused")
     void appKey(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
         final String appKey = MOCA.getAppKey();
         callbackContext.success(appKey);
     }
+
     @SuppressWarnings("unused")
     void appSecret(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
         final String appSecret = MOCA.getAppSecret();
         callbackContext.success(appSecret);
     }
+
     @SuppressWarnings("unused")
     void initialized(JSONArray data, CallbackContext callbackContext) {
         final boolean initialized = MOCA.initialized();
         callbackContext.success(initialized ? 1 : 0);
     }
+
     @SuppressWarnings("unused")
     void logLevel(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
         final MOCALogLevel level = MOCA.getLogLevel();
         callbackContext.success(level.ordinal());
     }
+
     @SuppressWarnings("unused")
     void instance_session(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
@@ -204,6 +219,7 @@ public class MOCAPlugin extends CordovaPlugin {
             callbackContext.error("MOCA instance not available");
         }
     }
+
     @SuppressWarnings("unused")
     void instance_identifier(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
@@ -211,6 +227,7 @@ public class MOCAPlugin extends CordovaPlugin {
         if (instance != null) callbackContext.success(instance.getId());
         else callbackContext.error("MOCA instance not available");
     }
+
     @SuppressWarnings("unused")
     void setLogLevel(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
@@ -220,16 +237,13 @@ public class MOCAPlugin extends CordovaPlugin {
                 level = "Info";
             }
             MOCALogLevel newLevel = MOCALogLevel.valueOf(level);
-            if (newLevel == null) {
-                callbackContext.error("Invalid log level " + level);
-                return;
-            }
             MLog.setLogLevel(newLevel, cordova.getActivity().getApplicationContext());
             callbackContext.success();
         } catch (JSONException e) {
             callbackContext.error("setLogLevel failed. Error: " + e.getMessage());
         }
     }
+
     @SuppressWarnings("unused")
     void instance_add_tag(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
@@ -247,6 +261,7 @@ public class MOCAPlugin extends CordovaPlugin {
             callbackContext.error("add a tag failed. Error: " + e.getMessage());
         }
     }
+
     @SuppressWarnings("unused")
     void instance_remove_tag(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) {
@@ -265,6 +280,7 @@ public class MOCAPlugin extends CordovaPlugin {
             callbackContext.error("instance_remove_tag failed. Error: " + e.getMessage());
         }
     }
+
     @SuppressWarnings("unused")
     void instance_contains_tag(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) {
@@ -280,6 +296,7 @@ public class MOCAPlugin extends CordovaPlugin {
             callbackContext.error("instance_contains_tag failed. Error: " + e.getMessage());
         }
     }
+
     @SuppressWarnings("unused")
     void instance_get_value_for_tag(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) {
@@ -295,6 +312,7 @@ public class MOCAPlugin extends CordovaPlugin {
             callbackContext.error("instance_get_value_for_tag failed. Error: " + e.getMessage());
         }
     }
+
     @SuppressWarnings("unused")
     void instance_get_all_tags(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) {
@@ -304,9 +322,9 @@ public class MOCAPlugin extends CordovaPlugin {
             String tagName = data.getString(0);
             String[] args = this.getFormattedData(tagName, null);
             MOCAInstance instance = MOCA.getInstance();
-            Set < MOCATag > tags = instance.getTags();
+            Set<MOCATag> tags = instance.getTags();
             JSONObject tagsJson = new JSONObject();
-            for (MOCATag tag: tags) {
+            for (MOCATag tag : tags) {
                 tagsJson.put(tag.getName(), tag.getValue());
             }
             callbackContext.success(tagsJson);
@@ -314,6 +332,7 @@ public class MOCAPlugin extends CordovaPlugin {
             callbackContext.error("instance_get_all_tags failed. Error: " + e.getMessage());
         }
     }
+
     private String[] getFormattedData(String tagName, String value) throws IllegalArgumentException {
         if (tagName == null || "".equals(tagName)) {
             throw new IllegalArgumentException("Tag name is null or empty!");
@@ -334,12 +353,14 @@ public class MOCAPlugin extends CordovaPlugin {
         args[1] = formattedValue;
         return args;
     }
+
     @SuppressWarnings("unused")
     void proximityEnabled(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
         final boolean enabled = MOCA.proximityEnabled();
         callbackContext.success(enabled ? 1 : 0);
     }
+
     @SuppressWarnings("unused")
     void setProximityEnabled(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
@@ -356,6 +377,7 @@ public class MOCAPlugin extends CordovaPlugin {
             callbackContext.error("setProximityEnabled failed. Error: " + e.getMessage());
         }
     }
+
     @SuppressWarnings("unused")
     void setGeoTrackingEnabled(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
@@ -372,6 +394,7 @@ public class MOCAPlugin extends CordovaPlugin {
             callbackContext.error("setGeoTrackingEnabled failed. Error: " + e.getMessage());
         }
     }
+
     @SuppressWarnings("unused")
     void instance_userLoggedIn(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
@@ -383,6 +406,7 @@ public class MOCAPlugin extends CordovaPlugin {
         }
         callbackContext.error("MOCA instance not available");
     }
+
     @SuppressWarnings("unused")
     void instance_userLogin(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
@@ -407,6 +431,7 @@ public class MOCAPlugin extends CordovaPlugin {
             callbackContext.error("instance_userLogin failed. Error: " + e.getMessage());
         }
     }
+
     @SuppressWarnings("unused")
     void instance_userLogout(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
@@ -425,6 +450,7 @@ public class MOCAPlugin extends CordovaPlugin {
             callbackContext.error("instance_userLogout failed. Error: " + e.getMessage());
         }
     }
+
     @SuppressWarnings("unused")
     void instance_setCustomProperty(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
@@ -450,6 +476,7 @@ public class MOCAPlugin extends CordovaPlugin {
             callbackContext.error("instance_setCustomProperty failed. Error: " + e.getMessage());
         }
     }
+
     @SuppressWarnings("unused")
     void instance_customProperty(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
@@ -466,7 +493,7 @@ public class MOCAPlugin extends CordovaPlugin {
             final MOCAInstance instance = MOCA.getInstance();
             if (instance != null) {
                 final Object value = instance.getProperty(key);
-                Map < String, Object > result = new HashMap < String, Object > ();
+                Map<String, Object> result = new HashMap<String, Object>();
                 result.put(key, value);
                 JSONObject jObj = new JSONObject(result);
                 callbackContext.success(jObj);
@@ -477,6 +504,7 @@ public class MOCAPlugin extends CordovaPlugin {
             callbackContext.error("instance_customProperty failed. Error: " + e.getMessage());
         }
     }
+
     @SuppressWarnings("unused")
     void current_instance(JSONArray data, CallbackContext callbackContext) throws JSONException {
         if (!checkInited(callbackContext)) return;
@@ -485,12 +513,13 @@ public class MOCAPlugin extends CordovaPlugin {
         instanceObj.put("instance_id", mocaInstance.getId());
         callbackContext.success(instanceObj);
     }
+
     @SuppressWarnings("unused")
     void placesInside(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
-        List < MOCAPlace > places = MOCA.getProximityService().getPlaces();
+        List<MOCAPlace> places = MOCA.getProximityService().getPlaces();
         JSONArray arr = new JSONArray();
-        for (MOCAPlace p: places) {
+        for (MOCAPlace p : places) {
             if (p.getCurrentState() == MOCARegionState.Inside) {
                 try {
                     arr.put(Utils.placeToJSON(p));
@@ -501,13 +530,15 @@ public class MOCAPlugin extends CordovaPlugin {
         }
         callbackContext.success(arr);
     }
+
     void performFetch(JSONArray data, final CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
-        MOCA.performFetchWithCallback(new MOCACallback < ProximityData > () {
+        MOCA.performFetchWithCallback(new MOCACallback<ProximityData>() {
             @Override
             public void success(ProximityData proximityData) {
                 callbackContext.success();
             }
+
             @Override
             public void failure(MOCAException e) {
                 callbackContext.error(e.getMessage());
