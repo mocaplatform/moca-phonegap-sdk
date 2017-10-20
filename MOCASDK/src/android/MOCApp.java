@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static com.innoquant.moca.phonegap.MOCAAPI.*;
+
 public class MOCApp extends Application implements MOCAProximityService.EventListener, MOCAProximityService.ActionListener {
 
     private HashMap<String, MOCACallbackContext> callbackContextMap = new HashMap<String, MOCACallbackContext>();
@@ -28,8 +30,7 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
 
     @Override
     public void onCreate() {
-        //android.os.Debug.waitForDebugger(); //todo remove me
-
+        //android.os.Debug.waitForDebugger();
         super.onCreate();
 
         //Auto Init MOCA SDK
@@ -79,32 +80,32 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
 
     @Override
     public boolean displayNotificationAlert(MOCAAction mocaAction, String s) {
-        return enqueueAndProcessEvent(MOCAConstants.DISPLAY_ALERT, mocaAction, s);
+        return enqueueAndProcessEvent(DISPLAY_ALERT, mocaAction, s);
     }
 
     @Override
     public boolean openUrl(MOCAAction mocaAction, String s) {
-        return enqueueAndProcessEvent(MOCAConstants.OPEN_URL, mocaAction, s);
+        return enqueueAndProcessEvent(OPEN_URL, mocaAction, s);
     }
 
     @Override
     public boolean showHtmlWithString(MOCAAction mocaAction, String s) {
-        return enqueueAndProcessEvent(MOCAConstants.SHOW_EMBEDDED_HTML, mocaAction, s);
+        return enqueueAndProcessEvent(SHOW_EMBEDDED_HTML, mocaAction, s);
     }
 
     @Override
     public boolean playVideoFromUrl(MOCAAction mocaAction, String s) {
-        return enqueueAndProcessEvent(MOCAConstants.PLAY_VIDEO_FROM_URL, mocaAction, s);
+        return enqueueAndProcessEvent(PLAY_VIDEO_FROM_URL, mocaAction, s);
     }
 
     @Override
     public boolean displayImageFromUrl(MOCAAction mocaAction, String s) {
-        return enqueueAndProcessEvent(MOCAConstants.IMAGE_FROM_URL, mocaAction, s);
+        return enqueueAndProcessEvent(IMAGE_FROM_URL, mocaAction, s);
     }
 
     @Override
     public boolean displayPassFromUrl(MOCAAction mocaAction, String s) {
-        return enqueueAndProcessEvent(MOCAConstants.PASSBOOK_FROM_URL, mocaAction, s);
+        return enqueueAndProcessEvent(PASSBOOK_FROM_URL, mocaAction, s);
     }
 
     @Override
@@ -117,17 +118,17 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
             MLog.e("addTag callback failed!");
             return false;
         }
-        return enqueueAndProcessEvent(MOCAConstants.ADD_TAG, mocaAction, args);
+        return enqueueAndProcessEvent(ADD_TAG, mocaAction, args);
     }
 
     @Override
     public boolean playNotificationSound(MOCAAction mocaAction, String s) {
-        return enqueueAndProcessEvent(MOCAConstants.PLAY_NOTIFICATION_SOUND, mocaAction, s);
+        return enqueueAndProcessEvent(PLAY_NOTIFICATION_SOUND, mocaAction, s);
     }
 
     @Override
     public boolean performCustomAction(MOCAAction mocaAction, String s) {
-        return enqueueAndProcessEvent(MOCAConstants.PERFORM_CUSTOM_ACTION, mocaAction, s);
+        return enqueueAndProcessEvent(PERFORM_CUSTOM_ACTION, mocaAction, s);
     }
     
     
@@ -137,12 +138,12 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
 
     @Override
     public void didEnterRange(MOCABeacon mocaBeacon, MOCAProximity mocaProximity) {
-        enqueueAndProcessEvent(MOCAConstants.DID_ENTER_RANGE, mocaBeacon);
+        enqueueAndProcessEvent(DID_ENTER_RANGE, mocaBeacon);
     }
 
     @Override
     public void didExitRange(MOCABeacon mocaBeacon) {
-        enqueueAndProcessEvent(MOCAConstants.DID_EXIT_RANGE, mocaBeacon);
+        enqueueAndProcessEvent(DID_EXIT_RANGE, mocaBeacon);
     }
 
     @Override
@@ -154,30 +155,30 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
             proximityChangeArgs.put("beacon", bkn);
             proximityChangeArgs.put("prevProximity", prevProximity.toString());
             proximityChangeArgs.put("curProximity", curProximity.toString());
-            enqueueAndProcessEvent(MOCAConstants.BEACON_PROXIMITY_CHANGE, proximityChangeArgs);
+            enqueueAndProcessEvent(BEACON_PROXIMITY_CHANGE, proximityChangeArgs);
         } catch (JSONException e) {
-            MLog.e(MOCAConstants.BEACON_PROXIMITY_CHANGE + " callback failed. " + e);
+            MLog.e(BEACON_PROXIMITY_CHANGE + " callback failed. " + e);
         }
     }
 
     @Override
     public void didEnterPlace(MOCAPlace mocaPlace) {
-        enqueueAndProcessEvent(MOCAConstants.DID_ENTER_PLACE, mocaPlace);
+        enqueueAndProcessEvent(DID_ENTER_PLACE, mocaPlace);
     }
 
     @Override
     public void didExitPlace(MOCAPlace mocaPlace) {
-        enqueueAndProcessEvent(MOCAConstants.DID_EXIT_PLACE, mocaPlace);
+        enqueueAndProcessEvent(DID_EXIT_PLACE, mocaPlace);
     }
 
     @Override
     public void didEnterZone(MOCAZone mocaZone) {
-        enqueueAndProcessEvent(MOCAConstants.DID_ENTER_ZONE, mocaZone);
+        enqueueAndProcessEvent(DID_ENTER_ZONE, mocaZone);
     }
 
     @Override
     public void didExitZone(MOCAZone mocaZone) {
-        enqueueAndProcessEvent(MOCAConstants.DID_EXIT_ZONE, mocaZone);
+        enqueueAndProcessEvent(DID_EXIT_ZONE, mocaZone);
     }
 
     @Override
@@ -202,9 +203,9 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
             for (MOCABeacon b : list) {
                 beaconList.put(Utils.beaconToJSON(b));
             }
-            enqueueAndProcessEvent(MOCAConstants.DID_LOADED_BEACONS_DATA, beaconList);
+            enqueueAndProcessEvent(DID_LOADED_BEACONS_DATA, beaconList);
         } catch (JSONException e) {
-            MLog.e(MOCAConstants.DID_LOADED_BEACONS_DATA + "callback failed: " + e);
+            MLog.e(DID_LOADED_BEACONS_DATA + "callback failed: " + e);
         }
     }
 
@@ -219,8 +220,9 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
 
         In order to tackle this issue, the MOCA Plugin uses a queue where the events will be
         stored during some seconds after initializing the application. Afterwards, all the events
-        will be processed. Subsequent events won't be enqueued anymore, but redirected directly to
-        the JS code as always in order to avoid delays triggering proximity experiences.
+        will be processed in the same order they arrived. Subsequent events won't be enqueued
+        anymore, but redirected directly to the JS code as always in order to avoid delays
+        triggering proximity experiences.
 
         Bear in mind that if the application is launched by Android OS (or GPSS) in the background,
         cordova (ver 7 at this moment) DOES NOT create the webview, therefore, no JavScript code

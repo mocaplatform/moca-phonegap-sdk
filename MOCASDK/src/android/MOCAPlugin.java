@@ -25,9 +25,20 @@ package com.innoquant.moca.phonegap;
 
 import android.app.Application;
 
-import com.innoquant.moca.*;
+import com.innoquant.moca.MOCA;
+import com.innoquant.moca.MOCACallback;
+import com.innoquant.moca.MOCAConfig;
+import com.innoquant.moca.MOCAException;
+import com.innoquant.moca.MOCAInstance;
+import com.innoquant.moca.MOCALogLevel;
+import com.innoquant.moca.MOCAPlace;
+import com.innoquant.moca.MOCAProximityService;
+import com.innoquant.moca.MOCARegionState;
+import com.innoquant.moca.MOCATag;
+import com.innoquant.moca.MOCAUser;
+import com.innoquant.moca.core.User;
 import com.innoquant.moca.proximity.ProximityData;
-import com.innoquant.moca.utils.logger.*;
+import com.innoquant.moca.utils.logger.MLog;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -38,62 +49,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static com.innoquant.moca.phonegap.MOCAAPI.knownActions;
+import static com.innoquant.moca.phonegap.MOCAAPI.knownCallbackActions;
 
 /**
  * MOCA PhoneGap Plugin for Android SDK, v2.4.0
  */
 public class MOCAPlugin extends CordovaPlugin {
-
-    private final static List<String> knownActions = Arrays.asList(
-            MOCAAPI.SET_LOG_LEVEL,
-            MOCAAPI.VERSION,
-            MOCAAPI.APP_KEY,
-            MOCAAPI.APP_SECRET,
-            MOCAAPI.INIT,
-            MOCAAPI.LOG_LEVEL,
-            MOCAAPI.INSTANCE_SESSION,
-            MOCAAPI.INSTANCE_IDENTIFIER,
-            MOCAAPI.PROXIMITY_ENABLED,
-            MOCAAPI.SET_PROXIMITY_ENABLED,
-            MOCAAPI.INSTANCE_USER_LOGIN,
-            MOCAAPI.INSTANCE_USER_LOGGED_IN,
-            MOCAAPI.INSTANCE_USER_LOGOUT,
-            MOCAAPI.INSTANCE_SET_CUSTOM_PROPERTY,
-            MOCAAPI.INSTANCE_CUSTOM_PROPERTY,
-            MOCAAPI.CUSTOM_PROPERTY,
-            MOCAAPI.PLACES_INSIDE,
-            MOCAAPI.SET_GEOTRACKING_ENABLED,
-            MOCAAPI.PERFORM_FETCH,
-            MOCAAPI.INSTANCE_ADD_TAG,
-            MOCAAPI.INSTANCE_REMOVE_TAG,
-            MOCAAPI.INSTANCE_CONTAINS_TAG,
-            MOCAAPI.INSTANCE_GET_VALUE_FOR_TAG,
-            MOCAAPI.INSTANCE_GET_ALL_TAGS,
-            MOCAAPI.CURRENT_INSTANCE
-    );
-
-    private final static List<String> knownCallbackActions = Arrays.asList(
-            MOCAConstants.DID_ENTER_RANGE,
-            MOCAConstants.DID_EXIT_RANGE,
-            MOCAConstants.BEACON_PROXIMITY_CHANGE,
-            MOCAConstants.DID_ENTER_PLACE,
-            MOCAConstants.DID_EXIT_PLACE,
-            MOCAConstants.DID_ENTER_ZONE,
-            MOCAConstants.DID_EXIT_ZONE,
-            MOCAConstants.DISPLAY_ALERT,
-            MOCAConstants.OPEN_URL,
-            MOCAConstants.SHOW_EMBEDDED_HTML,
-            MOCAConstants.PLAY_VIDEO_FROM_URL,
-            MOCAConstants.IMAGE_FROM_URL,
-            MOCAConstants.PASSBOOK_FROM_URL,
-            MOCAConstants.ADD_TAG,
-            MOCAConstants.PLAY_NOTIFICATION_SOUND,
-            MOCAConstants.PERFORM_CUSTOM_ACTION,
-            MOCAConstants.DID_LOADED_BEACONS_DATA
-    );
 
     private static MOCAPlugin instance;
     private ExecutorService executorService = Executors.newFixedThreadPool(1);
@@ -516,9 +485,122 @@ public class MOCAPlugin extends CordovaPlugin {
     }
 
     @SuppressWarnings("unused")
+    void current_user(JSONArray data, CallbackContext callbackContext) throws JSONException {
+        if (!checkInited(callbackContext)) return;
+        MOCAInstance mocaInstance = MOCA.getInstance();
+        if (mocaInstance == null) {
+            callbackContext.error("Cannot fetch current instance.");
+            return;
+        }
+        User user = (User) mocaInstance.getUser();
+        if (user == null) { //user is not logged in
+            callbackContext.success((JSONObject) null);
+            return;
+        }
+        callbackContext.success(user.serializeAsJson());
+    }
+
+    @SuppressWarnings("unused")
+    void user_save(JSONArray data, final CallbackContext callbackContext) throws JSONException {
+        if (!checkInited(callbackContext)) return;
+        MOCAUser user = MOCA.getInstance().getUser();
+        if (user == null) {
+            callbackContext.error("Something went wrong. Returned User from SDK is null," +
+                    "please report the error to support@mocaplatform.com");
+            return;
+        }
+        user.save(new MOCACallback<MOCAUser>() {
+            @Override
+            public void success(MOCAUser mocaUser) {
+                callbackContext.success();
+            }
+
+            @Override
+            public void failure(MOCAException e) {
+                callbackContext.error(e.getMessage());
+            }
+        });
+    }
+
+    @SuppressWarnings("unused")
+    void user_set_custom_property(JSONArray data, CallbackContext callbackContext) throws JSONException {
+        if (!checkInited(callbackContext)) return;
+        try {
+            if (data.length() < 2) {
+                callbackContext.error("Expected key and value arguments");
+                return;
+            }
+            final String key = data.getString(0);
+            if (key == null) {
+                callbackContext.error("Expected non null property key");
+                return;
+            }
+            final Object value = data.get(1);
+            MOCAUser user = MOCA.getInstance().getUser();
+            if (user == null) {
+                String error = "Something went wrong. SDK returned a null User, please file " +
+                        "an report to support@mocaplatform.com";
+                MLog.e(error);
+                callbackContext.error(error);
+                return;
+            }
+            user.setProperty(key, value);
+            callbackContext.success();
+        } catch (JSONException e) {
+            callbackContext.error("user.setProperty failed. Error: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unused")
+    void user_custom_property(JSONArray data, CallbackContext callbackContext) throws JSONException {
+        if (!checkInited(callbackContext)) return;
+        try {
+            if (data.length() < 1) {
+                callbackContext.error("Expected property key argument");
+                return;
+            }
+            final String key = data.getString(0);
+            if (key == null) {
+                callbackContext.error("Expected non null property key");
+                return;
+            }
+            MOCAUser user = MOCA.getInstance().getUser();
+            if (user == null) {
+                callbackContext.error("Something went wrong. SDK returned a null User, please file " +
+                        "an error report at support@mocaplatform.com");
+                return;
+            }
+            final Object value = user.getProperty(key);
+            Map<String, Object> result = new HashMap<String, Object>();
+            result.put(key, value);
+            JSONObject jObj = new JSONObject(result);
+            callbackContext.success(jObj);
+        } catch (JSONException e) {
+            callbackContext.error("user getProperty failed. Error: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unused")
+    void is_user_logged_in(JSONArray data, CallbackContext callbackContext) {
+        if (!checkInited(callbackContext)) return;
+        MOCAUser user = MOCA.getInstance().getUser();
+        if (user != null) {
+            callbackContext.success(1);
+            return;
+        }
+        callbackContext.success(0);
+    }
+
+    @SuppressWarnings("unused")
     void placesInside(JSONArray data, CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
-        List<MOCAPlace> places = MOCA.getProximityService().getPlaces();
+
+        MOCAProximityService proxService = MOCA.getProximityService();
+        if (proxService == null) {
+            callbackContext.error("MOCA Proximity Service is not available.");
+            return;
+        }
+        List<MOCAPlace> places = proxService.getPlaces();
         JSONArray arr = new JSONArray();
         for (MOCAPlace p : places) {
             if (p.getCurrentState() == MOCARegionState.Inside) {
