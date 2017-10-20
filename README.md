@@ -25,6 +25,9 @@ Versioning
 
 Release notes
 -------------
+###v2.4.5
+- Automatically start SDK Push service if a GCMSenderId is set (Android)
+
 ###v2.4.4
 - A new mechanism has been added to the plugin to avoid losing events on startup due to synchronization issues with the JS code. (Android)
 
