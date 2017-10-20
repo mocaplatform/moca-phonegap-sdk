@@ -25,6 +25,10 @@ Versioning
 
 Release notes
 -------------
+###v2.5.0
+- Extended MOCA SDK User API in JavaScript. Full support in Android.
+Android supported version: 2.4.3
+
 ###v2.4.5
 - Automatically start SDK Push service if a GCMSenderId is set (Android)
 

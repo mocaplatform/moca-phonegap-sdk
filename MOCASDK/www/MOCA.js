@@ -1,4 +1,4 @@
-//  v2.4.0
+//  v2.5.0
 //
 //  MOCA PhoneGap JavaScript Plugin
 //
@@ -134,15 +134,15 @@ MOCA.prototype.performFetch = function(callback) {
 MOCA.prototype.placesInside = function(callback) {
     this.call_native(callback, "placesInside");
 };
-// MOCA Instance
-MOCA.prototype.currentInstance = function() {
-    return new MOCAInstance(this);
-};
+
 // Custom properties
+
 MOCA.prototype.setCustomProperty = function(key, value, callback) {
+    console.warn("MOCA.setCustomProperty has been deprecated since API 2.5.0, use MOCA.currentInstance().setCustomProperty(key, value, callback) instead");
     this.call_native(callback, "instance_setCustomProperty", key, value);
 };
 MOCA.prototype.customProperty = function(key, callback) {
+    console.warn("MOCA.customProperty has been deprecated since API 2.5.0, use MOCA.currentInstance().customProperty() instead");
     this.call_native(callback, "instance_customProperty");
 };
 // ----------------------------------------
@@ -370,47 +370,107 @@ MOCA.prototype.addAddTagListener = function(callback) {
 MOCA.prototype.addPlaySoundListener = function(args, callback) {
     this.call_native(callback, "playSound", args);
 };
+
 var MOCAPlugin = new MOCA();
-// Global exports
-var MOCAInstance = function(MOCASDK) {
-    let MOCA = MOCASDK;
-    this.setCustomProperty = function(key, value, callback) {
-        return MOCA.call_native(callback, "instance_setCustomProperty", key, value);
-    };
-    this.customProperty = function(key, callback) {
-        return MOCA.call_native(callback, "instance_customProperty");
-    };
-    this.identifier = function(callback) {
-        return MOCA.call_native(callback, "instance_identifier");
-    };
-    this.deviceToken = function(callback) {
-        return MOCA.call_native(callback, "instance_deviceToken");
-    };
-    this.session = function(callback) {
-        return MOCA.call_native(callback, "instance_session");
-    };
-    this.birthDay = function(callback) {
-        return MOCA.call_native(callback, "instance_birthDay");
-    };
-    //TAG API
-    this.addTag = function(tagName, tagValue, callback) {
-        MOCA.call_native(callback, "instance_add_tag", tagName, tagValue);
-    };
-    this.removeTag = function(tagName, callback) {
-        MOCA.call_native(callback, "instance_remove_tag", tagName);
-    };
-    this.containsTag = function(tagName, callback) {
-        return MOCA.call_native(callback, "instance_contains_tag", tagName);
-    };
-    this.getTagValue = function(tagName, callback) {
-        return MOCA.call_native(callback, "instance_get_value_for_tag", tagName);
-    };
-    //
-    var props = MOCA.call_native(onProps, "current_instance");
-    var onProps = function(props) {
-        for (var key in props) {
-            this[key] = props[key];
-        }
-    }
+var MOCAUser = function() {};
+
+MOCAUser.prototype.setCustomProperty = function(key, value, callback) {
+   return MOCAPlugin.call_native(callback, "user_set_custom_property", key, value);
 };
+MOCAUser.prototype.setCustomProperty = function(key, value, callback) {
+    return MOCAPlugin.call_native(callback, "user_set_custom_property", key, value);
+};
+MOCAUser.prototype.customProperty = function(key, callback) {
+    return MOCAPlugin.call_native(callback, "user_custom_property", key);
+};
+MOCAUser.prototype.save = function(callback) {
+    return MOCAPlugin.call_native(callback, "user_save");
+};
+MOCAUser.prototype.id = function(callback) {
+    return this._id;
+};
+
+
+// Global exports
+var MOCAInstance = function(){};
+
+MOCAInstance.prototype.setCustomProperty = function(key, value, callback) {
+    return MOCAPlugin.call_native(callback, "instance_setCustomProperty", key, value);
+};
+MOCAInstance.prototype.customProperty = function(key, callback) {
+    return MOCAPlugin.call_native(callback, "instance_customProperty");
+};
+MOCAInstance.prototype.identifier = function(callback) {
+    console.warn("Calling a deprecated method 'instance.identifier(callback)', use 'instance.id' instead")
+    callback(this["instance_id"]);
+};
+MOCAInstance.prototype.deviceToken = function(callback) {
+    return MOCAPlugin.call_native(callback, "instance_deviceToken");
+};
+MOCAInstance.session = function(callback) {
+    return MOCAPlugin.call_native(callback, "instance_session");
+};
+MOCAInstance.prototype.birthDay = function(callback) {
+    return MOCAPlugin.call_native(callback, "instance_birthDay");
+};
+//TAG API
+MOCAInstance.prototype.addTag = function(tagName, tagValue, callback) {
+    return MOCAPlugin.call_native(callback, "instance_add_tag", tagName, tagValue);
+};
+MOCAInstance.prototype.removeTag = function(tagName, callback) {
+    return MOCAPlugin.call_native(callback, "instance_remove_tag", tagName);
+};
+MOCAInstance.prototype.containsTag = function(tagName, callback) {
+    return MOCAPlugin.call_native(callback, "instance_contains_tag", tagName);
+};
+MOCAInstance.prototype.getTagValue = function(tagName, callback) {
+    return MOCAPlugin.call_native(callback, "instance_get_value_for_tag", tagName);
+};
+MOCAInstance.prototype.currentUser = function(callback) {
+    let isUserLoggedIn = MOCAPlugin.call_native(
+        function(isUserLoggedIn) {
+          if (isUserLoggedIn) {
+            var user = new MOCAUser();
+            MOCAPlugin.call_native(function(props) {
+              if (props != null && props !== undefined && props.length != 0) {
+                for (var key in props) {
+                  if(key === "_id") {
+                    user["id"] = props[key];
+                  } else {
+                    user[key] = props[key];
+                  }
+                }
+                callback(user);
+              } else {
+                callback(null, "No user is logged in");
+              }
+            }, "current_user");
+          }
+        },
+        "is_user_logged_in");
+}
+
+
+//load MOCAInstance at startup
+var instance = new MOCAInstance();
+
+MOCAPlugin.call_native(function(props) {
+  if (props != null && props !== undefined && props.length != 0) {
+    for (var key in props) {
+      if(key === "instance_id") {
+        instance["id"] = props[key];
+      }
+      instance[key] = props[key];
+    }
+  } else {
+    console.error("No instance props. Is MOCA SDK Running?");
+  }
+}, "current_instance");
+
+// MOCA Instance
+MOCA.prototype.currentInstance = function() {
+    return instance;
+};
+
+
 module.exports = MOCAPlugin;
