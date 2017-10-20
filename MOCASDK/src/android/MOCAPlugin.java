@@ -128,6 +128,7 @@ public class MOCAPlugin extends CordovaPlugin {
                 MLog.w(msg);
             } else {
                 config.setGcmSender(gcmSender);
+                config.setAutomaticPushSetupEnabled(true);
             }
             MOCASharedPrefs.persistValues(appKey, appSecret, gcmSender, cordova.getActivity().getApplicationContext());
             MOCA.initializeSDK(cordova.getActivity().getApplication(), config);
