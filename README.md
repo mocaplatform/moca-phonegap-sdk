@@ -25,6 +25,9 @@ Versioning
 
 Release notes
 -------------
+###v2.5.1
+- Force save user to Cloud when logging in.
+
 ###v2.5.0
 - Extended MOCA SDK User API in JavaScript. Full support in Android.
 Android supported version: 2.4.5

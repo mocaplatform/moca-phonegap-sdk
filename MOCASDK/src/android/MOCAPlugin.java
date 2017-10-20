@@ -378,7 +378,7 @@ public class MOCAPlugin extends CordovaPlugin {
     }
 
     @SuppressWarnings("unused")
-    void instance_userLogin(JSONArray data, CallbackContext callbackContext) {
+    void instance_userLogin(JSONArray data, final CallbackContext callbackContext) {
         if (!checkInited(callbackContext)) return;
         try {
             if (data.length() < 1) {
@@ -393,7 +393,22 @@ public class MOCAPlugin extends CordovaPlugin {
             final MOCAInstance instance = MOCA.getInstance();
             if (instance != null) {
                 instance.login(userId);
-                callbackContext.success();
+                MOCAUser user = instance.getUser();
+                if (user == null) {
+                    callbackContext.error("User creation failed!");
+                    return;
+                }
+                user.save(new MOCACallback<MOCAUser>() {
+                    @Override
+                    public void success(MOCAUser mocaUser) {
+                        callbackContext.success();
+                    }
+
+                    @Override
+                    public void failure(MOCAException e) {
+                        callbackContext.error("MOCA SDK cannot save user in the cloud " + e.getMessage());
+                    }
+                });
             } else {
                 callbackContext.error("MOCA instance not available");
             }
