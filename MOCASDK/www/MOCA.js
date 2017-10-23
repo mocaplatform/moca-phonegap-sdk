@@ -402,7 +402,7 @@ MOCAInstance.prototype.customProperty = function(key, callback) {
 };
 MOCAInstance.prototype.identifier = function(callback) {
     console.warn("Calling a deprecated method 'instance.identifier(callback)', use 'instance.id' instead")
-    callback(this["instance_id"]);
+    callback(this["id"]);
 };
 MOCAInstance.prototype.deviceToken = function(callback) {
     return MOCAPlugin.call_native(callback, "instance_deviceToken");

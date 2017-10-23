@@ -25,6 +25,9 @@ Versioning
 
 Release notes
 -------------
+###v2.5.2
+- iOS Plugin implements extended 2.5.0 JS API.
+
 ###v2.5.1
 - Force save user to Cloud when logging in.
 

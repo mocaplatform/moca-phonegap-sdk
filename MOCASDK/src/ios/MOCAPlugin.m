@@ -1,6 +1,5 @@
 //
 //  MOCAPlugin.m
-//  v2.0.0
 //
 //  MOCA PhoneGap Plugin (iOS)
 //
@@ -29,7 +28,7 @@
 
 // ----------------------------------------------------------------------
 
-static NSString *MOCAPluginVersion = @"2.4.0";
+static NSString *MOCAPluginVersion = @"2.5.2";
 typedef id (^UACordovaCallbackBlock)(NSArray *args);
 typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 
@@ -183,11 +182,7 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
         id returnValue = block(command.arguments);
 
         CDVPluginResult *result = [self pluginResultForValue:returnValue];
-        if (result) {
-            [self succeedWithPluginResult:result withCallbackID:command.callbackId];
-        } else {
-            [self failWithCallbackID:command.callbackId];
-        }
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     });
 }
 
@@ -200,9 +195,21 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     }];
 }
 
-- (void)failWithCallbackID:(NSString *)callbackID {
+- (void)returnResponse:(CDVPluginResult *)result withCallbackId:(NSString *) callbackId {
+    if(!result) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+        [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+    }
+}
+
+- (void)failWithCallbackID:(NSString *)callbackId {
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
-    [self.commandDelegate sendPluginResult:result callbackId:callbackID];
+    [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+}
+
+-(void) failWithCallbackId: (NSString *) callbackId andMessage: (NSString *) message {
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:message];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
 }
 
 - (void)succeedWithPluginResult:(CDVPluginResult *)result withCallbackID:(NSString *)callbackID {
@@ -237,10 +244,14 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
      NSNumber --> (Integer | Double)
      NSArray --> Array
      NSDictionary --> Object
-     nil --> no return value
+     NSError -> Error
+     nil --> Error
      */
 
-    if ([value isKindOfClass:[NSString class]]) {
+    if ([value isKindOfClass:[NSError class]] || !value){
+        NSString *errorString = [((NSError* )value) description];
+        result =  [self errorPluginResultWithMessage: errorString];
+    } else if ([value isKindOfClass:[NSString class]]) {
         NSCharacterSet *set = [NSCharacterSet URLHostAllowedCharacterSet];
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
                                    messageAsString:[value stringByAddingPercentEncodingWithAllowedCharacters:set]];
@@ -443,7 +454,11 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 -(void)current_instance:(CDVInvokedUrlCommand*)command {
     [self performCallbackWithCommand:command expecting:nil withBlock:^(NSArray *args){
         MOCAInstance *currentInstance = [MOCA currentInstance];
-        return currentInstance;
+        NSMutableDictionary *props =  [[currentInstance serialize] mutableCopy];
+        //normalize API
+        props[@"id"] = props[@"_id"];
+        [props removeObjectForKey:@"_id"];
+        return props;
     }];
 }
 
@@ -561,7 +576,8 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     }];
 }
 
-//TAG API
+#pragma mark TAG API
+
 - (void)instance_add_tag:(CDVInvokedUrlCommand*)command {
     CDVPluginResult* pluginResult = nil;
     NSUInteger argCount = command.arguments.count;
@@ -675,7 +691,8 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-//TAG API Helpers
+#pragma mark TAG API Helpers
+
 -(NSString *) validTagNameForObject: (id) object {
     if ([object isKindOfClass:[NSString class]]) {
         return [object stringValue];
@@ -720,28 +737,43 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
  */
 -(void) instance_userLogin:(CDVInvokedUrlCommand*)command {
 
-    CDVPluginResult* pluginResult = nil;
-    
-    if (command.arguments.count >= 1) {
-        id obj = [command.arguments objectAtIndex:0];
-        
-        if ([obj isKindOfClass:[NSString class]]) {
-            NSString* userId = (NSString*)obj;
-            MOCAInstance * instance = [MOCA currentInstance];
-            if (instance && userId)
-            {
-                MOCA_LOG_DEBUG(@"Login User with ID=: %@", userId);
-                [instance login:userId];
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-            }
-        }
-    } 
-    if (!pluginResult) {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+    NSString * callbackId = command.callbackId;
+    if(command.arguments.count < 1) {
+        [self failWithCallbackId:callbackId andMessage:@"Incorrect number of arguments, expected at least 1."];
+        return;
     }
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    id obj = [command.arguments objectAtIndex:0];
+    if (![obj isKindOfClass:[NSString class]]) {
+        [self failWithCallbackId:callbackId andMessage:@"NSString identifier was expected"];
+        return;
+    }
+    NSString* userId = (NSString*)obj;
+    MOCAInstance * instance = [MOCA currentInstance];
+    if(!instance) {
+        [self failWithCallbackId:callbackId andMessage:@"MOCA Instance unavailable. Is MOCA SDK initialized?"];
+        return;
+    }
+    if(!userId) {
+        [self failWithCallbackId:callbackId andMessage:@"Failed to get userId."];
+        return;
+    }
+    MOCA_LOG_DEBUG(@"Login User with ID=: %@", userId);
+    [instance login:userId];
+    MOCAUser *user = [instance currentUser];
+    if(!user) {
+        [self failWithCallbackId:callbackId andMessage:@"User login failed. Please contact support@mocaplatform.com"];
+        return;
+    }
+    [user saveWithBlock:^(MOCAUser *user, NSError *err) {
+        if(err) {
+            NSString *errorMessage = [NSString stringWithFormat:@"Failed to save user in MOCA Cloud: %@", [err description]];
+            [self failWithCallbackId:callbackId andMessage:errorMessage];
+            return;
+        }
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
 }
-
 
 /**
  * Logout user
@@ -795,6 +827,90 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
     }
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+#pragma mark USER API
+
+-(void) current_user:(CDVInvokedUrlCommand*)command {
+    [self performCallbackWithCommand:command expecting:nil withBlock:^id(NSArray *args){
+        MOCAInstance *instance = [MOCA currentInstance];
+        if(!instance) {
+            return [self returnErrorInstanceNotAvailableForCallbackId:command.callbackId];
+        }
+        MOCAUser *user = [instance currentUser];
+        return [user serialize];
+    }];
+}
+
+-(void) user_save:(CDVInvokedUrlCommand*)command {
+    MOCAInstance *instance = [MOCA currentInstance];
+    if(!instance) {
+        [self failWithCallbackId:command.callbackId andMessage:@"MOCA SDK not initialized."];
+        return;
+    }
+    MOCAUser *user = [instance currentUser];
+    [user saveWithBlock:^(MOCAUser * user, NSError * err) {
+        if(err) {
+            [self failWithCallbackId:command.callbackId andMessage:@"Error trying to save user to MOCA Cloud"];
+        }
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+-(void) user_set_custom_property:(CDVInvokedUrlCommand*)command {
+    [self performCallbackWithCommand:command
+                           expecting:@[[NSString class], [NSObject class]]
+                           withBlock:^id(NSArray *args){
+                                MOCAInstance *instance = [MOCA currentInstance];
+                                if(!instance) {
+                                    return [self returnErrorInstanceNotAvailableForCallbackId:command.callbackId];
+                                }
+                                MOCAUser *user = [instance currentUser];
+                                if(!user) {
+                                    return [self errorPluginResultWithMessage:@"User is no longer logged in, cannot set property"];
+                                }
+                               NSString *keyObj = args[0];
+                               id keyValue = args[1];
+                               if([keyValue isKindOfClass:[NSNumber class]] || [keyValue isKindOfClass:[NSString class]]) {
+                                   [user setValue:keyValue forProperty:keyObj];
+                                   return @"User saved";
+                               }
+                               return [self errorPluginResultWithMessage:@"Value type is not valid"];
+                            }];
+}
+
+/**
+ * Get property from user
+ */
+-(void) user_custom_property:(CDVInvokedUrlCommand*)command {
+    [self performCallbackWithCommand:command
+                           expecting:@[[NSString class]]
+                           withBlock:^id(NSArray *args){
+                               MOCAInstance *instance = [MOCA currentInstance];
+                               if(!instance) {
+                                   return [self returnErrorInstanceNotAvailableForCallbackId:command.callbackId];
+                               }
+                               MOCAUser *user = [instance currentUser];
+                               if(!user) {
+                                   return [self errorPluginResultWithMessage:@"User is no longer logged in, cannot get property"];
+                               }
+                               NSString *key = args[0];
+                               return @{key: [user valueForProperty:key]};
+                           }];
+}
+
+-(void) is_user_logged_in:(CDVInvokedUrlCommand*)command {
+    [self performCallbackWithCommand:command
+                           expecting:nil
+                           withBlock:^id(NSArray *args){
+                               MOCAInstance *instance = [MOCA currentInstance];
+                               if(!instance) {
+                                   return [self returnErrorInstanceNotAvailableForCallbackId:command.callbackId];
+                               }
+                               MOCAUser *user = [instance currentUser];
+                               return @(user != nil);
+                           }];
 }
 
 -(void) stashEventCommand:(CDVInvokedUrlCommand*)command {
@@ -881,6 +997,25 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     }
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:messages];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+#pragma other helpers
+
+- (BOOL)checkInitied:(CDVInvokedUrlCommand*)command {
+    if(!MOCA.initialized) {
+        [self failWithCallbackId:command.callbackId andMessage:@"MOCA SDK is not running."];
+        return NO;
+    }
+    return YES;
+}
+
+-(NSError *) returnErrorInstanceNotAvailableForCallbackId: (NSString *) callbackId {
+    NSDictionary *userInfo = @{
+                               NSLocalizedDescriptionKey: @"MOCA Instance is not available",
+                               NSLocalizedFailureReasonErrorKey: @"MOCA SDK failure or SDK is not initialized",
+                               NSLocalizedRecoverySuggestionErrorKey: @"Ensure SDK is initialized, or contact support"
+                               };
+    return [NSError errorWithDomain:@"MocaSDK" code:1 userInfo:userInfo];
 }
 
 @end
