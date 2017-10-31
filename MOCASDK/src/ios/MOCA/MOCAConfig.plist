@@ -18,5 +18,7 @@
 	<true/>
 	<key>BACKGROUND_LOCATION_ENABLED</key>
 	<true/>
+	<key>LOCATION_PERMISSION_REQUEST_MODE</key>
+	<string>Auto</string>
 </dict>
 </plist>

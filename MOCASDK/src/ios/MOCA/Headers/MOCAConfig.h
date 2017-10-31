@@ -25,6 +25,13 @@
 #import <Foundation/Foundation.h>
 #import "MOCALog.h"
 
+typedef NS_ENUM(NSInteger, MOCALocationPermissionType) {
+    Auto,
+    WhenInUse,
+    Always,
+    Disabled
+};
+
 /**
  * The MOCAConfig object provides an interface for passing 
  * configurable values to [MOCA initialize].
@@ -143,6 +150,11 @@
 @property(nonatomic, readonly) BOOL               indoorTrackingEnabled;
 
 /**
+ * Location permission that the SDK has to request if proximity services start
+ */
+@property(nonatomic, readonly) MOCALocationPermissionType               locationPermissionRequestType;
+
+/**
  * Custom properties.
  */
 @property (nonatomic, readonly) NSDictionary *    customProperties;
@@ -182,5 +194,6 @@
  */
 -(id)valueForCustomKey:(NSString*)customKey;
 
+- (NSString*)locationPermissionTypeString;
 @end
 

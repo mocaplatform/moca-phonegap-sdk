@@ -25,6 +25,9 @@ Versioning
 
 Release notes
 -------------
+###v2.5.3
+- Compatibility with MOCA iOS SDK 2.3.0
+
 ###v2.5.2
 - iOS Plugin implements extended 2.5.0 JS API.
 
