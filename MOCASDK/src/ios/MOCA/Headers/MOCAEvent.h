@@ -179,6 +179,15 @@
 + (BOOL) track:(NSString*)verb forItem:(NSString*)item belongingTo:(NSString*)category withIntValue:(int)value;
 
 /**
+ * Track an event
+ * @param verb Action verb
+ * @param itemIds An array of ItemIds
+ * @param value an optional value (i.e. transaction value for a purchase).
+ * @return <code>YES</code> in case of success, <code>NO</code> in case of error.
+ */
++ (BOOL)track:(NSString *)verb forItemsArray:(NSArray <NSString *> *)itemIds withValue:(NSNumber *)value;
+
+/**
  * Initializes a newly allocated event as a copy of another given event.
  *
  * @param event Other event.

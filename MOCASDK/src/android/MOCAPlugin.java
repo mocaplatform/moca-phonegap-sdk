@@ -60,7 +60,7 @@ import static com.innoquant.moca.phonegap.MOCAAPI.knownActions;
 import static com.innoquant.moca.phonegap.MOCAAPI.knownCallbackActions;
 
 /**
- * MOCA PhoneGap Plugin for Android SDK, v2.4.0
+ * MOCA PhoneGap Plugin for Android SDK, v2+
  */
 public class MOCAPlugin extends CordovaPlugin {
 

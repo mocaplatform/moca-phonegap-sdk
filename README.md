@@ -25,6 +25,9 @@ Versioning
 
 Release notes
 -------------
+###v2.5.4
+- Compatibility with MOCA iOS SDK 2.3.1
+
 ###v2.5.3
 - Compatibility with MOCA iOS SDK 2.3.0
 
