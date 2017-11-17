@@ -25,6 +25,10 @@ Versioning
 
 Release notes
 -------------
+
+###v2.6.0
+- Compatibility with Android SDK version 2.5.0 which includes full support for Android Oreo (8.0)
+
 ###v2.5.4
 - Compatibility with MOCA iOS SDK 2.3.1
 
