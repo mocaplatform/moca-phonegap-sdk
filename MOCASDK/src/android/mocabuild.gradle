@@ -1,6 +1,6 @@
 repositories{    
   jcenter()
-  google()
+  maven { url 'https://maven.google.com' }  
   maven { url 'https://dl.bintray.com/mocaplatform/maven' }
 }
 
@@ -9,7 +9,6 @@ dependencies {
   compile 'com.mocaplatform:moca-android-sdk:2.5.2'
   compile 'com.android.support:support-v4:26.+'
   compile 'com.android.support:appcompat-v7:26.+'
-
 
     //Google Cloud Messaging
   compile 'com.google.android.gms:play-services-gcm:11.+'
