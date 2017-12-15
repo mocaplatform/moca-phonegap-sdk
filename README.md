@@ -26,6 +26,10 @@ Versioning
 Release notes
 -------------
 
+###v2.6.1
+- Compatibility with Android SDK version 2.5.2 
+- Improved dependency declaration in order to minimize conflicts with other plugins.
+
 ###v2.6.0
 - Compatibility with Android SDK version 2.5.0 which includes full support for Android Oreo (8.0)
 
