@@ -56,8 +56,7 @@
             If you use another plugin that requires / does the same, you'll need to manually create a single class that inherits from application, change the android:name to your class, and implement the code needed for both plugins. If you find this situation please report it in the "issues" section of the plugin GitHub project.
 
         </info> 
-        <hook type="after_plugin_add" src="scripts/app_name.js" />
-
+        
         <framework src="src/android/mocabuild.gradle" custom="true" type="gradleReference" />
 
         <config-file target="config.xml" parent="/widget">
@@ -67,60 +66,10 @@
             </feature>                  
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest">            
-            <!-- Required for MOCA SDK -->
-            <uses-permission android:name="android.permission.INTERNET" />
-            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-            <uses-permission android:name="android.permission.BLUETOOTH" />
-            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+        <edit-config file="AndroidManifest.xml" target="manifest/application/" mode="merge">
+            <uses-sdk android:name="com.innoquant.moca.phonegap.MOCApp" />
+        </edit-config>
 
-            <!-- Keeps the processor from sleeping when a message is received. -->
-            <uses-permission android:name="android.permission.WAKE_LOCK" />
-            <!-- Required for Push -->
-            <uses-permission android:name="android.permission.VIBRATE" />
-            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-            <!-- Used to collect battery stats -->
-            <uses-permission android:name="android.permission.BATTERY_STATS" />
-            <!-- Used to collect carrier -->
-            <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-            <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-            <uses-permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE" />
-            <permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE" android:protectionLevel="signature" />
-            <permission android:name="$PACKAGE_NAME.permission.MOCA_DATA" android:protectionLevel="signature" />
-            <uses-permission android:name="$PACKAGE_NAME.permission.MOCA_DATA" />
-        </config-file>    
-
-
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
-
-        <service
-                android:name="com.innoquant.moca.drivers.alt.service.BeaconService"
-                android:enabled="true"
-                android:exported="true"
-                android:isolatedProcess="false"
-                android:label="Beacon driver service" />
-
- 	    <service android:name="com.innoquant.moca.services.SyncService" android:enabled="true" />
-	    <service android:name="com.innoquant.moca.push.PushService" android:enabled="true" />
-            
-        <service android:name="com.innoquant.moca.drivers.alt.BeaconIntentProcessor" android:enabled="true" />
-
-            <activity
-                android:name="com.innoquant.moca.ui.AlertDialogActivity"
-                android:exported="false" >
-            </activity>
-
-            <activity
-                android:name="com.innoquant.moca.ui.WebPageActivity"
-                android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
-            </activity>
-
-            <!-- Include version Google Play Services -->
-            <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-
-        </config-file>
 
         <!-- MOCA SDK -->
         <source-file src="src/android/MOCAPlugin.java" target-dir="src/com/innoquant/moca/phonegap" />
