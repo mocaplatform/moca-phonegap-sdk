@@ -66,8 +66,8 @@
             </feature>                  
         </config-file>
 
-        <edit-config file="AndroidManifest.xml" target="manifest/application" mode="merge">
-            <uses-sdk android:name="com.innoquant.moca.phonegap.MOCApp" />
+        <edit-config file="AndroidManifest.xml" target="manifest" mode="merge">
+            <application android:name="com.innoquant.moca.phonegap.MOCApp" />
         </edit-config>
 
 
