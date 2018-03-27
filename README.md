@@ -26,6 +26,12 @@ Versioning
 Release notes
 -------------
 
+###v2.7.0
+- Project moved to root in order to support Cordova 7+
+- Added compatibility with MOCA Android SDK 2.5.6
+- Added compatibility with MOCA iOS SDK 2.4.5
+- Removed dulpicate class declarations in the Android integration.
+
 ###v2.6.1
 - Compatibility with Android SDK version 2.5.2 
 - Improved dependency declaration in order to minimize conflicts with other plugins.

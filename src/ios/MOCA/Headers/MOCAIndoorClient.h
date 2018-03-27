@@ -84,4 +84,9 @@ typedef NS_ENUM(NSInteger, MOCAIndoorWarning) {
  */
 - (void) close;
 
+/**
+ * Upload logs to the indoor location provider
+ */
+- (void) uploadLogs;
+
 @end

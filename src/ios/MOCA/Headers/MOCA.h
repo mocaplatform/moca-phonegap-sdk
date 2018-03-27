@@ -36,6 +36,7 @@
 #import "MOCAProximityService.h"
 #import "MOCAIndoorClient.h"
 #import "MOCARecoClient.h"
+@import UserNotifications;
 
 /**
  * MOCA object manages the shared state for all MOCA SDK services. 
@@ -353,6 +354,17 @@
  */
 +(void)handleLocalNotification:(UILocalNotification *)notification;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
++ (void)userNotificationCenter:(UNUserNotificationCenter *)center
+didReceiveNotificationResponse:(UNNotificationResponse *)response
+         withCompletionHandler:(void (^)(void))completionHandler;
+
++ (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler;
+#pragma clang diagnostic pop
+
 /**
  * Checks if this specific local notification contains MOCA content.
  * MOCA content is verified by checking "moca" key in the userInfo dictionary.
@@ -360,8 +372,9 @@
  * @param notification - The notification to check.
  *
  * @return YES if this is MOCA notification or NO otherwise.
+ * @deprecated Use MOCA isMocaNotification: instead
  */
-+(BOOL)isMocaLocalNotification:(UILocalNotification *)notification;
++(BOOL)isMocaLocalNotification:(UILocalNotification *)notification DEPRECATED_MSG_ATTRIBUTE("Use [MOCA isMocaNotification:notification] instead");
 
 /**
  * Checks if this specific remote notification payload (userInfo) contains MOCA content.
@@ -370,9 +383,18 @@
  * @param userInfo - The notification to check.
  *
  * @return YES if this is MOCA notification or NO otherwise.
+ * @deprecated Use MOCA isMocaNotification: instead
  */
-+(BOOL)isMocaRemoteNotification:(NSDictionary *)userInfo;
++(BOOL)isMocaRemoteNotification:(NSDictionary *)userInfo DEPRECATED_MSG_ATTRIBUTE("Use [MOCA isMocaNotification:notification] instead");
 
+/**
+ * Check if the notification is a MOCA generated notification (remote or local)
+ *
+ * @param notification, the actual notification to check. It could be a NSDictionary (userInfo), UNNotification or UNNotificationResponse
+ *
+ * @return YES if is a MOCA generated notification or NO otherwise.
+ */
++(BOOL)isMocaNotification:(id)notification;
 
 /**
  * Called when your app has been activated by the user selecting an action from a local notification.

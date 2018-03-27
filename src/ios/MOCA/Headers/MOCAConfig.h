@@ -152,7 +152,7 @@ typedef NS_ENUM(NSInteger, MOCALocationPermissionType) {
 /**
  * Location permission that the SDK has to request if proximity services start
  */
-@property(nonatomic, readonly) MOCALocationPermissionType               locationPermissionRequestType;
+@property(nonatomic) MOCALocationPermissionType               locationPermissionRequestType;
 
 /**
  * Custom properties.
