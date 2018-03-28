@@ -31,6 +31,7 @@ Release notes
 - Added compatibility with MOCA Android SDK 2.5.6
 - Added compatibility with MOCA iOS SDK 2.4.5
 - Removed dulpicate class declarations in the Android integration.
+- Improved integration on Android: The Application declaration in the app’s AndroidManifest.xml is no longer done by a JavaScript script, but with Cordova native manipulation of XML files.
 
 ###v2.6.1
 - Compatibility with Android SDK version 2.5.2 
