@@ -1,6 +1,6 @@
 {
   "name": "moca-phonegap-sdk",
-  "version": "2.4.0",
+  "version": "2.7.0",
   "description": "InnoQuant MOCA SDK Plugin for PhoneGap/Cordova",
   "cordova": {
     "id": "com.innoquant.moca.phonegap",
