@@ -26,6 +26,9 @@ Versioning
 Release notes
 -------------
 
+###v2.7.1
+- Removed JavaScript Keywords not supported by certain mobile browsers.
+
 ###v2.7.0
 - Project moved to root in order to support Cordova 7+
 - Added compatibility with MOCA Android SDK 2.5.6
