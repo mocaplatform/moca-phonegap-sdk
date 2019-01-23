@@ -29,6 +29,9 @@
 #import "MOCAPluginEventsDelegate.h"
 #import "MOCAPluginActionsDelegate.h"
 #import "MOCAPluginCallbackMessage.h"
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
+#define IS_IOS10_OR_GREATER 1
+#endif
 
 @interface MOCAPlugin : CDVPlugin
 

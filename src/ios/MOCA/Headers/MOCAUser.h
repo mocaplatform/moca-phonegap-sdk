@@ -24,6 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MOCASerializable.h"
+@class MOCAPropertyContainer;
 
 /**
  * MOCAUser object represents an autentified user of the mobile app.
@@ -77,7 +78,8 @@
  *
  * @return A new array containing all existing custom property names.
  */
-- (NSArray*) allProperties;
+- (MOCAPropertyContainer *) allProperties;
+
 /**
  * Logs in the user.
  *
@@ -97,7 +99,6 @@
  * successfully performed. In case of error it is given too.
  */
 - (void) saveWithBlock:(void (^)(MOCAUser*, NSError*))block;
-
 
 /**
  * Returns a Boolean value that indicates whether the receiving user

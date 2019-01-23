@@ -35,7 +35,7 @@
  * - NSNumber (bool, int, long long, double and float)
  * - NSDate
  */
-@interface MOCAPropertyContainer : NSObject<MOCASerializable>
+@interface MOCAPropertyContainer : NSObject <MOCASerializable>
 
 /**
  * Sets the value for the given property name.
@@ -43,7 +43,7 @@
  * @param value Value to be set. It must belong to one of the accepted classes.
  * @param prop Property name.
  */
-- (void) setValue:(id)value forProperty:(NSString*)prop;
+- (void)setValue:(id)value forProperty:(NSString *)prop;
 
 /**
  * Gets the value for the given property.
@@ -51,14 +51,14 @@
  * @param prop Property name.
  * @return Value associated with the property or <code>nil</code> if none.
  */
-- (id) valueForProperty:(NSString*)prop;
+- (id)valueForProperty:(NSString *)prop;
 
 /**
  * Returns a new array containing all existing property names.
  *
  * @return A new array containing all existing property names.
  */
-- (NSArray*) allProperties;
+- (NSArray *)allProperties;
 
 /**
  * Returns a Boolean value that indicates whether the contents of the receiving property container 
@@ -67,6 +67,6 @@
  * @param other Other property container.
  * @return <code>YES</code> if equals, otherwise <code>NO</code>.
  */
-- (BOOL) isEqualToPropertyContainer:(MOCAPropertyContainer*)other;
+- (BOOL)isEqualToPropertyContainer:(MOCAPropertyContainer *)other;
 
 @end

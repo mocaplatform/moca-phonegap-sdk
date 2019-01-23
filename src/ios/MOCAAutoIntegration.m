@@ -11,6 +11,10 @@
 #import "MOCA.h"
 #import "objc/runtime.h"
 
+#ifdef IS_IOS10_OR_GREATER
+#import "MOCAPluginNotificationsDelegate.h"
+#endif
+
 static MOCAAutoIntegration *_instance;
 
 @implementation MOCAAutoIntegration {
@@ -20,13 +24,18 @@ static MOCAAutoIntegration *_instance;
 /** 
  * Starts the auto integration
  */
-
-+ (void) autoIntegrate
-{
+#ifdef IS_IOS10_OR_GREATER
++ (void) autoIntegrateWithNotificationsDelegate:(MOCAPluginNotificationsDelegate *) delegate {
+#else
++ (void) autoIntegrateWithNotificationsDelegate:(id) delegate;
+#endif
     static dispatch_once_t onceToken;
     dispatch_once (&onceToken, ^{
         _instance = [[MOCAAutoIntegration alloc] init];
-        [_instance swizzleAppDelegate];
+        [_instance swizzleApplication];
+#ifdef IS_IOS10_OR_GREATER
+        [UNUserNotificationCenter currentNotificationCenter].delegate = delegate;
+#endif
     });
 }
 
@@ -45,32 +54,91 @@ static MOCAAutoIntegration *_instance;
  *  the swizzling will fail.
  */
 
-- (void) swizzleAppDelegate
-{
+- (void) swizzleApplication {
     id delegate = [UIApplication sharedApplication].delegate;
     if (!delegate) {
         MOCA_LOG_ERROR(@"Cannot retrieve AppDelegate. Automatic integration failed");
         return;
     }
     
-    Class class = [delegate class];
+    Class appDelegateClass = [delegate class];
     
     // Push notifications token
     [self swizzle:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)
-   implementation:(IMP)ApplicationDidRegisterForRemoteNotificationsWithDeviceToken class:class];
+   implementation:(IMP)ApplicationDidRegisterForRemoteNotificationsWithDeviceToken class:appDelegateClass];
     
     //TODO token errors
     
     // Silent notifications
     [self swizzle:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)
    implementation:(IMP)ApplicationDidReceiveRemoteNotificationFetchCompletionHandler
-            class:class];
+            class:appDelegateClass];
     
-    // Local push notifications
+#ifdef IS_IOS10_OR_GREATER
+    id userNotificationCenter = [UNUserNotificationCenter currentNotificationCenter];
+    if(!userNotificationCenter) {
+        MOCA_LOG_ERROR(@"UNUserNotificationCenter swizzling failed! MOCA Notifications won't work correctly. Please file a bug report to support@mocaplatform.com");
+        return;
+    }
+    [self swizzle:@selector(setDelegate:) implementation:(IMP)UNUserNotificationCenterSetDelegate class:[userNotificationCenter class]];
+#else
+    // Use the pre iOS 10 APIs
     [self swizzle:@selector(application:didReceiveLocalNotification:)
    implementation:(IMP)ApplicationDidReceiveLocalNotification class:class];
+#endif
+}
+
+void UNUserNotificationCenterSetDelegate(id self, SEL _cmd, id<UNUserNotificationCenterDelegate> delegate) {
+
+    UNUserNotificationCenter *userNotificationCenterSelf = (UNUserNotificationCenter *) self;
+    id<UNUserNotificationCenterDelegate> currentDelegate = userNotificationCenterSelf.delegate;
+    Class mocaDelegateClass = [MOCAPluginNotificationsDelegate class];
+    IMP originalImp = [_instance originalImplementation:_cmd class:[self class]];
+    if(!originalImp) {
+        NSException *exception = [NSException exceptionWithName:@"Unexpected system state. "
+                                                         reason:@"NSUserNotificationCenter original implementation not found."
+                                                       userInfo:nil];
+        @throw exception;
+    }
+
+    if(!delegate) {
+        MOCA_LOG_DEBUG(@"Removing UNUserNotificationCenter delegate");
+        ((void(*)(id, SEL, id<UNUserNotificationCenterDelegate>))originalImp)(self, _cmd, nil);
+        return;
+    }
     
+    //passthrough if not delegate installed or if neither the existing delegate nor the incoming delegates are moca delegates.
+    if(!currentDelegate || !([delegate isMemberOfClass:mocaDelegateClass] && [currentDelegate isMemberOfClass:mocaDelegateClass])) {
+        MOCA_LOG_DEBUG(@"Assigning UNUserNotificationCenter delegate. ");
+        ((void(*)(id, SEL, id<UNUserNotificationCenterDelegate>))originalImp)(self, _cmd, delegate);
+        return;
+    }
+    //bounce in case moca delegate is trying to subscribe twice
+    if([currentDelegate isMemberOfClass:mocaDelegateClass] && [delegate isMemberOfClass:mocaDelegateClass]) {
+        return;
+    }
     
+    //if moca delegate is already subscribed and incoming delegate is a different class, set the original subscriber to moca delegate
+    if([currentDelegate isMemberOfClass:mocaDelegateClass] && ![delegate isMemberOfClass:mocaDelegateClass]) {
+        MOCA_LOG_DEBUG(@"Setting not MOCA UNUserNotificationCenter delegate to already installed MOCA Delegate");
+        MOCAPluginNotificationsDelegate *mocaDelegate = (MOCAPluginNotificationsDelegate *)delegate;
+        [mocaDelegate setOriginalDelegate:delegate];
+        return;
+    }
+    
+    //otherwise current delegate is another class, and the incoming one is a moca class
+    if(![currentDelegate isMemberOfClass:mocaDelegateClass] && [delegate isMemberOfClass:mocaDelegateClass]) {
+        MOCA_LOG_DEBUG(@"Swapping existing UNUserNotificationCenter delegate with MOCA Delegate");
+        MOCAPluginNotificationsDelegate *mocaDelegate = delegate;
+        [mocaDelegate setOriginalDelegate:currentDelegate];
+        ((void(*)(id, SEL, id<UNUserNotificationCenterDelegate>))originalImp)(self, _cmd, mocaDelegate);
+        return;
+    }
+    NSLog(@"This line should be unreachable"); //todo delete
+    NSException *exception = [NSException exceptionWithName:@"Unexpected system state"
+                                                     reason:@"Unexpected system state."
+                                                   userInfo:nil];
+    @throw exception;
 }
 
 /** Inject an implementation in an instance method by using ObjC Method Swizzling (@warning that's black magic).
@@ -157,6 +225,9 @@ void ApplicationDidReceiveLocalNotification(id self, SEL _cmd, UIApplication *ap
  */
 
 - (IMP)originalImplementation:(SEL)selector class:(Class)class {
+    if(!selector || !class) {
+        return nil;
+    }
     NSString *selectorString = NSStringFromSelector(selector);
     NSString *classString = NSStringFromClass(class);
     

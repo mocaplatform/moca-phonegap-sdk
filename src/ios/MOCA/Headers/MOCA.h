@@ -2,7 +2,7 @@
 //  MOCA.h
 //
 //  MOCA iOS SDK
-//  Version 2.0
+//  Version 2.x
 //
 //  This module is part of MOCA Platform.
 //
@@ -36,6 +36,8 @@
 #import "MOCAProximityService.h"
 #import "MOCAIndoorClient.h"
 #import "MOCARecoClient.h"
+#import "MOCACart.h"
+
 @import UserNotifications;
 
 /**
@@ -44,6 +46,8 @@
  * application:didFinishLaunchingWithOptions to initialize the shared instance.
  */
 @interface MOCA : NSObject
+
+@property (class, nonatomic, readonly) MOCACart *cart;
 
 /**
  * Gets the version of the MOCA library.
@@ -115,6 +119,13 @@
  * @return The MOCAInstance object.
  */
 + (MOCAInstance*) currentInstance;
+
+/**
+ * Gets the logged-in MOCA user object.
+ *
+ * @return The MOCAUser object or nil if not logged in.
+ */
++ (MOCAUser*) currentUser;
 
 /**
  * Get status of the proximity service.
@@ -203,7 +214,7 @@
 + (BOOL)wifiOnlyEnabled;
 
 /**
- * Enables/disables the WiFi only transfer contraint.
+ * Enables/disables the "WiFi only" transfer contraint.
  * @param enabled - if YES the SDK is allowed to transmit data only when Wifi is available.
  *         NO otherwise.
  */
@@ -244,6 +255,13 @@
  * @param logLevel New log level.
  */
 + (void) setLogLevel:(MOCALogLevel)logLevel;
+
+/**
+ * Returns the last known location known by MOCA.
+ *
+ * @return Last known location
+ */
++ (CLLocation*) getLastKnownLocation;
 
 /**
  * Creates a new recommender client for a specific item category.
@@ -354,16 +372,13 @@
  */
 +(void)handleLocalNotification:(UILocalNotification *)notification;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpartial-availability"
 + (void)userNotificationCenter:(UNUserNotificationCenter *)center
 didReceiveNotificationResponse:(UNNotificationResponse *)response
-         withCompletionHandler:(void (^)(void))completionHandler;
+         withCompletionHandler:(void (^)(void))completionHandler  NS_AVAILABLE_IOS(10_0);
 
 + (void)userNotificationCenter:(UNUserNotificationCenter *)center
        willPresentNotification:(UNNotification *)notification
-         withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler;
-#pragma clang diagnostic pop
+         withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler  NS_AVAILABLE_IOS(10_0);
 
 /**
  * Checks if this specific local notification contains MOCA content.
@@ -425,6 +440,227 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
  * @return a new instance of the indoor location tracker, nil if not avaialble.
  */
 +(MOCAIndoorClient*)indoorLocationClientWithDelegate: (id <MOCAIndoorDelegate>) delegate;
+
+/**
+ * Tracks a view item event.
+ *
+ * @param item identifier
+ */
++(void) trackViewed:(NSString*) itemId;
+
+/**
+ * Tracks a view item event.
+ *
+ * @param itemId - item identifier
+ * @param category - item category (optional)
+ */
++(void) trackViewed:(NSString*) itemId belongingTo:(NSString*)category;
+
+/**
+ * Tracks a view item event.
+ *
+ * @param itemId    item identifier
+ * @param recommended - YES if the item was recommended to the user, NO if user viewed the item by herself.
+ */
++(void) trackViewed:(NSString*) itemId withReco:(BOOL)recommended;
+
+/**
+ * Tracks a view item event.
+ *
+ * @param itemId - item identifier
+ * @param category - item category (optional)
+ * @param recommended - YES if the item was recommended to the user, NO if user viewed the item by herself.
+ */
++(void) trackViewed:(NSString*) itemId belongingTo:(NSString*)category withReco:(BOOL)recommended;
+
+/**
+ * Adds an item to the favourite list of current user. Current user can be anonymous
+ * (MOCAInstance) or logged-in (MOCAUser).
+ *
+ * @param item item identifier
+ * @return <code>YES</code> in case of success, <code>NO</code> in case the item already exist in the set.
+ */
++(BOOL) addToFavList:(NSString*) itemId;
+
+/**
+ * Removes all items from the current user's favourites list.
+ */
++(void) clearFavList;
+
+/**
+ * Removes an item from the favourite list of current user.
+ *
+ * @param item item identifier
+ * @return <code>YES</code> in case of success, <code>NO</code> if the element does not belong to the set.
+ */
++(BOOL) removeFromFavList:(NSString*) itemId;
+
+/**
+ * Adds an item to the wish list of current user.
+ *
+ * @param item item identifier
+ * @return <code>YES</code> in case of success, <code>NO</code> in case the item already exist in the set.
+ */
++(BOOL) addToWishList:(NSString*) itemId;
+
+/**
+ * Removes an item from the wish list of current user.
+ *
+ * @param item item identifier
+ * @return <code>YES</code> in case of success, <code>NO</code> if the element does not belong to the set.
+ */
++(BOOL) removeFromWishList:(NSString*) itemId;
+
+/**
+ * Removes all items from the current user's wish list.
+ */
++(void) clearWishList;
+
+/**
+ * Creates an item that represents a product and its price with a unique identifier
+ * that can be added to the cart or purchased.
+ *
+ * Developer note:
+ * MOCA item represents an immutable object that can be viewed or purchased by a User.
+ * The item has an unique identifier @itemId and a collection of properties that describe
+ * its unit price, currency, and the category this item belongs to.
+ *
+ * @param itemId - item identifier
+ * @param category - item category (optional)
+ * @param unitPrice - price of a single item
+ * @param currency - 3-letter currency ISO code or virtual currency name
+ *
+ * Example:
+ *      MOCAItem * shoes = [MOCA.createItem:@"sku78192" belongingTo:@"shoes" withUnitPrice:@75.0 withCurrency:@"EUR"];
+ *      [MOCA addToCart:shoes withQuantity:@2];
+ */
++(id<MOCAItem>) createItem:(NSString*) itemId
+            belongingTo:(NSString*) category
+          withUnitPrice:(double) unitPrice
+           withCurrency:(NSString*) currency;
+
+/**
+ * Adds an item to current user's cart.
+ *
+ * Developer note: please implement MOCAItem interface and deliver detailed information
+ * about items in your Application.
+ *
+ * @param item - item object to add to the cart. You may use MOCA.createItem (...) method
+ *             to create the item object or alternatively implement MOCAItem interface
+ *             in your App object model.
+ *
+ * @param quantity  number of items to add to the cart
+ */
++(void) addToCart:(id <MOCAItem>) item
+      withQuantity:(NSUInteger) quantity;
+
+/**
+ * Updates the quantity of a specific item with @itemId in the current user's cart.
+ *
+ * @param itemId  item identifier
+ * @param quantity new number of units to set.
+ *
+ * @return <code>YES</code> in case of success, <code>NO</code> in case of item is not in the cart.
+ */
++(BOOL) updateCart:(NSString*) itemId
+      withQuantity:(NSUInteger) quantity;
+
+/**
+ * Removes an item from current user's cart.
+ *
+ * @param itemId  item identifier
+ *
+ * @return <code>YES</code> in case of success, <code>NO</code> in case of error.
+ */
++(BOOL) removeFromCart:(NSString*) itemId;
+
+/**
+ * Clears current user's cart.
+ */
++(void) clearCart;
+
+/**
+ * Begins checkout of current user's cart.
+ */
++(void) beginCheckout;
+
+/**
+ * Completed previously started checkout of current user's cart
+ * confirming that the operation has completed successfully and the user has
+ * purchased the items. After the operation the cart is cleared and
+ * user's Life-Time-Value (LTV) is incremented.
+ */
++(void) completeCheckout;
+
+/**
+ * Tracks an item purchased event.
+ *
+ * @param itemId product identifier
+ * @param category  category the product belongs to.
+ * @param quantity  number of units
+ * @param unitPrice unit price
+ * @param currency  price currency
+ */
++(void) trackPurchased:(NSString*) itemId
+           belongingTo:(NSString*) category
+         withUnitPrice:(double) unitPrice
+          withCurrency:(NSString*) currency
+          withQuantity:(NSUInteger) quantity;
+
+/**
+ * Tracks an item purchased event.
+ *
+ * @param item  purchased product object
+ * @param quantity number of units
+ */
++(void) trackPurchased:(id <MOCAItem>) item
+          withQuantity:(NSUInteger) quantity;
+
+/**
+ * Tracks an item shared event.
+ *
+ * @param itemId     item identifier
+ * @param category category the item belongs to.
+ */
++(void) trackShared:(NSString*) itemId
+       withCategory:(NSString*) category;
+
+/**
+ * Tracks an item shared event.
+ *
+ * @param itemId item identifier
+ */
++(void) trackShared:(NSString*) itemId;
+
+/**
+ * Tracks an item rated event.
+ *
+ * @param itemId     item identifier
+ * @param category category the item belongs to.
+ * @param rating    rating value
+ */
++(void) trackContentRated:(NSString*) itemId
+             withCategory:(NSString*) category
+               withRating:(double) rating;
+
+/**
+ * Tracks an item rated event.
+ *
+ * @param itemId     item identifier
+ * @param rating    rating value
+ */
++(void) trackContentRated:(NSString*) itemId
+               withRating:(double) rating;
+
+/**
+ * Adds a tag to the current profile (user if logged in, anonymous user if not)
+ * @param tagName the name of the tag
+ * @param value the value of the tag. It should have
+ *   For example "+1" increments the tag value by 1.
+ *   For example "-2" decrements the tag value by 2.
+ *   For example "3" or "=3" assign value of 3 to the tag's value.
+ */
++ (void)addTag:(NSString *)tagName withValue:(NSString *)value;
 
 /**
  * Shutdown the library

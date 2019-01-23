@@ -53,4 +53,6 @@
 @property (readonly, nonatomic) NSDate *createdAt;
 
 
+@property(nonatomic, strong) NSSet<NSString *> *resourceKeys;
+
 @end

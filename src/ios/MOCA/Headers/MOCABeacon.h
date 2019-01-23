@@ -27,6 +27,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "MOCAPropertyContainer.h"
 #import "MOCAZone.h"
+#import "MOCARegion.h"
 
 /**
  * The MOCABeacon class represents a beacon device. 
@@ -40,16 +41,21 @@
  * @see MOCAInstance
  */
 NS_CLASS_AVAILABLE(NA, 7_0)
-@interface MOCABeacon : MOCAPropertyContainer
+@interface MOCABeacon : MOCAPropertyContainer <MOCARegion>
 /**
  * Globally unique beacon identifier in MOCA.
  */
-@property (readonly, nonatomic, copy) NSString * identifier;
+@property (readonly, nonatomic) NSString * identifier;
 
 /**
  * Beacon name. Might be nil if not assigned.
  */
-@property (readonly, nonatomic, copy) NSString * name;
+@property (readonly, nonatomic) NSString * name;
+
+/**
+ * Beacon device provider name. Optional.
+ */
+@property (readonly, nonatomic) NSString * provider;
 
 /**
  * Zone this beacon is assigned to. Might be null if beacon is unassigned.
@@ -63,6 +69,8 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  * it is outside the beacon range, otherwise returns CLRegionStateUnknown.
  */
 @property (readonly, nonatomic) CLRegionState state;
+
+@property (readonly, nonatomic) CLRegionState prevRegionState;
 
 /*
  * Proximity of the beacon from the device.
@@ -91,6 +99,11 @@ NS_CLASS_AVAILABLE(NA, 7_0)
 @property (readonly, nonatomic) CLLocation * location;
 
 /**
+ * Returns YES if its location data is valid (e.g beacon engine is running)
+ */
+@property (readonly, getter=isRegionDataValid) BOOL beaconDataValid;
+
+/**
  * Beacon floor, might be nil
  */
 @property (readonly, nonatomic, copy) NSNumber * floor;
@@ -101,5 +114,11 @@ NS_CLASS_AVAILABLE(NA, 7_0)
 @property (readonly, nonatomic) NSSet<MOCALabel *> * labels;
 
 @property (nonatomic) BOOL justWentToUnknown;
+
+- (BOOL)isEqual:(id)other;
+
+- (BOOL)isEqualToBeacon:(MOCABeacon *)beacon;
+
+- (NSUInteger)hash;
 
 @end

@@ -40,6 +40,26 @@ typedef enum _MOCALogLevel
  */
 extern MOCALogLevel _logLevel;
 
+
+/**
+ * Remote logging with Loggly
+ */
+#ifdef LOGGLY
+
+#import <CocoaLumberjack/DDLogMacros.h>
+
+extern DDLogLevel ddLogLevel;
+
+FOUNDATION_EXPORT int ensureLogly(MOCALogLevel level);
+
+#define NSLoggly(level, formatStr, ...) \
+    int flag = ensureLogly(level);\
+    LOG_MAYBE(LOG_ASYNC_ENABLED, LOG_LEVEL_DEF, flag, 0, nil, __PRETTY_FUNCTION__, formatStr, ##__VA_ARGS__)
+#else
+    #define NSLoggly(level, formatStr, ...)
+#endif // LOGGLY
+
+
 /*
  * Macros to easily write log messages.
  */
@@ -49,6 +69,7 @@ extern MOCALogLevel _logLevel;
         do { \
             if ((_logLevel != Off) && (_logLevel >= level)) { \
                 NSLog((@"%7@ %20.20s:%4d: " formatStr), levelStr, NSStringFromClass([self class]).UTF8String, __LINE__, ##__VA_ARGS__); \
+                /* NSLoggly(level, (@"[iOS]: %20.20s:%4d: " formatStr), NSStringFromClass([self class]).UTF8String, __LINE__, ##__VA_ARGS__); \ */ \
             } \
         } while(0)
 #else
@@ -56,12 +77,17 @@ extern MOCALogLevel _logLevel;
         do { \
             if ((_logLevel != Off) && (_logLevel >= level)) { \
                 NSLog((@"%@ (%s) " formatStr), levelStr, __PRETTY_FUNCTION__, ##__VA_ARGS__); \
+                /* NSLoggly(level, (@"[iOS]: (%s) " formatStr), __PRETTY_FUNCTION__, ##__VA_ARGS__);\ */ \
             } \
         } while(0)
-#endif // DEBUG 
+#endif // DEBUG
+
 
 #define MOCA_LOG_ERROR(formatStr, ...) MOCA_LOG(Error, @"❌ERROR", formatStr, ##__VA_ARGS__)
 #define MOCA_LOG_WARNING(formatStr, ...) MOCA_LOG(Warning, @"⚠️ WARN", formatStr, ##__VA_ARGS__)
 #define MOCA_LOG_INFO(formatStr, ...) MOCA_LOG(Info, @"✅ INFO", formatStr, ##__VA_ARGS__)
 #define MOCA_LOG_DEBUG(formatStr, ...) MOCA_LOG(Debug, @"💬 DEBUG", formatStr, ##__VA_ARGS__)
 #define MOCA_LOG_TRACE(formatStr, ...) MOCA_LOG(Trace, @"🔎 TRACE", formatStr, ##__VA_ARGS__)
+
+
+

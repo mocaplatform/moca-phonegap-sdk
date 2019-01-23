@@ -25,10 +25,11 @@
 #import "MOCAPlugin.h"
 #import "MOCAAutoIntegration.h"
 #import "MOCABeacon.h"
+#import "MOCAPluginNotificationsDelegate.h"
 
 // ----------------------------------------------------------------------
 
-static NSString *MOCAPluginVersion = @"2.5.4";
+static NSString *MOCAPluginVersion = @"2.8.0";
 typedef id (^UACordovaCallbackBlock)(NSArray *args);
 typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 
@@ -50,14 +51,17 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 
 @end
 
-@implementation MOCAPlugin
+@implementation MOCAPlugin {
+    MOCAPluginNotificationsDelegate * _mocaNotificationsDelegate;
+}
 
 - (void)pluginInitialize {
     if ([MOCA initialized]) {
         return;
     }
     MOCA_LOG_INFO("Initializing MOCAPlugin %@", MOCAPluginVersion);
-    [MOCAAutoIntegration autoIntegrate];
+    _mocaNotificationsDelegate = [[MOCAPluginNotificationsDelegate alloc] init];
+    [MOCAAutoIntegration autoIntegrateWithNotificationsDelegate:_mocaNotificationsDelegate];
     [self initializeSDK];
 }
 
@@ -69,6 +73,12 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
         MOCA_LOG_ERROR ("MOCA app key not specified in settings. Missing 'moca_app_key' parameter.");
         return nil;
     }
+    if([@"YOUR_APP_KEY" isEqualToString:appKey]) {
+        NSException *exception = [NSException exceptionWithName:@"Invalid AppKey"
+                                                         reason:@"YOUR_APP_KEY is not a valid AppKey. Please check your config.xml file."
+                                                       userInfo:nil];
+        @throw exception;
+    }
     [dict setObject:appKey forKey:@"APP_KEY"];
     
     // app secret
@@ -76,6 +86,12 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     if (!appSecret) {
         MOCA_LOG_ERROR ("MOCA app secret not specified in settings. Missing 'moca_app_secret' parameter.");
         return nil;
+    }
+    if([@"YOUR-APP-SECRET" isEqualToString:appSecret]) {
+        NSException *exception = [NSException exceptionWithName:@"Invalid AppKey"
+                                                         reason:@"YOUR-APP-SECRET is not a valid AppSecret. Please check your config.xml file."
+                                                       userInfo:nil];
+        @throw exception;
     }
     [dict setObject:appSecret forKey:@"APP_SECRET"];
     
@@ -129,18 +145,18 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     NSDictionary *dict = [MOCAPlugin configurationDictionaryFromCordova:settings];
     MOCAConfig *config = [[MOCAConfig alloc] initWithDictionary:dict];
     if (!config) {
-        MOCA_LOG_ERROR ("Invalid MOCA configuration. Please review your config.xml file.");
-        return;
     }
         
     // Create MOCA singleton that's used to talk to MOCA cloud.
     // Please populate MOCAConfig.plist with your info.
     if(![MOCA initialized]) {
+        NSString *partialAppSecretBegin = [config.appSecret substringToIndex:6];
+        NSString *partialAppSecretEnding = [config.appSecret substringFromIndex:24];
+        MOCA_LOG_INFO(@"MOCA Cordova plugin for  init. AppKey %@, AppSecret %@•••••••••••••%@", config.appKey, partialAppSecretBegin, partialAppSecretEnding);
         [MOCA initializeSDK:config];
         [preferences setObject:dict forKey:@"MOCA_CONFIG"];
     }
     
-
     // Setup 'PhoneGap' distribution flag
     MOCAInstance * instance = [MOCA currentInstance];
     if (instance) {

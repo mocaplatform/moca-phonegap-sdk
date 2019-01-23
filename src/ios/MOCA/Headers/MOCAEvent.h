@@ -174,9 +174,14 @@
  * @param item Item associated with the event.
  * @param category Category the item belongs to.
  * @param value Value associated with the event.
+ * @param currency the currency if applicable
  * @return <code>YES</code> in case of success, <code>NO</code> in case of error.
  */
-+ (BOOL) track:(NSString*)verb forItem:(NSString*)item belongingTo:(NSString*)category withIntValue:(int)value;
++ (BOOL)track:(NSString *)verb
+      forItem:(NSString *)item
+  belongingTo:(NSString *)category
+    withValue:(NSNumber *)value
+     currency:(NSString *)currency;
 
 /**
  * Track an event

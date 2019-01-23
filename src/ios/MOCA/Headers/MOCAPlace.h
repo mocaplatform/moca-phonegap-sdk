@@ -26,6 +26,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "MOCAPropertyContainer.h"
 #import "MOCALabel.h"
+#import "MOCARegion.h"
 
 @class FloorPlanProvider;
 @class LocationProvider;
@@ -36,17 +37,17 @@
  */
 NS_CLASS_AVAILABLE(NA, 7_0)
 
-@interface MOCAPlace : MOCAPropertyContainer
+@interface MOCAPlace : MOCAPropertyContainer <MOCARegion>
 
 /**
  * Place identifier.
  */
-@property (readonly, nonatomic, copy) NSString * identifier;
+@property (readonly, nonatomic) NSString * identifier;
 
 /**
  * Place name.
  */
-@property (readonly, nonatomic, copy) NSString * name;
+@property (readonly, nonatomic) NSString * name;
 
 /**
  * Collection of zones that belong to this place.
@@ -57,6 +58,11 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  * Geofence associated with this place. This attribute might be nil.
  */
 @property (readonly, nonatomic) CLCircularRegion * geofence;
+
+/**
+ *  The provider of the place, defaults to MOCA
+ */
+@property (readonly, nonatomic) NSString *provider;
 
 /**
  * Place labels.
@@ -88,6 +94,11 @@ NS_CLASS_AVAILABLE(NA, 7_0)
  * it is outside the place range, otherwise returns CLRegionStateUnknown.
  */
 @property (readonly, nonatomic) CLRegionState currentState;
+
+/**
+ * Returns YES if its location data is valid (e.g beacon engine is running)
+ */
+@property (readonly, getter=isRegionDataValid) BOOL regionDataValid;
 
 /*
  * Indoor Location technology available for this place.

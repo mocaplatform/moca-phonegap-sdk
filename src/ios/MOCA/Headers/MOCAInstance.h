@@ -24,10 +24,14 @@
 
 #import <Foundation/Foundation.h>
 #import "MOCASerializable.h"
+#import "MOCAEventBus.h"
 
 @class MOCAUser;
 @class MOCASegment;
 @protocol MOCAInstanceListener;
+@class MOCAPropertyContainer;
+@class MOCACart;
+@class MOCAItemSet;
 
 /**
  * MOCA instance.
@@ -45,7 +49,7 @@
  * different users can be logged in/out, though just one user can be logged 
  * at the same time.
  */
-@interface MOCAInstance : NSObject<MOCASerializable>
+@interface MOCAInstance : NSObject<MOCASerializable, MOCAEventBusEventSubscriber>
 
 /**
  * The MOCA-generated identifier.
@@ -86,8 +90,6 @@
  */
 @property (readonly, retain) NSString* adIdentifier;
 
-
-
 #pragma mark General
 
 /**
@@ -106,6 +108,11 @@
  */
 - (MOCAUser*) login:(NSString*)userId;
 
+/**
+ *
+ * @deprecated A new array containing all existing custom property names.
+ */
+- (MOCAPropertyContainer *) allProperties;
 
 /**
  * Returns a Boolean value that indicates whether the receiving instance
@@ -136,13 +143,6 @@
  * @return Value associated with the property or <code>nil</code> if none.
  */
 - (id) valueForProperty:(NSString*)prop;
-
-/**
- * Returns a new array containing all existing custom property names.
- *
- * @return A new array containing all existing custom property names.
- */
-- (NSArray*) allProperties;
 
 #pragma mark
 
