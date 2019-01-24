@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -152,6 +153,8 @@
         <header-file src="src/ios/MOCAPluginCallbackMessage.h" />
         <source-file src="src/ios/MOCAPluginCallbackMessage.m" />
         <header-file src="src/ios/MOCAPluginConstants.h" />
+        <header-file src="src/ios/MOCAPluginNotificationsDelegate.h" />
+        <header-file src="src/ios/MOCAPluginNotificationsDelegate.m" />        
         <source-file src="src/ios/MOCAAutoIntegration.m" />
         <header-file src="src/ios/MOCAAutoIntegration.h" />
 
@@ -159,11 +162,15 @@
         <header-file src="src/ios/MOCA/Headers/MOCA.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAAction.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCABeacon.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCACart.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAConfig.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAEvent.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCAEventBus.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAInbox.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAIndoorClient.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAInstance.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCAItem.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCAItemSet.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCALabel.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCALog.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAPlace.h"  />
@@ -171,6 +178,7 @@
         <header-file src="src/ios/MOCA/Headers/MOCAProximityDelegate.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAProximityService.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCARecoClient.h"  />
+        <header-file src="src/ios/MOCA/Headers/MOCARegion.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCASegment.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCASerializable.h"  />
         <header-file src="src/ios/MOCA/Headers/MOCAUser.h"  />

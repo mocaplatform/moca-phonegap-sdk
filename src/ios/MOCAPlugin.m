@@ -59,7 +59,7 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     if ([MOCA initialized]) {
         return;
     }
-    MOCA_LOG_INFO("Initializing MOCAPlugin %@", MOCAPluginVersion);
+    MOCA_LOG_INFO("Initializing moca-cordova-plugin version: %@", MOCAPluginVersion);
     _mocaNotificationsDelegate = [[MOCAPluginNotificationsDelegate alloc] init];
     [MOCAAutoIntegration autoIntegrateWithNotificationsDelegate:_mocaNotificationsDelegate];
     [self initializeSDK];
@@ -98,7 +98,7 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
     // log level
     NSString * logLevelStr = [settings valueForKey:@"moca_log_level"];
     if (!logLevelStr) {
-        logLevelStr = @"warning";
+        logLevelStr = @"Info";
         [dict setObject:logLevelStr forKey:@"LOG_LEVEL"];
     }
     
