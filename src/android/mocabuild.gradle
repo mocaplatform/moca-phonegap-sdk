@@ -6,7 +6,7 @@ repositories{
 
 dependencies {
 
-  compile 'com.mocaplatform:moca-android-sdk:2.5.2'
+  compile 'com.mocaplatform:moca-android-sdk:2.8.5'
   compile 'com.android.support:support-v4:26.+'
   compile 'com.android.support:appcompat-v7:26.+'
 
