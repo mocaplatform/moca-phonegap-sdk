@@ -7,6 +7,7 @@ import android.util.Log;
 import com.innoquant.moca.MOCA;
 import com.innoquant.moca.MOCAAction;
 import com.innoquant.moca.core.MOCAContext;
+import com.innoquant.moca.eventbus.*;
 import com.innoquant.moca.proximity.Action;
 import com.innoquant.moca.proximity.ActionHandler;
 import com.innoquant.moca.proximity.ProximityManager;
@@ -85,7 +86,7 @@ class MOCACordovaEvent {
         }
 
         boolean fire() {
-            return action.fire(Situation.Proximity, defaultActionHandler);
+            return action.fire(Situation.Proximity, defaultActionHandler, null);
         }
 
         @Override
@@ -94,7 +95,7 @@ class MOCACordovaEvent {
         }
 
         @Override
-        public boolean fire(Situation situation, ActionHandler actionHandler) {
+        public boolean fire(Situation situation, ActionHandler actionHandler, BusEvent busEvent) {
             return false;
         }
 

@@ -618,7 +618,7 @@ public class MOCAPlugin extends CordovaPlugin {
         List<MOCAPlace> places = proxService.getPlaces();
         JSONArray arr = new JSONArray();
         for (MOCAPlace p : places) {
-            if (p.getCurrentState() == MOCARegionState.Inside) {
+            if (p.getState() == MOCARegionState.Inside) {
                 try {
                     arr.put(Utils.placeToJSON(p));
                 } catch (JSONException e) {

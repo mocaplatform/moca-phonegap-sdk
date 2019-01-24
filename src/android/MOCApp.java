@@ -1,22 +1,17 @@
 package com.innoquant.moca.phonegap;
 
-import android.app.Application;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.app.*;
+import android.os.*;
+import android.support.annotation.*;
 
 import com.innoquant.moca.*;
 import com.innoquant.moca.utils.logger.*;
 
+import org.apache.cordova.*;
+import org.json.*;
 
-import org.apache.cordova.PluginResult;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.*;
+import java.util.concurrent.*;
 
 import static com.innoquant.moca.phonegap.MOCAAPI.*;
 
@@ -45,7 +40,7 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
             }
         }
         this.startListeners();
-        eventQueue = new CopyOnWriteArrayList<MOCACordovaEvent>();
+        eventQueue = new CopyOnWriteArrayList<>();
     }
 
     public void startListeners() {
@@ -55,12 +50,10 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
             if (proxService != null) {
                 proxService.setActionListener(this);
                 proxService.setEventListener(this);
-            }
-            else {
+            } else {
                 error = "MOCA is initialized, but proxServices returned null.";
             }
-        }
-        else {
+        } else {
             error = "MOCA is not initialized.";
         }
         MLog.wtf("Cannot listen MOCA Events. " + error);
@@ -73,7 +66,7 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
         this.callbackContextMap.get(action).sendPluginResult(result);
     }
 
-    
+
     /*
      * MOCA ActionListener callbacks
      */
@@ -130,8 +123,8 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
     public boolean performCustomAction(MOCAAction mocaAction, String s) {
         return enqueueAndProcessEvent(PERFORM_CUSTOM_ACTION, mocaAction, s);
     }
-    
-    
+
+
     /*
      * MOCA EventListener callbacks
      */
@@ -181,15 +174,6 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
         enqueueAndProcessEvent(DID_EXIT_ZONE, mocaZone);
     }
 
-    @Override
-    public void didEnterLabel(MOCALabel mocaLabel, MOCARegion mocaRegion) {
-
-    }
-
-    @Override
-    public void didExitLabel(MOCALabel mocaLabel, MOCARegion mocaRegion) {
-
-    }
 
     @Override
     public boolean handleCustomTrigger(String s) {
@@ -248,7 +232,7 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
             scheduleQueueCleaning(MOCACordovaEvent.EXPIRE_TIME_MS + 1000);
             return true; //return true for queued events (prevent MOCA from firing actions)
         } else {
-            if(!eventQueue.isEmpty()) { //eventQueue is not synchronized between threads.
+            if (!eventQueue.isEmpty()) { //eventQueue is not synchronized between threads.
                 processEnqueuedEvents();
             }
             MLog.d("Event received with name: " + eventName + ". No longer queueing and queue is empty. Executing...");
@@ -283,6 +267,7 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
 
     /**
      * Fire events that have been enqueued
+     *
      * @param event the MOCA generated event.
      */
     private void fireEventAsync(MOCACordovaEvent event) {
@@ -305,7 +290,7 @@ public class MOCApp extends Application implements MOCAProximityService.EventLis
             return;
         }
         MLog.d("Scheduling next queue clean task.");
-        handler = new Handler();
+        handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new CleaningTask(this), expireTimeMs);
     }
 
