@@ -154,7 +154,7 @@
         <source-file src="src/ios/MOCAPluginCallbackMessage.m" />
         <header-file src="src/ios/MOCAPluginConstants.h" />
         <header-file src="src/ios/MOCAPluginNotificationsDelegate.h" />
-        <header-file src="src/ios/MOCAPluginNotificationsDelegate.m" />        
+        <source-file src="src/ios/MOCAPluginNotificationsDelegate.m" />        
         <source-file src="src/ios/MOCAAutoIntegration.m" />
         <header-file src="src/ios/MOCAAutoIntegration.h" />
 
