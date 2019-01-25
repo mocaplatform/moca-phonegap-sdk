@@ -26,6 +26,10 @@ Versioning
 Release notes
 -------------
 
+###2.8.0
+- iOS: Added compatibility with latest MOCA SDK (2.8.2) including usage of latest iOS notification APIs
+- Android: Added compatibility with MOCA SDK 2.8.5
+
 ###v2.7.1
 - Removed JavaScript Keywords not supported by certain mobile browsers.
 
