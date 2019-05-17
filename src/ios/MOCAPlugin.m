@@ -29,7 +29,7 @@
 
 // ----------------------------------------------------------------------
 
-static NSString *MOCAPluginVersion = @"2.8.1";
+static NSString *MOCAPluginVersion = @"2.9.0";
 typedef id (^UACordovaCallbackBlock)(NSArray *args);
 typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 
