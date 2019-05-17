@@ -479,7 +479,9 @@ public class MOCAPlugin extends CordovaPlugin {
             if (instance != null) {
                 final Object value = instance.getProperty(key);
                 Map<String, Object> result = new HashMap<String, Object>();
-                result.put(key, value);
+                if(value != null) {
+                    result.put(key, value);
+                }
                 JSONObject jObj = new JSONObject(result);
                 callbackContext.success(jObj);
                 return;
@@ -587,7 +589,9 @@ public class MOCAPlugin extends CordovaPlugin {
             }
             final Object value = user.getProperty(key);
             Map<String, Object> result = new HashMap<String, Object>();
-            result.put(key, value);
+            if(value != null) {
+                result.put(key, value);
+            }
             JSONObject jObj = new JSONObject(result);
             callbackContext.success(jObj);
         } catch (JSONException e) {
