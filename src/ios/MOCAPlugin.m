@@ -29,7 +29,7 @@
 
 // ----------------------------------------------------------------------
 
-static NSString *MOCAPluginVersion = @"2.8.0";
+static NSString *MOCAPluginVersion = @"2.8.1";
 typedef id (^UACordovaCallbackBlock)(NSArray *args);
 typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 
@@ -180,7 +180,8 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
 - (void)performCallbackWithCommand:(CDVInvokedUrlCommand*)command 
                          expecting:(NSArray *)expected 
                          withBlock:(UACordovaCallbackBlock)block {
-
+    
+    //dispatch async without blocking the main thread
     dispatch_async(dispatch_get_main_queue(), ^{
         //if we're expecting any arguments
         if (expected) {
@@ -831,8 +832,7 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
         id value = [command.arguments objectAtIndex:1];
         if ([key isKindOfClass:[NSString class]]) {
             MOCAInstance * instance = [MOCA currentInstance];
-            if (instance && key)
-            {
+            if (instance && key) {
                 MOCA_LOG_DEBUG(@"Set Custom Property %@=%@", key, value);
                 [instance setValue:value forProperty:(NSString*)key];
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -843,6 +843,28 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
     }
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+/**
+ * Get custom property
+ *
+ * @param userId
+ */
+-(void) instance_customProperty:(CDVInvokedUrlCommand*)command {
+    [self performCallbackWithCommand:command
+                           expecting:@[[NSString class]]
+                           withBlock:^id(NSArray *args){
+                               MOCAInstance *instance = [MOCA currentInstance];
+                               if(!instance) {
+                                   return [self returnErrorInstanceNotAvailableForCallbackId:command.callbackId];
+                               }
+                               NSString *key = args[0];
+                               id value = [instance valueForProperty:key];
+                               if (!value) {
+                                   return @{};
+                               }
+                               return @{key: value};
+                           }];
 }
 
 #pragma mark USER API
@@ -912,7 +934,11 @@ typedef void (^UACordovaVoidCallbackBlock)(NSArray *args);
                                    return [self errorPluginResultWithMessage:@"User is no longer logged in, cannot get property"];
                                }
                                NSString *key = args[0];
-                               return @{key: [user valueForProperty:key]};
+                               id value = [user valueForProperty:key];
+                               if(!value) {
+                                   return @{};
+                               }
+                               return @{key: value};
                            }];
 }
 

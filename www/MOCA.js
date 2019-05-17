@@ -141,7 +141,7 @@ MOCA.prototype.setCustomProperty = function(key, value, callback) {
 };
 MOCA.prototype.customProperty = function(key, callback) {
     console.warn("MOCA.customProperty has been deprecated since API 2.5.0, use MOCA.currentInstance().customProperty() instead");
-    this.call_native(callback, "instance_customProperty");
+    this.call_native(callback, "instance_customProperty", key);
 };
 // ----------------------------------------
 // MOCA Events
@@ -391,7 +391,7 @@ MOCAInstance.prototype.setCustomProperty = function(key, value, callback) {
     return MOCAPlugin.call_native(callback, "instance_setCustomProperty", key, value);
 };
 MOCAInstance.prototype.customProperty = function(key, callback) {
-    return MOCAPlugin.call_native(callback, "instance_customProperty");
+    return MOCAPlugin.call_native(callback, "instance_customProperty", key);
 };
 MOCAInstance.prototype.identifier = function(callback) {
     console.warn("Calling a deprecated method 'instance.identifier(callback)', use 'instance.id' instead");

@@ -1,23 +1,24 @@
 repositories{    
   jcenter()
+  google()
   maven { url 'https://maven.google.com' }  
   maven { url 'https://dl.bintray.com/mocaplatform/maven' }
 }
 
 dependencies {
 
-  compile 'com.mocaplatform:moca-android-sdk:2.8.5'
-  compile 'com.android.support:support-v4:26.+'
-  compile 'com.android.support:appcompat-v7:26.+'
+  compile 'com.mocaplatform:moca-android-sdk:2.10.2'
+  compile 'com.android.support:support-v4:28.+'
+  compile 'com.android.support:appcompat-v7:28.+'
 
     //Google Cloud Messaging
-  compile 'com.google.android.gms:play-services-gcm:11.+'
+  compile 'com.google.android.gms:play-services-gcm:16.+'
 
     //Google Location, Activity Recognition, and Places
-  compile 'com.google.android.gms:play-services-location:11.+'
+  compile 'com.google.android.gms:play-services-location:16.+'
 
     //Google Mobile Ads
-  compile 'com.google.android.gms:play-services-ads:11.+'
+  compile 'com.google.android.gms:play-services-ads:16.+'
     
   compile 'org.msgpack:msgpack:0.6.11'
 }
