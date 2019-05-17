@@ -25,6 +25,11 @@ Versioning
 
 Release notes
 -------------
+###2.9.0
+- iOS: Fixed instance custom property getter
+- Android: Instance custom property getter API normalized to respond equally than iOS.
+- Android: Added compatibility with MOCA SDK 2.10.2
+- This version requires Cordova Android 8.0.0
 
 ###2.8.0
 - iOS: Added compatibility with latest MOCA SDK (2.8.2) including usage of latest iOS notification APIs
