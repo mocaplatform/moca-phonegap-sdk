@@ -52,7 +52,7 @@ var app = {
     },
     testUserAPI: function() {
         console.log("********** START TEST USER TEST **********");
-        MOCA.login("fakeemail@anemail.com");
+        MOCA.login("THIS_IS_IOS_TEST_250");
         var instance = MOCA.currentInstance();
         console.log("1. instance Stringifyed:" + JSON.stringify(instance));
         console.log("2. instance id, no callbacks: " + instance.id);
@@ -74,6 +74,18 @@ var app = {
         console.log("**********︎ START TEST INSTANCE TAG API TEST **********");
         var instance = MOCA.currentInstance();
         console.log(instance);
+        console.log("Check if property was properly stored (if first time execution, this will return nil)");
+        instance.customProperty("male", function(dictionary){
+                                console.log("Custom property get result: \n Key: " + JSON.stringify(dictionary));
+                                });
+        
+        console.log("Set a custom property ('gender', 'male')");
+        instance.setCustomProperty("gender", "male");
+        console.log("Now retrieving the property back: ");
+        instance.customProperty("gender", function(dictionary) {
+                                console.log("Retreived Instance custom prop: " + JSON.stringify(dictionary));
+                                });
+
         instance.addTag("Verde", "+2");
         instance.addTag("Azul", "=2");
         instance.addTag("Rojo", "-1");
