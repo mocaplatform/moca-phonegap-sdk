@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import * as MOCA from "moca-phonegap-sdk/www/MOCA";
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -74,17 +76,18 @@ var app = {
         console.log("**********︎ START TEST INSTANCE TAG API TEST **********");
         var instance = MOCA.currentInstance();
         console.log(instance);
-        console.log("Check if property was properly stored (if first time execution, this will return nil)");
+        console.log("Task A -> Check if property was properly stored (if first time execution, this will return nil)");
         instance.customProperty("male", function(dictionary){
-                                console.log("Custom property get result: \n Key: " + JSON.stringify(dictionary));
+                                console.log("Task A -> " +
+                                    "First Key-Value get (will return empty Dictionary on first execution): " +
+                                    "\n Key: " + JSON.stringify(dictionary));
                                 });
-        
-        console.log("Set a custom property ('gender', 'male')");
+        console.log("Task B -> Set a custom property ('gender', 'male')");
         instance.setCustomProperty("gender", "male");
-        console.log("Now retrieving the property back: ");
-        instance.customProperty("gender", function(dictionary) {
-                                console.log("Retreived Instance custom prop: " + JSON.stringify(dictionary));
-                                });
+        console.log("Task B -> Now retrieving the property back: ");
+        instance.customProperty("gender", function (dictionary) {
+            console.log("Task B -> Retrieved Instance custom prop: " + JSON.stringify(dictionary));
+        });
 
         instance.addTag("Verde", "+2");
         instance.addTag("Azul", "=2");
@@ -105,7 +108,7 @@ var app = {
                             var value = instance.getTagValue("Amarillo");
                             console.log("Amarillo value: -> " + value + " YES IT IS SILL CONTAINED.. BUMMER :-(");
                         } else {
-                            console.log("GOOD!, tag has been removed succesfully");
+                            console.log("GOOD!, tag has successfully been removed ");
                         }
                     });
                 });
