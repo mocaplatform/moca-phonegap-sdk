@@ -25,6 +25,9 @@ Versioning
 
 Release notes
 -------------
+###2.10.0
+- Added iOS SDK 2.12.0. This version no longer uses UIWebView. It has been replaced by WKWebView.
+
 ###2.9.0
 - iOS: Fixed instance custom property getter
 - Android: Instance custom property getter API normalized to respond equally than iOS.
