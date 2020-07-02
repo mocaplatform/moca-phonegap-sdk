@@ -9,6 +9,7 @@
 
 @protocol MOCAEventBusEventSubscriber <NSObject>
 
+- (NSString *)subscriberId;
 - (void)handleEventForResourceKey:(NSString *)resourceKey;
 
 @end

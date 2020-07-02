@@ -112,7 +112,7 @@
  *
  * @deprecated A new array containing all existing custom property names.
  */
-- (MOCAPropertyContainer *) allProperties;
+- (MOCAPropertyContainer *) allProperties __attribute__((deprecated("")));
 
 /**
  * Returns a Boolean value that indicates whether the receiving instance

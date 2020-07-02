@@ -171,6 +171,15 @@
  * Tracks an event.
  *
  * @param verb Action verb.
+ * @param props A Dictionary containing the custom properties of the event.
+ * @return <code>YES</code> in case of success, <code>NO</code> in case of error.
+ */
++ (BOOL)track:(NSString *)verb withDictionary:(NSDictionary<NSString *, id> *)props;
+
+/**
+ * Tracks an event.
+ *
+ * @param verb Action verb.
  * @param item Item associated with the event.
  * @param category Category the item belongs to.
  * @param value Value associated with the event.
@@ -181,7 +190,8 @@
       forItem:(NSString *)item
   belongingTo:(NSString *)category
     withValue:(NSNumber *)value
-     currency:(NSString *)currency;
+     currency:(NSString *)currency
+  customAttrs:(NSDictionary <NSString *, id> *)customAttrs;
 
 /**
  * Track an event

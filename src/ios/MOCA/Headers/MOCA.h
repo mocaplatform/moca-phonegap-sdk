@@ -214,11 +214,22 @@
 + (BOOL)wifiOnlyEnabled;
 
 /**
+ * Return the status of notifications
+ * @return YES if the notifications are muted, NO otherwise
+ */
++ (BOOL)areNotificationsMuted;
+
+/**
  * Enables/disables the "WiFi only" transfer contraint.
  * @param enabled - if YES the SDK is allowed to transmit data only when Wifi is available.
  *         NO otherwise.
  */
 + (void)setWifiOnlyEnabled:(BOOL)enabled;
+
+/** Allows or prevents MOCA SDK from showing notifications
+ * @param enabled If YES, MOCA SDK will mute notifications. If NO, notifications will be shown normally
+ */
++ (void)muteNotifications:(BOOL)enabled;
 
 /**
  * Get status of the Indoor Analytics service. 
@@ -405,7 +416,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 /**
  * Check if the notification is a MOCA generated notification (remote or local)
  *
- * @param notification, the actual notification to check. It could be a NSDictionary (userInfo), UNNotification or UNNotificationResponse
+ * @param notification the actual notification to check. It could be a NSDictionary (userInfo), UNNotification or UNNotificationResponse
  *
  * @return YES if is a MOCA generated notification or NO otherwise.
  */
@@ -444,7 +455,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 /**
  * Tracks a view item event.
  *
- * @param item identifier
+ * @param itemId identifier
  */
 +(void) trackViewed:(NSString*) itemId;
 
@@ -477,7 +488,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
  * Adds an item to the favourite list of current user. Current user can be anonymous
  * (MOCAInstance) or logged-in (MOCAUser).
  *
- * @param item item identifier
+ * @param itemId item identifier
  * @return <code>YES</code> in case of success, <code>NO</code> in case the item already exist in the set.
  */
 +(BOOL) addToFavList:(NSString*) itemId;
@@ -490,7 +501,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 /**
  * Removes an item from the favourite list of current user.
  *
- * @param item item identifier
+ * @param itemId item identifier
  * @return <code>YES</code> in case of success, <code>NO</code> if the element does not belong to the set.
  */
 +(BOOL) removeFromFavList:(NSString*) itemId;
@@ -498,7 +509,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 /**
  * Adds an item to the wish list of current user.
  *
- * @param item item identifier
+ * @param itemId item identifier
  * @return <code>YES</code> in case of success, <code>NO</code> in case the item already exist in the set.
  */
 +(BOOL) addToWishList:(NSString*) itemId;
@@ -506,7 +517,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 /**
  * Removes an item from the wish list of current user.
  *
- * @param item item identifier
+ * @param itemId item identifier
  * @return <code>YES</code> in case of success, <code>NO</code> if the element does not belong to the set.
  */
 +(BOOL) removeFromWishList:(NSString*) itemId;

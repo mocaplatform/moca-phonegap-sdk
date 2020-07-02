@@ -57,7 +57,7 @@ static NSString *const DEFAULT_DEVICE_API_URL = @"https://api-device.mocaplatfor
 /**
  * MOCA Device API URL
  */
-@property(nonatomic, readonly) NSURL  *deviceApiUrl;
+@property(nonatomic) NSURL  *deviceApiUrl;
 
 /**
  * The current log level for MOCA library.
@@ -207,5 +207,9 @@ static NSString *const DEFAULT_DEVICE_API_URL = @"https://api-device.mocaplatfor
 -(id)valueForCustomKey:(NSString*)customKey;
 
 - (NSString*)locationPermissionTypeString;
+
+- (NSString *)getStringProperty:(NSString *)string;
+
+- (NSString *)getStringProperty:(NSString *)string withDefault:(NSString *)defaultString;
 @end
 

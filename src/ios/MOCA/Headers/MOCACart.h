@@ -82,7 +82,6 @@
  * @param item    - the item to be added to the cart
  * @param quantity  - number of items
  
- * @return cart item object
  */
 -(void) add:(id <MOCAItem>) item withQuantity:(NSUInteger)quantity;
 
@@ -90,7 +89,7 @@
  * Updates the quantity of items in the cart
  *
  * @param itemId - the item identifier
- * @param newQuantity - new quantity
+ * @param quantity - new quantity
  *
  * @return YES if the item has been updated, NO if it does not exist in the cart.
  */
